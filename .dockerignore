@@ -1,8 +1,13 @@
-temp
+.idea
+.git
+.github
+build/dev/cert
+build/dev/oaza.env
 log
-env
-docker-compose.yaml
-Dockerfile
+temp
 .gitignore
 .dockerignore
+docker-compose.yaml
+Dockerfile
+LICENSE
 README.MD
