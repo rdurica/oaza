@@ -11,10 +11,8 @@ use Nette\Security\User;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\DateTime;
 
-readonly class ReservationService
+class ReservationService
 {
-
-
     public function __construct(
         private ReservationManager $reservationManager,
         private User $user,

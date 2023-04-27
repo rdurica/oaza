@@ -6,10 +6,9 @@ namespace App\Model\Service\Authentication;
 
 use App\Model\Service\Mail\MailService;
 
-readonly class PasswordService
+class PasswordService
 {
-
-    function __construct(private MailService $mailService)
+    public function __construct(private readonly MailService $mailService)
     {
     }
 
@@ -21,7 +20,5 @@ readonly class PasswordService
     {
         // Todo: Generate url
         // send by email link
-
     }
-
 }

@@ -79,12 +79,12 @@ final class ManagePresenter extends AdminPresenter
 
     public function renderDefault()
     {
-
         $today = new DateTime();
 
 
         $this->template->registeredUsers = $this->userModel->getEntityTable()->count('id');
-        $this->template->today = $this->reservationModel->getEntityTable()->where('rezervationDate LIKE ?', $today->format('Y-m-d') . '%')->count('id');
+        $this->template->today = $this->reservationModel->getEntityTable()
+            ->where('rezervationDate LIKE ?', $today->format('Y-m-d') . '%')->count('id');
     }
 
 

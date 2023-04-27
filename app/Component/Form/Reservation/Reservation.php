@@ -77,5 +77,4 @@ class Reservation extends Component
         }
         $this->getPresenter()->redirect('this');
     }
-
 }

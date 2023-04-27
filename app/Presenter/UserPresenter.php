@@ -14,7 +14,6 @@ use Contributte\Translation\Translator;
 use Nette\Application\AbortException;
 use Nette\DI\Attributes\Inject;
 
-
 class UserPresenter extends SecurePresenter
 {
     #[Inject]

@@ -7,7 +7,7 @@ namespace App\Model\Service;
 use App\Model\Manager\UserManager;
 use Nette\Security\Passwords;
 
-readonly class UserService
+class UserService
 {
     public function __construct(private UserManager $userManager, private Passwords $passwords)
     {

@@ -45,5 +45,4 @@ class ResetPassword extends Component
         $this->passwordService->resetPassword($values->email);
         $this->getPresenter()->redirect('this');
     }
-
 }

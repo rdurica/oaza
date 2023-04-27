@@ -14,7 +14,7 @@ use Nette\Security\Authenticator as NetteAuthenticator;
 use Nette\Security\Passwords;
 use Nette\Security\SimpleIdentity;
 
-readonly class Authenticator implements NetteAuthenticator
+class Authenticator implements NetteAuthenticator
 {
     public function __construct(private UserManager $userManager, private Passwords $passwords)
     {
@@ -102,7 +102,5 @@ readonly class Authenticator implements NetteAuthenticator
     public function changePassword(int $id, #[\SensitiveParameter] string $password): void
     {
         $this->userManager->setPassword($id, $this->passwords->hash($password));
-
     }
-
 }

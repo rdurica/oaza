@@ -64,5 +64,4 @@ class CreateNews extends Component
         }
         $this->presenter->redirect('this');
     }
-
 }

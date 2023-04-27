@@ -29,7 +29,10 @@ abstract class Presenter extends NettePresenter
     public function startup(): void
     {
         parent::startup();
-        if ($this->user->identity?->data["needNewPassword"] === true && $this->getPresenter()->view !== "changePassword"){
+        if (
+            $this->user->identity?->data["needNewPassword"] === true &&
+            $this->getPresenter()->view !== "changePassword"
+        ) {
             $this->redirect(':User:ChangePassword');
         }
     }

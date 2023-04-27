@@ -9,13 +9,11 @@ use Nette\Security\User;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\DateTime;
 
-readonly class CalendarService
+class CalendarService
 {
-
-
     public function __construct(
-        private ReservationManager $reservationManager,
-        private User $user
+        private readonly ReservationManager $reservationManager,
+        private readonly User $user
     ) {
     }
 

@@ -65,5 +65,4 @@ class ChangePassword extends Component
         }
         $this->getPresenter()->redirect('Homepage:');
     }
-
 }

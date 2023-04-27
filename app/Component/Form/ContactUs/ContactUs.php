@@ -14,7 +14,6 @@ use Nette\Security\User;
 
 class ContactUs extends Component
 {
-
     public function __construct(
         private readonly Translator $translator,
         private readonly User $user,
@@ -68,5 +67,4 @@ class ContactUs extends Component
 
         $this->presenter->redirect("this");
     }
-
 }

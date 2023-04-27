@@ -86,5 +86,4 @@ class RestrictionForm extends Component
 
         $this->newsModel->getEntityTable()->insert($news);
     }
-
 }

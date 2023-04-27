@@ -14,7 +14,7 @@ class MailService
     private SmtpMailer $mail;
 
 
-    function __construct(
+    public function __construct(
         public readonly string $emailAdmin,
         #[\SensitiveParameter] string $emailPassword
     ) {

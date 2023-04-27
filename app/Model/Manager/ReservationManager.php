@@ -47,7 +47,7 @@ final class ReservationManager extends Model
     }
 
 
-    public function findReservationsByUser(int $userId):Selection
+    public function findReservationsByUser(int $userId): Selection
     {
         return $this->getEntityTable()
             ->where('user_id = ?', $userId);
