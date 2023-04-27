@@ -1,10 +1,14 @@
 {
-	"name": "nette/sandbox",
-	"description": "The sandbox is a pre-packaged Nette Framework project, basic configured structure for your application.",
-	"homepage": "https://nette.org",
+	"name": "rdurica/oaza",
+	"description": "Refactored Salt Cave webpage providing information on salt therapy, featuring a booking system and a responsive design",
+	"homepage": "https://oazahb.cz",
 	"type": "project",
-	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"license": ["MIT"],
 	"authors": [
+		{
+			"name": "Robert Durica",
+			"homepage": "https://rdurica.robbyte.net/"
+		},
 		{
 			"name": "David Grudl",
 			"homepage": "https://davidgrudl.com"
