@@ -2,6 +2,7 @@
 [![PHP](https://img.shields.io/badge/PHP-8.2-blue.svg)](http://php.net)
 [![Docker](https://img.shields.io/badge/Docker-powered-blue.svg)](https://www.docker.com/)
 [![composer](https://img.shields.io/badge/composer-latest-green.svg)](https://getcomposer.org/)
+[![Docker Image CI](https://github.com/rdurica/oaza/actions/workflows/docker-image.yml/badge.svg)](https://github.com/rdurica/oaza/actions/workflows/docker-image.yml)
 
 This is a webpage for a Salt Cave https://oazahb.cz, which provides a unique and relaxing experience for visitors. The
 webpage was originally created in 2017 as my first PHP commercial project. Since then, I have gained more experience and
