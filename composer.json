@@ -28,10 +28,9 @@
 		"nette/security": "^3.1",
 		"nette/utils": "^3.2",
 		"latte/latte": "^3.0",
-		"tracy/tracy": "^2.9",
+		"tracy/tracy": "^2.10",
 		"contributte/translation": "^2.0",
 		"ublaboo/datagrid": "^6.9",
-		"aleswita/visualpaginator": "1.0",
 		"nette/mail": "^3.1",
 		"contributte/recaptcha": "^3.5"
 	},
