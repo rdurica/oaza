@@ -1,0 +1,28 @@
+{form form}
+    <div class="row">
+        <div class="col-md-5">
+            {label from /}
+            {input from, class => "dateRange form-control"}
+        </div>
+        <div class="col-md-5 col-md-push-2">
+            {label to /}
+            {input to, class => "dateRange form-control"}<br>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {label message /}
+            {input message, rows => '5'}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {input create_news}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            {input save}
+        </div>
+    </div>
+{/form}

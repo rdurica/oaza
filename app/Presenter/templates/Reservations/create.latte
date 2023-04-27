@@ -1,0 +1,63 @@
+{block content}
+    {include "../Layout/page_header.latte", title:"messages.navbar.reservations"}
+    <div class="container">
+        <div id="calendar"></div>
+
+        <div style="margin-top: 35px;">
+            <span class="badge" style="background-color: green;">Zelený slot</span>
+            termín pro návštěvu solné jeskyně volný a můžete si ho rezervovat
+            <br>
+            <span class="badge" style="background-color: #0092ad;">Modrý slot</span>
+            někdo už si daný termín zarezervoval, ale ještě jsou k dispozici volná místa <br>
+            <span class="badge" style="background-color: red;">Červený slot</span>
+            daný termín je již zcela obsazen
+        </div>
+    </div>
+
+{/block}
+{block scripts}
+    {include parent}
+
+    <script>
+        $(document).ready(function () {
+            $('#calendar').fullCalendar({
+                    locale: 'cs',
+                    minTime: "08:00:00",
+                    maxTime: "18:00:00",
+                    height: 510,
+                    columnFormat: 'D.M',
+                    slotMinutes: 30,
+                    defaultView: 'agendaWeek',
+                    slotLabelFormat: 'H:mm',
+                    titleFormat: 'D.MMMM YYYY',
+                    weekends: false,
+                    editable: false,
+                    allDaySlot: false,
+                    header: {
+                        left: '',
+                        center: 'title',
+                        right: 'prev,next today'
+                    },
+                    events: {$data},
+                    eventClick: function (calEvent, jsEvent, view) {
+                        if (calEvent.color !== 'red') {
+                            $('#createRezervationModal').modal('toggle');
+                            $('#dateTimeCreation').text(moment(calEvent.start).format('DD.M.YYYY H:00'));
+                            $("input[name=rezervationDate]").val(moment(calEvent.start).format('YYYY-MM-DD HH:00:00'));
+                        } else {
+                            notifyMessage('Oaza uz je plně obsazena. Vyberte prosím jinou hodinu', 'error');
+
+                        }
+                    }
+                    ,
+                    buttonText: {
+                        today: 'Dnes'
+                    }
+                    ,
+                    weekMode: "variable",
+                }
+            );
+        });
+
+    </script>
+{/block}

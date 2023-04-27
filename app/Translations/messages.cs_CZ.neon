@@ -1,0 +1,84 @@
+flash:
+    oops: "Vyskytla se neočekávana chyba"
+    authenticationException: "Nesprávne jméno nebo heslo"
+    blockedUserException: "Uživatel zablokován. Prosím kontaktujte správcu"
+    emailAlreadyUsedException: "Zvolený email již existuje"
+    passwordsDoNotMatch: "Zadaná hesla se neshodují"
+    newPasswordRequired: "Vyžadována změna hesla. Prosím nastavte nové heslo"
+    registrationSuccessful: "Registrace proběhla úspěšně. Nyní se můžete přihlásit"
+    loggedIn: "Přihlášení proběhlo úspěšně"
+    reservationDeleted: "Rezervace byla úspěšně zrušena. Potvrzení Vám zašleme emailem"
+    operationNotAllowed: "Nepovolená operace"
+    reservationCreated: "Rezervace byla vytvořena. Potvrzení Vám zašleme emailem"
+    contactUsSuccess: "Děkujeme za dotaz, Budeme vás kontaktovat co nejdříve"
+    equalPassword: "Hesla se musí shodovat"
+    passwordChanged: "Heslo bylo úspěšně změneno. Nyní se můžete přihlásit"
+
+user:
+    email: "E-mail"
+    nameSurname: "Jméno a Příjmení"
+    telephone: "Telefonní číslo"
+    password: "Heslo"
+    newPassword: "Nové heslo"
+    passwordVerify: "Potvrzení hesla (kontrola)"
+
+button:
+    login: "Přihlásit"
+    logout: "Odhlásit"
+    register: "Registrovat"
+    resetPassword: "Resetovat heslo"
+    changePassword: "Změnit heslo"
+
+navbar:
+    contact: "Kontaktujte nás"
+    gallery: "Galerie"
+    faq: "Často kladené otázky"
+    medical: "Léčivé účinky"
+    news: "Novinky"
+    pass: "Poukázky"
+    price: "Ceník"
+    rules: "Provozní řád"
+    users: "Uživatelé"
+    informations: "Informace"
+    reservations: "Rezervace"
+    howTo: "Jak rezervovat místa"
+    administration: "Administrace"
+    myCalendar: "Můj kalendář"
+    changePassword: "Změna hesla"
+    reservationOverview: "Přehled rezervací"
+    login: "Přihlášení"
+    register: "Registrace"
+    ressetPassword: "Reset Hesla"
+
+forms:
+    message: "Zpráva"
+    header: "Název"
+    showNews: "Zobrazit novinku"
+    showNewsHomepage: "Zobrazit novinku na hlavní strance"
+    qty: "Množství"
+    childs: "Děti"
+    comment: "Komentář"
+
+buttons:
+    send: "Odeslat"
+    reserve: "Rezervovat"
+    addNews: "Přidat novinku"
+    register: "Registrovat"
+
+
+
+
+messages:
+    succesfullyLogged: "Byli jste úspěšně přihlášeni"
+    registrationSuccesfull: "Registrace proběhla úspěšně. Nyní se můžete přihlásit"
+    temporaryPasswordSent: "Dočasné heslo bolo odeslané na Váš email"
+    newsAdded: "Novinka přidána"
+    userNotFound: "Učet se nepodařilo nalézt"
+    reservationCreated: "Rezervace byla úspěšne vytvořena"
+    changeYourPassword: "Kůli bezpečnosti prosím změnte své heslo"
+
+
+
+reservations:
+    new: "new"
+

@@ -1,0 +1,28 @@
+{block content}
+{include "../Layout/page_header.latte", title:"messages.navbar.pass"}
+<section id="gallery" class="gallery">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p>Zde u nás v Solné jeskyni přijímáme všechny typy Sodexo Pass poukázek na platby vstupného a
+                    permanentek. Tyto poukázky můžete použít pro nákup jakékoliv permanentky, vstupenky nebo jiné
+                    služby, které nabízíme. Stačí pouze přinést své poukázky s sebou a předat je naší obsluze při
+                    nákupu. </p>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 40px;">
+            {foreach $sodexo as $sodexoPass}
+                <div class="col-sm-5 col-md-3">
+                    <figure>
+                        <div class="element element-sodexo">
+                            <span class="symbol">{$sodexoPass->name}</span>
+                        </div>
+                        <figcaption>
+                            <img src="{$basePath}{$sodexoPass->imagePath}" alt="{$sodexoPass->name}">
+                        </figcaption>
+                    </figure>
+                </div>
+            {/foreach}
+        </div>
+    </div>
+</section>

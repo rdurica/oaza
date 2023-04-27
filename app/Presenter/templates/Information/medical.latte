@@ -1,0 +1,76 @@
+{block content}
+{include "../Layout/page_header.latte", title:"messages.navbar.medical"}
+
+
+<section class="company-description">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{$basePath}/assets/images/layout/medical.jpg" alt="" class="img-responsive">
+            </div>
+            <div class="col-md-6">
+                <div class="block">
+                    <h3 class="subtitle text-info">Proč navštívit
+                        solnou jeskyni ?</h3>
+                    <p>
+                        Účinky soli jsou známy již po staletí. Mikroklima v solné jeskyni, kde se uvolňují prvky bromu,
+                        draslíku, jódu, magnézia, selenu, sodíku a vápníku, pozitivně ovlivňuje celkovou kondici
+                        organismu a příznivě působí na:
+                    </p>
+                    <p><i class="fa fa-solid fa-angle-right"></i> &nbsp;
+                        záněty hrdla, hrtanu, nosu i chronického nachlazení
+                    </p>
+                    <p><i class="fa fa-solid fa-angle-right"></i> &nbsp;
+                        zápaly plic a průdušek
+                    </p>
+                    <p><i class="fa fa-solid fa-angle-right"></i> &nbsp;
+                        astma
+                    </p>
+                    <p><i class="fa fa-solid fa-angle-right"></i> &nbsp;
+                        alergie různého druhu
+                    </p>
+                    <p><i class="fa fa-solid fa-angle-right"></i> &nbsp;
+                        poinfarktové stavy, nedostatečný krevní oběh, vysoký krevní tlak
+                    </p>
+                    <p><i class="fa fa-solid fa-angle-right"></i> &nbsp;
+                        nedostatečnou činnost štítné žlázy
+                    </p>
+                    <p><i class="fa fa-solid fa-angle-right"></i> &nbsp;
+                        kožní alergie, záněty kůže, lupénka, ekzémy, dermatitidy u dospělých i dětí
+                    </p>
+                    <p><i class="fa fa-solid fa-angle-right"></i> &nbsp;
+                        poruchy nervového systému - neuróza, deprese, stres, stavy únavy, vyčerpání
+                    </p>
+                    <p><i class="fa fa-solid fa-angle-right"></i> &nbsp;
+                        zrychlení metabolismu buněk
+                    </p>
+                    <p><i class="fa fa-solid fa-angle-right"></i> &nbsp;
+                        na uklidnění dýchacích cest kuřáků
+                    </p>
+
+                    <h3 class="subtitle " style="color: red; margin-top: 35px;">Pobyt není vhodný</h3>
+                    <p><i class="fa fa-solid fa-angle-right"></i> &nbsp;
+                        pro lidi trpící klaustrofobií
+                    </p>
+                    <p><i class="fa fa-solid fa-angle-right"></i> &nbsp;
+                        při hyperfunkcí štítné žlázy
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="team" class="works">
+    <div class="container">
+        <div class="row">
+            <h2 class="wow animate__animated animate__fadeInUp subtitle text-center">Léčivé látky</h2>
+            {include "../Layout/medical_element.latte",symbol:"Br", number:35, name:"Brom", text:"Snižuje krevní tlak a blahodárně působí na nervový systém"}
+            {include "../Layout/medical_element.latte", symbol:"Ca", number:20, name:"Draslík", text:"Vyplavování jedovatých látek z těla, které vznikají při látkové vyměně"}
+            {include "../Layout/medical_element.latte", symbol:"I", number:53, name:"Jód", text:"Vyrovnává hladinu jódu v organismu, zabezpečuje normální fungování štítné žlázy"}
+            {include "../Layout/medical_element.latte", symbol:"Mg", number:12, name:"Magnézium", text:"Snižuje únavu, chrání před chorobami srdce a též snižuje krevní tlak, působíprotiastmaticky"}
+            {include "../Layout/medical_element.latte", symbol:"Se", number:34, name:"Selen", text:"Působí protivirově, dále spolu s vitaminem E zabraňuje vzniku novotvaru a zpomaluje stárnutí kůže"}
+            {include "../Layout/medical_element.latte", symbol:"Na", number:11, name:"Sodík", text:"Udržuje stálou hladinu kyselého a zásaditého prostředí v organismu a napomáhá při energetickém metabolizmu buněk"}
+            {include "../Layout/medical_element.latte", symbol:"K", number:19, name:"Vápnik", text:"Má protialergické účinky a vliv na stavbu kostí, snižuje krevní tlak"}
+        </div>
+    </div>
+</section>

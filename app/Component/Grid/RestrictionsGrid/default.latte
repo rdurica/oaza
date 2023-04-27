@@ -1,0 +1,26 @@
+{* {control grid} *}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Od</th>
+      <th scope="col">Do</th>
+      <th scope="col">Zpráva</th>
+      <th scope="col">Akce</th>
+    </tr>
+  </thead>
+  <tbody>
+  {foreach $data as $row}
+    <tr>
+      <th>{$row}</th>
+      <td>{$row->from|date: "d.m.Y"}</td>
+      <td>{$row->to|date: "d.m.Y"}</td>
+      <td>{$row->message|noescape}</td>
+      <td>      <a href="{link delete! $row->id}" class="btn btn-danger btn-xs"><i class="fa fa-trash" aria-hidden="true"></i> Smazat</a></td>
+    </tr>
+	<span></span>
+    {/foreach}
+
+  </tbody>
+</table>

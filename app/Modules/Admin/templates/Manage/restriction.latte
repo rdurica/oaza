@@ -1,0 +1,27 @@
+{block content}
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">Omezení provozu</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                {control restrictionForm}
+                <script>
+                    CKEDITOR.replace( 'textarea' );
+                </script>
+            </div>
+            <!-- /.box-body -->
+        </div>
+    </div>
+</div>
+<script>
+    $('.dateRange').daterangepicker({
+        format: 'dd.mm.yyyy',
+        "singleDatePicker": true,
+        locale: {
+            format: 'DD.MM.YYYY'
+        }
+    });
+</script>

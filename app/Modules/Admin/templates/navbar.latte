@@ -1,0 +1,82 @@
+<header class="main-header">
+    <a href="{plink :Admin:Manage:default}" class="logo">
+        <span class="logo-mini"><img src="{$basePath}/images/palm.png"
+                                     style="width: 30px; height: 30px;"> Oaza</span>
+        <span class="logo-lg"><img src="{$basePath}/images/palm.png"
+                                   style="width: 30px; height: 30px;"> Oaza</span>
+    </a>
+    <nav class="navbar navbar-static-top">
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">Toggle navigation</span>
+        </a>
+    </nav>
+</header>
+<aside class="main-sidebar">
+    <section class="sidebar">
+        <ul class="sidebar-menu tree" data-widget="tree">
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-calendar-check-o"></i>
+                    <span>Rezervace</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{plink Manage:reservations}"><i class="fa fa-circle-o"></i> Seznam rezervaci</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-ban"></i>
+                    <span>Omezení provozu</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{plink Manage:restriction}"><i class="fa fa-circle-o"></i> Zadat omezení</a></li>
+                    <li><a href="{plink Manage:restrictionList}"><i class="fa fa-circle-o"></i> Seznam</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-edit"></i>
+                    <span>Obsah</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{plink Manage:CreateNews}"><i class="fa fa-circle-o"></i> Pridať novinku</a></li>
+                </ul>
+            </li>
+            {* <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-camera"></i>
+                    <span>Galerie</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href=""><i class="fa fa-circle-o"></i> Seznam obrazku</a></li>
+                    <li><a href=""><i class="fa fa-circle-o"></i> Nový obrázek</a></li>
+                </ul>
+            </li> *}
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-users"></i>
+                    <span>Uzivatele</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{plink Manage:UserList}"><i class="fa fa-circle-o"></i> Seznam uzivatelu</a></li>
+                </ul>
+            </li>
+            <li><a href="{plink :Homepage:}"><i class="fa fa-chevron-circle-left"></i> Zpět na stránky</a></li>
+        </ul>
+    </section>
+</aside>

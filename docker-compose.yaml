@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  oaza:
+    build:
+      dockerfile: Dockerfile
+    container_name: oaza
+    ports:
+      - 8000:80
+      - 8443:443
+    networks:
+      - robbyte_dev
+    volumes:
+      - .:/app/
+    env_file:
+      - ./build/dev/oaza.env
+networks:
+  robbyte_dev:
+    external: true

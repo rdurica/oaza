@@ -1,0 +1,15 @@
+{block content}
+{include "../Layout/page_header.latte", title:"messages.navbar.news"}
+<div class="container">
+    {foreach $news as $new}
+        <div class="wow animate__animated animate__fadeInUp row">
+            <div class="col-md-12">
+                <h3 class="text-info"><i class="fa fa-rss-square"></i> {$new->name}
+                    <sup><small><span class="badge badge-secondary">{$new->creation|date:'j. n. Y'}</span></small></sup>
+                </h3>
+                <p>{$new->text|noescape}</p>
+            </div>
+        </div>
+        <hr>
+    {/foreach}
+</div>

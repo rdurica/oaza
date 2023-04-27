@@ -1,0 +1,15 @@
+{form reservationForm}
+    <div class="modal-body">
+        {if !$user->isLoggedIn()}
+            {label email /}<span style="color: red;"> *</span> {input email}<br>
+            {label name /}<span style="color: red;"> *</span> {input name}<br>
+            {label telefon /}<span style="color: red;"> *</span> {input telefon}<br>
+        {/if}
+        {label count /}<span style="color: red;"> *</span> {input count}<br>
+        {label child /}<span style="color: red;"> *</span> {input child}<br>
+        {label comment /}{input comment}<br>
+    </div>
+    <div class="modal-footer">
+        {input send}
+    </div>
+{/form}
