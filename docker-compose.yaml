@@ -3,7 +3,7 @@ version: '3'
 services:
   oaza:
     build:
-      dockerfile: Dockerfile
+      dockerfile: build/dev/Dockerfile
     container_name: oaza
     ports:
       - 8000:80
