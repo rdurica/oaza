@@ -26,9 +26,9 @@ WORKDIR /app
 RUN mkdir log
 RUN mkdir temp
 RUN mkdir temp/cache
-RUN chmod 775 log
-RUN chmod 775 temp
-RUN chmod 775 temp/cache
+RUN chmod 777 log
+RUN chmod 777 temp
+RUN chmod 777 temp/cache
 
 COPY . .
 
