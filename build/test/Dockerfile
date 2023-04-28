@@ -23,6 +23,13 @@ COPY build/test/vhost.conf /etc/apache2/sites-available/000-default.conf
 
 WORKDIR /app
 
+RUN mkdir log
+RUN mkdir temp
+RUN mkdir temp/cache
+RUN chmod 775 log
+RUN chmod 775 temp
+RUN chmod 775 temp/cache
+
 COPY . .
 
 EXPOSE 80
