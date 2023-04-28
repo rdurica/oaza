@@ -6,11 +6,12 @@ on:
       - '*'
 
 jobs:
-  setup-composer:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+
       - name: Cache Composer packages
         id: composer-cache
         uses: actions/cache@v3
@@ -19,28 +20,18 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
+
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
 
-  install-dependencies:
-    runs-on: ubuntu-latest
-    needs: [setup-composer]
-    steps:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
-      - name: Checkout code
-        uses: actions/checkout@v2
+
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
-  build-docker-image:
-    runs-on: ubuntu-latest
-    needs: install-dependencies
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
       - name: Build the Docker image
         run: |
           docker build . --file build/test/Dockerfile --tag rdurica/oaza:$(echo ${{ github.ref }} | sed 's/refs\/tags\///')
