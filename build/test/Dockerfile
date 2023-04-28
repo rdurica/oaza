@@ -17,10 +17,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN apt-get -y clean
 RUN apt-get -y autoclean
 RUN apt-get -y autoremove
-
-RUN a2enmod ssl && a2enmod socache_shmcb
 RUN a2enmod rewrite
 
-COPY build/prod/vhost.conf /etc/apache2/sites-available/000-default.conf
+COPY build/test/vhost.conf /etc/apache2/sites-available/000-default.conf
 
 WORKDIR /app

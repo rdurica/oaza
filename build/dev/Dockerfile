@@ -21,6 +21,6 @@ RUN apt-get -y autoremove
 RUN a2enmod ssl && a2enmod socache_shmcb
 RUN a2enmod rewrite
 
-COPY build/test/vhost.conf /etc/apache2/sites-available/000-default.conf
+COPY build/dev/vhost.conf /etc/apache2/sites-available/000-default.conf
 
 WORKDIR /app
