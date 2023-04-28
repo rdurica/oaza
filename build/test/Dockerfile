@@ -22,3 +22,5 @@ RUN a2enmod rewrite
 COPY build/test/vhost.conf /etc/apache2/sites-available/000-default.conf
 
 WORKDIR /app
+
+COPY . .
