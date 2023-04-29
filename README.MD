@@ -8,15 +8,11 @@ This is a webpage for a Salt Cave https://oazahb.cz, which provides a unique and
 webpage was originally created in 2017 as my first PHP commercial project. Since then, I have gained more experience and
 knowledge in web development, and I am now refactoring the webpage to improve its code quality and functionality.
 
+### Screenshots
+![Screenshot 2023-04-29 at 21 45 44](https://user-images.githubusercontent.com/16089770/235321435-9cdacff1-d479-4f8d-b8f6-2d6a10b225df.png)
 
+![Screenshot 2023-04-29 at 21 42 06](https://user-images.githubusercontent.com/16089770/235321324-c447bd85-c0f0-4f96-b1c5-a3e3b164a128.png)
 
-## Table of Contents
-
-- Description
-- Technologies Used
-- Features
-- Contributing
-- License
 
 ## Description
 
@@ -35,15 +31,6 @@ have been included. This ensures that any potential security vulnerabilities or 
 repository are not carried over into the new version.
 > 
 > Provided Dockerfile / docker-compose never use in production
-## Technologies Used
-
-- HTML
-- CSS
-- JavaScript
-- Bootstrap
-- PHP
-- Nette
-- MySQL
 
 ## Features
 
@@ -54,10 +41,6 @@ repository are not carried over into the new version.
 - Responsive design for different devices
 - Easy to use interface
 
-## Contributing
-
-If you'd like to contribute to the Salt Cave webpage, please fork the repository and create a pull request. You can also
-open an issue to report a bug or suggest a feature.
 
 ## License
 
