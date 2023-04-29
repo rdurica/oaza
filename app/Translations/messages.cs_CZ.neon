@@ -14,6 +14,8 @@ flash:
     equalPassword: "Hesla se musí shodovat"
     passwordChanged: "Heslo bylo úspěšně změneno. Nyní se můžete přihlásit"
     newPasswordSent: "Na zadaný e-mail jsme odeslali odkaz pro resetování hesla. Zkontrolujte svou e-mailovou schránku"
+    telephoneFormat: "9 místní telefonní číslo"
+    minPasswordLength: "Minimální délka hesla je 8 znaků"
 
 user:
     email: "E-mail"
@@ -59,6 +61,8 @@ forms:
     qty: "Množství"
     childs: "Děti"
     comment: "Komentář"
+
+
 
 buttons:
     send: "Odeslat"
