@@ -6,6 +6,7 @@ namespace App\Component\Form\Auth\ResetPassword;
 
 use App\Component\Component;
 use App\Model\Service\Authentication\PasswordService;
+use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use JetBrains\PhpStorm\NoReturn;
 use Nette\Application\AbortException;
@@ -41,8 +42,12 @@ class ResetPassword extends Component
      */
     #[NoReturn] public function success(Form $form, ArrayHash $values): void
     {
-
-        $this->passwordService->resetPassword($values->email);
+        try {
+            $this->passwordService->resetPassword($values->email);
+        } catch (\Exception $e) {
+            // Ignore - not relevant
+        }
+        $this->getPresenter()->flashMessage($this->translator->trans('flash.newPasswordSent'), FlashType::INFO);
         $this->getPresenter()->redirect('this');
     }
 }

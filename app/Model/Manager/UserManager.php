@@ -19,11 +19,11 @@ final class UserManager extends Model
         return $this->getEntityTable()->where(["email" => $email]);
     }
 
-    public function setPassword(int $userId, string $hash): void
+    public function setPassword(int $userId, string $hash, bool $isTempPassword): void
     {
         $this->getEntityTable()->where("id = ?", $userId)->update([
             "password" => $hash,
-            "password_resset" => 0,
+            "password_resset" => $isTempPassword,
         ]);
     }
 

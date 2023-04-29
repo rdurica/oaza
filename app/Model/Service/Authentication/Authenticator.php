@@ -63,7 +63,7 @@ class Authenticator implements NetteAuthenticator
         #[\SensitiveParameter] string $plainPassword,
         string $name,
         int $telephone
-    ) {
+    ): void {
         $this->userManager->getEntityTable()->insert([
             "email" => $email,
             "name" => $name,
@@ -71,36 +71,12 @@ class Authenticator implements NetteAuthenticator
             "telephone" => $telephone
         ]);
     }
-//
-//
-//
-//    /**
-//     * Resset password
-//     * @param $email
-//     * @param $password
-//     * @throws \Exception
-//     */
-//    public function ressetByEmail($email, $password)
-//    {
-//        $values = new Nette\Utils\ArrayHash();
-//        $values->password = $this->passwords->hash($password);
-//        $values->password_resset = 1;
-//
-//        try {
-//            $this->database->table(self::TABLE_NAME)
-//                ->where('email', $email)
-//                ->update($values);
-//        } catch (\Exception $ex) {
-//            throw new \Exception($ex->getMessage());
-//        }
-//    }
-//
-//
+
     /**
      * Change password
      */
-    public function changePassword(int $id, #[\SensitiveParameter] string $password): void
+    public function changePassword(int $id, #[\SensitiveParameter] string $password, $isTempPassword = false): void
     {
-        $this->userManager->setPassword($id, $this->passwords->hash($password));
+        $this->userManager->setPassword($id, $this->passwords->hash($password), $isTempPassword);
     }
 }
