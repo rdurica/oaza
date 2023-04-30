@@ -22,16 +22,6 @@ RUN a2enmod rewrite
 COPY build/test/vhost.conf /etc/apache2/sites-available/000-default.conf
 COPY build/test/.htaccess /app/www/.htaccess
 
-# OPCACHE
-ENV PHP_OPCACHE_VALIDATE_TIMESTAMPS="0" \
-    PHP_OPCACHE_MAX_ACCELERATED_FILES="10000" \
-    PHP_OPCACHE_MEMORY_CONSUMPTION="256" \
-    PHP_OPCACHE_MAX_WASTED_PERCENTAGE="10"
-
-RUN docker-php-ext-install opcache
-
-COPY build/test/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
-
 WORKDIR /app
 
 RUN mkdir log
