@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Component\Form\Auth\Register;
 
 use App\Component\Component;
+use App\Exception\OazaException;
 use App\Model\Service\Authentication\Authenticator;
 use App\Util\FlashType;
+use App\Util\OazaConfig;
 use Contributte\Translation\Translator;
 use JetBrains\PhpStorm\NoReturn;
 use Nette\Application\AbortException;
@@ -17,12 +19,17 @@ use Nette\Utils\ArrayHash;
 
 class RegistrationForm extends Component
 {
+    use OazaConfig;
+
     public function __construct(
         private readonly Translator $translator,
         private readonly Authenticator $authenticator
     ) {
     }
 
+    /**
+     * @throws OazaException
+     */
     protected function createComponentForm(): Form
     {
         $form = new Form();
@@ -37,11 +44,19 @@ class RegistrationForm extends Component
         $form->addText('telephone', $this->translator->trans('user.telephone'))
             ->setHtmlAttribute('placeholder', $this->translator->trans('user.telephone'))
             ->setRequired()
-            ->addRule($form::Pattern, $this->translator->trans('flash.telephoneFormat'), '^(2[0-9]{2}|3[0-9]{2}|4[0-9]{2}|5[0-9]{2}|72[0-9]|73[0-9]|77[0-9]|60[1-8]|56[0-9]|70[2-5]|79[0-9])[0-9]{3}[0-9]{3}$')
+            ->addRule(
+                $form::Pattern,
+                $this->translator->trans('flash.telephoneFormat'),
+                $this->getConfig("telephoneRegex")
+            )
             ->setMaxLength(9);
         $form->addPassword('password', $this->translator->trans('user.password'))
             ->setHtmlAttribute('placeholder', $this->translator->trans('user.password'))
-            ->addRule(NetteForm::MIN_LENGTH, $this->translator->trans('flash.minPasswordLength'), 8)
+            ->addRule(
+                NetteForm::MIN_LENGTH,
+                $this->translator->trans('flash.minPasswordLength'),
+                $this->getConfig("passwordLength")
+            )
             ->setRequired();
         $form->addPassword('passwordVerify', $this->translator->trans('user.passwordVerify'))
             ->setHtmlAttribute('placeholder', $this->translator->trans('user.passwordVerify'))
@@ -62,7 +77,12 @@ class RegistrationForm extends Component
     #[NoReturn] public function onFormSuccess(Form $form, ArrayHash $values): void
     {
         try {
-            $this->authenticator->createAccount($values->email, $values->password, $values->name, (int)$values->telephone);
+            $this->authenticator->createAccount(
+                $values->email,
+                $values->password,
+                $values->name,
+                (int)$values->telephone
+            );
             $this->presenter->flashMessage(
                 $this->translator->trans('flash.registrationSuccessful'),
                 FlashType::SUCCESS

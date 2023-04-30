@@ -31,6 +31,7 @@ class Bootstrap
 
         $configurator->addConfig(__DIR__ . '/Config/database.neon');
         $configurator->addConfig(__DIR__ . '/Config/config.neon');
+        $configurator->addConfig(__DIR__ . '/Config/oaza.neon');
 
         return $configurator;
     }

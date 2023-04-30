@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Component\Form\Auth\ChangePassword;
 
 use App\Component\Component;
+use App\Exception\OazaException;
 use App\Model\Service\Authentication\Authenticator;
 use App\Model\Service\Mail\MailService;
 use App\Util\FlashType;
+use App\Util\OazaConfig;
 use Contributte\Translation\Translator;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
@@ -17,6 +19,8 @@ use Nette\Utils\ArrayHash;
 
 class ChangePassword extends Component
 {
+    use OazaConfig;
+
     public function __construct(
         private readonly Translator $translator,
         private readonly Authenticator $authenticator,
@@ -28,11 +32,17 @@ class ChangePassword extends Component
 
     /**
      * Register Form
+     * @throws OazaException
      */
     protected function createComponentForm(): Form
     {
         $form = new Form();
         $form->addPassword('password', $this->translator->trans('user.newPassword'))
+            ->addRule(
+                NetteForm::MIN_LENGTH,
+                $this->translator->trans('flash.minPasswordLength'),
+                $this->getConfig("passwordLength")
+            )
             ->setRequired()
             ->setHtmlAttribute('class', 'form-control')
             ->setHtmlAttribute('placeholder', $this->translator->trans('user.newPassword'));
@@ -56,7 +66,6 @@ class ChangePassword extends Component
     public function onSuccess(Form $form, ArrayHash $values): void
     {
         try {
-            $this->authenticator->changePassword($this->user->id, $values->password);
             $this->mailService->passwordChanged($this->user->identity->email);
             $this->user->logout(true);
             $this->presenter->flashMessage($this->translator->trans('flash.passwordChanged'), FlashType::SUCCESS);
