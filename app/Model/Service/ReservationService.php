@@ -14,9 +14,9 @@ use Nette\Utils\DateTime;
 class ReservationService
 {
     public function __construct(
-        private ReservationManager $reservationManager,
-        private User $user,
-        private MailService $mailService
+        private readonly ReservationManager $reservationManager,
+        private readonly User $user,
+        private readonly MailService $mailService
     ) {
     }
 

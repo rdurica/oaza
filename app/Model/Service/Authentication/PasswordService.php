@@ -6,6 +6,7 @@ namespace App\Model\Service\Authentication;
 
 use App\Model\Manager\UserManager;
 use App\Model\Service\Mail\MailService;
+use Exception;
 
 class PasswordService
 {
@@ -19,7 +20,7 @@ class PasswordService
 
     /**
      * Reset password
-     * @throws \Exception
+     * @throws Exception
      */
     public function resetPassword(string $email): void
     {
@@ -29,7 +30,7 @@ class PasswordService
             return; // account not found
         }
 
-        $plainPassword = bin2hex(\random_bytes(16));
+        $plainPassword = bin2hex(random_bytes(16));
         $this->authenticator->changePassword($account->id, $plainPassword, true);
         $this->mailService->sendNewPassword($email, $plainPassword);
     }

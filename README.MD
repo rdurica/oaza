@@ -9,11 +9,9 @@ webpage was originally created in 2017 as my first PHP commercial project. Since
 knowledge in web development, and I am now refactoring the webpage to improve its code quality and functionality.
 
 ### Screenshots
-![Screenshot 2023-04-29 at 21 45 44](https://user-images.githubusercontent.com/16089770/235321435-9cdacff1-d479-4f8d-b8f6-2d6a10b225df.png)
+![Screenshot 2023-04-30 at 21 27 42](https://user-images.githubusercontent.com/16089770/235372612-e5aef170-a6ad-4066-9486-6fb36d984677.png)
 
-![Screenshot 2023-04-29 at 21 42 06](https://user-images.githubusercontent.com/16089770/235321324-c447bd85-c0f0-4f96-b1c5-a3e3b164a128.png)
-
-
+![Screenshot 2023-04-30 at 21 27 56](https://user-images.githubusercontent.com/16089770/235372611-06ba3b0a-01af-4490-acd3-79cd04182ba7.png)
 ## Description
 
 The Salt Cave webpage provides visitors with information about salt therapy, a holistic therapy that uses natural salt
@@ -29,8 +27,7 @@ appointment at the Salt Cave.
 > Due to security reasons, I have created a fresh repository and no previous commits
 have been included. This ensures that any potential security vulnerabilities or sensitive information from the original
 repository are not carried over into the new version.
-> 
-> Provided Dockerfile / docker-compose never use in production
+>
 
 ## Features
 
