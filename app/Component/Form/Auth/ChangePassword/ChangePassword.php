@@ -66,12 +66,13 @@ class ChangePassword extends Component
     public function onSuccess(Form $form, ArrayHash $values): void
     {
         try {
+            $this->authenticator->changePassword($this->user->id, $values->password);
             $this->mailService->passwordChanged($this->user->identity->email);
-            $this->user->logout(true);
             $this->presenter->flashMessage($this->translator->trans('flash.passwordChanged'), FlashType::SUCCESS);
         } catch (\Exception $e) {
             $this->presenter->flashMessage($this->translator->trans("flash.oops"), FlashType::ERROR);
         }
+        $this->user->logout(true);
         $this->getPresenter()->redirect('Homepage:');
     }
 }
