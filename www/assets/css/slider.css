@@ -35,6 +35,7 @@ Primary style
   overflow: hidden;
   vertical-align: top;
   width: auto!important;
+  max-width: 95vw!important;
 }
 .cd-headline.slide b {
   opacity: 0;
