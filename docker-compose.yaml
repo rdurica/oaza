@@ -6,14 +6,13 @@ services:
       dockerfile: build/dev/Dockerfile
     container_name: oaza
     ports:
-      - 8000:80
-      - 8443:443
-    networks:
-      - robbyte_dev
+      - 443:443
     volumes:
       - .:/app/
     env_file:
       - ./build/dev/oaza.env
+    networks:
+      - database_default
 networks:
-  robbyte_dev:
+  database_default:
     external: true
