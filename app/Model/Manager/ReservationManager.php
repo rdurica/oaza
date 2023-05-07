@@ -15,6 +15,28 @@ final class ReservationManager extends Model
         return $this->database->table("rezervations");
     }
 
+    /**
+     * Find all active reservations (reservation date is in future)
+     */
+    public function findAllActive(): array
+    {
+        //todo: Rewrite after db refactor
+        return $this->database->query(
+            "select res.id,
+               if(res.user_id, u.name, res.name) as name,
+               if(res.user_id, u.email, res.email) as email,
+               if(res.user_id, u.telephone, res.telefon) as telephone,
+               if(res.child = 1, 'Ano', 'Ne') as children, 
+               res.`count`,
+               res.rezervationDate as reservationDate
+               from rezervations as res
+               left outer join user u on u.id = res.user_id
+               where res.rezervationDate >= ?
+               order by res.id ASC",
+            new DateTime()
+        )->fetchAll();
+    }
+
     public function getReservationCountByDate(string $dateTime): int
     {
         $count = $this->getEntityTable()

@@ -22,3 +22,6 @@ services:
     - App\Component\Form\Auth\ResetPassword\IResetPassword
     - App\Component\Form\Restriction\IRestrictionForm
     - App\Component\Form\Reservation\IReservation
+
+## Grid
+    - App\Modules\Admin\Component\Grid\Reservation\IReservation
