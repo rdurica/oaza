@@ -7,6 +7,7 @@ flash:
     newPasswordRequired: "Vyžadována změna hesla. Prosím nastavte nové heslo"
     registrationSuccessful: "Registrace proběhla úspěšně. Nyní se můžete přihlásit"
     loggedIn: "Přihlášení proběhlo úspěšně"
+    loggedOut: "Odhlášení proběhlo úspěšně"
     reservationDeleted: "Rezervace byla úspěšně zrušena. Potvrzení Vám zašleme emailem"
     operationNotAllowed: "Nepovolená operace"
     reservationCreated: "Rezervace byla vytvořena. Potvrzení Vám zašleme emailem"
@@ -16,6 +17,7 @@ flash:
     newPasswordSent: "Na zadaný e-mail jsme odeslali odkaz pro resetování hesla. Zkontrolujte svou e-mailovou schránku"
     telephoneFormat: "Nesprávny formát telefonního čísla"
     minPasswordLength: "Minimální délka hesla je %s znaků"
+    notAuthorized: "Litujeme, ale zdá se, že nemáte dostatečná oprávnění pro přístup k této stránce"
 
 user:
     email: "E-mail"
@@ -31,6 +33,9 @@ button:
     register: "Registrovat"
     resetPassword: "Resetovat heslo"
     changePassword: "Změnit heslo"
+    send: "Odeslat"
+    reserve: "Rezervovat"
+    addNews: "Přidat novinku"
 
 navbar:
     contact: "Kontaktujte nás"
@@ -61,29 +66,4 @@ forms:
     qty: "Množství"
     childs: "Děti"
     comment: "Komentář"
-
-
-
-buttons:
-    send: "Odeslat"
-    reserve: "Rezervovat"
-    addNews: "Přidat novinku"
-    register: "Registrovat"
-
-
-
-
-messages:
-    succesfullyLogged: "Byli jste úspěšně přihlášeni"
-    registrationSuccesfull: "Registrace proběhla úspěšně. Nyní se můžete přihlásit"
-    temporaryPasswordSent: "Dočasné heslo bolo odeslané na Váš email"
-    newsAdded: "Novinka přidána"
-    userNotFound: "Učet se nepodařilo nalézt"
-    reservationCreated: "Rezervace byla úspěšne vytvořena"
-    changeYourPassword: "Kůli bezpečnosti prosím změnte své heslo"
-
-
-
-reservations:
-    new: "new"
 

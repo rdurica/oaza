@@ -33,9 +33,10 @@
 </head>
 
 <body>
-    {include './Layout/modals.latte'}
-    {include "./Layout/navigation.latte"}
+{include './navbar.latte'}
+<div style="margin: 140px;">
     {include content}
+</div>
 <footer id="footer">
         <div class="container">
             <div class="col-md-8 col-md-offset-2 text-center">
@@ -71,8 +72,6 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{$basePath}/assets/js/oaza.js"></script>
-    <script src='https://www.google.com/recaptcha/api.js'></script>
-
 
     <script>
         document.getElementById("year").innerHTML = 2017 + " - " + new Date().getFullYear().toString();
@@ -83,8 +82,8 @@
     </script>
 {/block}
 {snippet flashMessages}
-        <script n:inner-foreach="$flashes as $flash">
-            notifyMessage({$flash->message}, {$flash->type});
-        </script>
-    {/snippet}
+    <script n:inner-foreach="$flashes as $flash">
+        notifyMessage({$flash->message}, {$flash->type});
+    </script>
+{/snippet}
 </html>

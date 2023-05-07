@@ -11,6 +11,7 @@ use App\Component\Form\Auth\Register\RegistrationForm;
 use App\Component\Form\Auth\ResetPassword\IResetPassword;
 use App\Component\Form\Auth\ResetPassword\ResetPassword;
 use App\Util\FlashType;
+use Contributte\Translation\Translator;
 use JetBrains\PhpStorm\NoReturn;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Presenter as NettePresenter;
@@ -26,11 +27,17 @@ abstract class Presenter extends NettePresenter
     #[Inject]
     public IResetPassword $resetPassword;
 
+    #[Inject]
+    public Translator $translator;
+
+    /**
+     * @throws AbortException
+     */
     public function startup(): void
     {
         parent::startup();
         if (
-            $this->user->identity?->data["needNewPassword"] === true &&
+            $this->getUser()->identity?->data["needNewPassword"] === true &&
             $this->getPresenter()->view !== "changePassword"
         ) {
             $this->redirect(':User:ChangePassword');
@@ -62,8 +69,8 @@ abstract class Presenter extends NettePresenter
     #[NoReturn] public function handleOut(): void
     {
         $this->getUser()->logout(true);
-        $this->presenter->flashMessage("Odhlášení proběhlo úspěšně", FlashType::INFO);
-        $this->presenter->redirect('Homepage:Default');
+        $this->presenter->flashMessage($this->translator->trans("flash.loggedOut"), FlashType::INFO);
+        $this->presenter->redirect(':Homepage:Default');
     }
 
 

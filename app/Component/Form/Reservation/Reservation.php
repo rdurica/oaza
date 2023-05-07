@@ -55,7 +55,7 @@ class Reservation extends Component
             ->setHtmlAttribute("rows", 5)
             ->setHtmlAttribute('class', 'form-control')
             ->setHtmlAttribute('placeholder', $this->translator->trans('forms.comment'));
-        $form->addSubmit('send', $this->translator->trans('buttons.reserve'))
+        $form->addSubmit('send', $this->translator->trans('button.reserve'))
             ->setHtmlAttribute('class', 'btn btn-info');
 
         $form->onSuccess[] = [$this, 'formSucceeded'];

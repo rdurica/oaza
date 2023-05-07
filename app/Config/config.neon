@@ -4,7 +4,8 @@ php:
 application:
 	errorPresenter: Error
 	mapping:
-		*: App\*Module\Presenter\*Presenter
+		*: App\Presenter\*Presenter
+		Admin: App\Modules\Admin\Presenter\*Presenter
 
 session:
 	autoStart: always

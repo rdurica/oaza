@@ -41,7 +41,7 @@ class CreateNews extends Component
             ->setAttribute('style', 'height: 250px;')
             ->setAttribute('class', 'form-control')
             ->setAttribute('id', 'textarea');
-        $form->addSubmit('confirm', $this->translator->translate('oaza.buttons.addNews'))
+        $form->addSubmit('confirm', $this->translator->trans('button.addNews'))
             ->setAttribute('class', 'btn btn-success');
         $form->onSuccess[] = [$this, 'formSucceed'];
 

@@ -1,0 +1,48 @@
+<header id="top-bar" class="navbar-fixed-top animated-header">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-brand">
+                <a n:href="Dashboard:">
+                    <img src="{$basePath}/images/logo.png" alt="OAZA hb" style="height: 40px;"><strong
+                            style="color: black;"></strong>
+                </a>
+            </div>
+        </div>
+        {translator messages}
+            <!-- main menu -->
+            <nav class="collapse navbar-collapse navbar-left" role="navigation">
+                <div class="main-menu">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a n:href="Reservations:"><i class="fa-solid fa-calendar-check"></i> Rezervace</a></li>
+                        <li><a n:href="News:"><i class="fa-solid fa-square-rss"></i> Novinky</a></li>
+                        <li><a n:href="Restrictions:"><i class="fa-regular fa-calendar-xmark"></i> Omezeni provozu</a></li>
+                        <li><a n:href="Users:"><i class="fa-solid fa-users"></i> Uzivatele</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <nav class="collapse navbar-collapse navbar-right" role="navigation">
+                <div class="main-menu">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                               style="cursor: pointer;">{$user->identity->name}
+                                <span class="caret"></span></a>
+                            <div class="dropdown-menu">
+                                <ul>
+                                    <li><a n:href=":Homepage:">Zpět na stránky</a></li>
+                                    <li><a n:href="out!">{_button.logout}</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        {/translator}
+    </div>
+</header>

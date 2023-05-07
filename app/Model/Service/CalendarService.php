@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Model\Service;
 
 use App\Model\Manager\ReservationManager;
+use JetBrains\PhpStorm\Deprecated;
 use Nette\Security\User;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\DateTime;
 
+#[Deprecated("Will be replaced")]
 class CalendarService
 {
     public function __construct(
@@ -118,6 +120,7 @@ class CalendarService
     /**
      * @return array
      */
+    #[Deprecated("Use grid instead of data")]
     public function getAdminData()
     {
         $data = $this->reservationManager->getEntityTable();
@@ -188,9 +191,9 @@ class CalendarService
             $result->email = $data->email;
             $result->telephone = $data->telefon;
         } else {
-            $result->name = $data->user->name;
-            $result->email = $data->user->email;
-            $result->telephone = $data->user->telephone;
+            $result->name = "name"; //$data->user->name;
+            $result->email = "email"; //$data->user->email;
+            $result->telephone = "telephone"; //$data->user->telephone;
         }
         $result->child = $this->getChild($data->child);
         $result->date = $this->formatCalendarDate($data->rezervationDate, $result->name);
