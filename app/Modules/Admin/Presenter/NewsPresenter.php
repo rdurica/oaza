@@ -10,7 +10,6 @@ use Nette\DI\Attributes\Inject;
 
 class NewsPresenter extends AdminPresenter
 {
-
     #[Inject]
     public INews $newsGrid;
 

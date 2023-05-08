@@ -13,4 +13,14 @@ final class RestrictionManager extends Model
     {
         return $this->database->table("restrictions");
     }
+
+    public function findAllActive(): Selection
+    {
+        return $this->getEntityTable()->where("to >= ?", new \DateTime());
+    }
+
+    public function deleteById(int $id): void
+    {
+        $this->getEntityTable()->where('id', $id)->delete();
+    }
 }

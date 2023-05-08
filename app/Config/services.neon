@@ -27,3 +27,4 @@ services:
     - App\Modules\Admin\Component\Grid\Reservation\IReservation
     - App\Modules\Admin\Component\Grid\User\IUser
     - App\Modules\Admin\Component\Grid\News\INews
+    - App\Modules\Admin\Component\Grid\Restriction\IRestriction
