@@ -41,7 +41,7 @@ final class UserManager extends Model
      */
     public function changeStatus(int $userId): void
     {
-        $userData = $this->getEntityTable()->where('id = ?', $userId);
+        $userData = $this->getEntityTable()->where('id = ?', $userId)->fetch();
         $isEnabled = ($userData->enabled === 0) ? 1 : 0;
 
         $userData->update([
