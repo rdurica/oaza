@@ -20,6 +20,7 @@ flash:
     notAuthorized: "Litujeme, ale zdá se, že nemáte dostatečná oprávnění pro přístup k této stránce"
     userDeleted: "Uživatel smazán"
     userUpdated: "Uživatel aktualizován"
+    newsDeleted: "Novinka smazana"
 
 user:
     email: "E-mail"

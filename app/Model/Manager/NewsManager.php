@@ -38,4 +38,9 @@ final class NewsManager extends Model
             ->order('id DESC')
             ->limit($length, $offset);
     }
+
+    public function deleteNewsById(int $id): void
+    {
+        $this->getEntityTable()->where("id = ?", $id)->delete();
+    }
 }

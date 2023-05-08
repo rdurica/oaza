@@ -518,7 +518,7 @@ table.fc-border-separate {
     min-height: 20vh;
 
 }
-.fc-widget-header{
+.fc-widget-header, thead{
     background: rgba(56,209,233,1);
     /*color: white;*/
     /*background: linear-gradient(45deg, rgba(2,189,213,1) 0%, rgba(56,209,233,1) 49%, rgba(117,232,255,1) 100%);*/

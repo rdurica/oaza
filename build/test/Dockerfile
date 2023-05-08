@@ -8,9 +8,10 @@ RUN apt-get -y update && apt-get -y upgrade && apt-get -y install \
     zip \
     git \
     zlib1g-dev \
-    libzip-dev
+    libzip-dev \
+    libicu-dev g++
 
-RUN docker-php-ext-install pdo pdo_mysql mysqli
+RUN docker-php-ext-install pdo pdo_mysql mysqli && docker-php-ext-configure intl && docker-php-ext-install intl
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

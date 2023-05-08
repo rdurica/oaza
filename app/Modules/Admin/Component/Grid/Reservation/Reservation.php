@@ -8,6 +8,7 @@ use App\Component\Component;
 use App\Exception\NotAllowedOperationException;
 use App\Model\Manager\ReservationManager;
 use App\Model\Service\ReservationService;
+use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use JetBrains\PhpStorm\NoReturn;
 use Nette\Application\AbortException;
@@ -38,6 +39,7 @@ class Reservation extends Component
             ->setFilterText();
         $grid->addColumnText('telephone', 'Telefon')
             ->setFilterText();
+        $grid->addColumnText('count', 'Pocet mist');
         $grid->addColumnDateTime('reservationDate', 'Rezervace')
             ->setFormat('j.n.Y H:i', 'd. m. yyyy');
         $grid->addColumnText('children', 'Děti');
@@ -58,7 +60,7 @@ class Reservation extends Component
     #[NoReturn] public function handleCancelReservation(int $id): void
     {
         $this->reservationService->delete($id, true);
-        $this->getPresenter()->flashMessage($this->translator->trans("flash.reservationDeleted"));
-        $this->getPresenter()->redirect('this');
+        $this->getPresenter()->flashMessage($this->translator->trans("flash.reservationDeleted"), FlashType::SUCCESS);
+        $this->getPresenter()->redirect('Reservations:');
     }
 }
