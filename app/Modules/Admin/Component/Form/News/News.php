@@ -28,6 +28,7 @@ class News extends Component
     public function createComponentForm(): Form
     {
         $form = new Form();
+        $form->addHidden("id");
         $form->addText('name', $this->translator->trans('forms.header'))
             ->setRequired()
             ->setMaxLength(50)
@@ -57,7 +58,7 @@ class News extends Component
     public function formOnSuccess(Form $form, $values): void
     {
         try {
-            $this->newsManager->save($this->id, $values->name, (bool)$values->show_homepage, $values->text);
+            $this->newsManager->save((int)$values->id, $values->name, (bool)$values->show_homepage, $values->text);
             $this->getPresenter()->flashMessage($this->translator->trans('flash.newsSaved'), FlashType::SUCCESS);
         } catch (\Exception $exception) {
             $this->getPresenter()->flashMessage($this->translator->trans("flash.oops"), FlashType::ERROR);

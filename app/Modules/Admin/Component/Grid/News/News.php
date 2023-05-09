@@ -38,13 +38,12 @@ class News extends Component
             ->setRenderer(fn($item): string => $this->convertToYesNo($item->show_homepage));
         $grid->addColumnText('show', 'Zobrazit')
             ->setRenderer(fn($item): string => $this->convertToYesNo($item->show));
-        $grid->addAction('delete', 'Smazat', 'delete!')
-            ->setIcon('trash')
-            ->setClass('btn btn-danger btn-xs');
         $grid->addAction('edit', 'Upravit', 'News:Edit')
             ->setIcon('eye')
             ->setClass('btn btn-info btn-xs');
-
+        $grid->addAction('delete', 'Smazat', 'delete!')
+            ->setIcon('trash')
+            ->setClass('btn btn-danger btn-xs');
         return $grid;
     }
 
