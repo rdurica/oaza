@@ -21,8 +21,9 @@ flash:
     userDeleted: "Uživatel smazán"
     userUpdated: "Uživatel aktualizován"
     newsDeleted: "Novinka smazana"
-    newsAdded: "Novinka pridana"
+    newsSaved: "Novinka uložena"
     restrictionDeleted: "Omezeni provozu smazano"
+    newsDoesNotExists: "Požadována novinka neexistuje. Prosím zkontrolujte správnost odkazu"
 
 user:
     email: "E-mail"
@@ -40,7 +41,7 @@ button:
     changePassword: "Změnit heslo"
     send: "Odeslat"
     reserve: "Rezervovat"
-    addNews: "Přidat novinku"
+    save: "Uložit"
 
 navbar:
     contact: "Kontaktujte nás"

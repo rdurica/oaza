@@ -43,9 +43,28 @@ final class NewsManager extends Model
         $this->getEntityTable()->where("id = ?", $id)->delete();
     }
 
-    public function insert(string $title, bool $isOnHomepage, string $text): void
+    public function save(?int $id, string $title, bool $isOnHomepage, string $text): void
+    {
+        if ($id) {
+            $this->update($id, $title, $isOnHomepage, $text);
+        } else {
+            $this->insert($title, $isOnHomepage, $text);
+        }
+    }
+
+    private function insert(string $title, bool $isOnHomepage, string $text): void
     {
         $this->getEntityTable()->insert([
+            "name" => $title,
+            "text" => $text,
+            "show" => 1,
+            "show_homepage" => $isOnHomepage,
+        ]);
+    }
+
+    private function update(int $id, string $title, bool $isOnHomepage, string $text): void
+    {
+        $this->getEntityTable()->where("id = ?", $id)->update([
             "name" => $title,
             "text" => $text,
             "show" => 1,

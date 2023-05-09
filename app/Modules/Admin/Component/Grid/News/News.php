@@ -41,6 +41,9 @@ class News extends Component
         $grid->addAction('delete', 'Smazat', 'delete!')
             ->setIcon('trash')
             ->setClass('btn btn-danger btn-xs');
+        $grid->addAction('edit', 'Upravit', 'News:Edit')
+            ->setIcon('eye')
+            ->setClass('btn btn-info btn-xs');
 
         return $grid;
     }

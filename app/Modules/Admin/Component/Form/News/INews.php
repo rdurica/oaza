@@ -6,5 +6,5 @@ namespace App\Modules\Admin\Component\Form\News;
 
 interface INews
 {
-    public function create(): News;
+    public function create(?int $id): News;
 }
