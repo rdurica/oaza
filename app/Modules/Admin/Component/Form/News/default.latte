@@ -1,0 +1,16 @@
+{form form}
+    {label title /}{input title}<br>
+    {label onHomepage /}{input onHomepage}<br>
+    {input text}<br>
+    {input confirm}<br>
+{/form}
+{block scripts}
+    <script>
+        tinymce.init({
+            selector: '#textarea',
+            toolbar: 'undo redo | formatpainter casechange blocks | bold italic backcolor | ' +
+                'alignleft aligncenter alignright alignjustify | ' +
+                'bullist numlist checklist outdent indent | removeformat | a11ycheck code table'
+        });
+    </script>
+{/block}

@@ -16,7 +16,7 @@ services:
 ## Forms
     - App\Component\Form\Auth\ChangePassword\IChangePassword
     - App\Component\Form\ContactUs\IContactUs
-    - App\Component\Form\CreateNews\ICreateNews
+    - App\Modules\Admin\Component\Form\News\INews
     - App\Component\Form\Auth\Login\ILoginForm
     - App\Component\Form\Auth\Register\IRegistrationForm
     - App\Component\Form\Auth\ResetPassword\IResetPassword

@@ -61,7 +61,7 @@ class News extends Component
      */
     #[NoReturn] public function handleDelete(int $id): void
     {
-        $this->newsManager->deleteNewsById($id);
+        $this->newsManager->deleteById($id);
         $this->getPresenter()->flashMessage($this->translator->trans("flash.newsDeleted"), FlashType::SUCCESS);
         $this->getPresenter()->redirect("News:");
     }

@@ -15,7 +15,6 @@ final class NewsManager extends Model
     }
 
 
-
     /**
      * Show last new on default page
      */
@@ -39,8 +38,18 @@ final class NewsManager extends Model
             ->limit($length, $offset);
     }
 
-    public function deleteNewsById(int $id): void
+    public function deleteById(int $id): void
     {
         $this->getEntityTable()->where("id = ?", $id)->delete();
+    }
+
+    public function insert(string $title, bool $isOnHomepage, string $text): void
+    {
+        $this->getEntityTable()->insert([
+            "name" => $title,
+            "text" => $text,
+            "show" => 1,
+            "show_homepage" => $isOnHomepage,
+        ]);
     }
 }

@@ -21,6 +21,7 @@ flash:
     userDeleted: "Uživatel smazán"
     userUpdated: "Uživatel aktualizován"
     newsDeleted: "Novinka smazana"
+    newsAdded: "Novinka pridana"
     restrictionDeleted: "Omezeni provozu smazano"
 
 user:
