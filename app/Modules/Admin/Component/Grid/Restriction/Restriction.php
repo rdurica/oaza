@@ -10,6 +10,7 @@ use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use JetBrains\PhpStorm\NoReturn;
 use Nette\Application\AbortException;
+use Nette\Utils\Html;
 use Ublaboo\DataGrid\DataGrid;
 use Ublaboo\DataGrid\Exception\DataGridException;
 
@@ -33,7 +34,10 @@ class Restriction extends Component
             ->setFormat('j.n.Y', 'd. m. yyyy');
         $grid->addColumnDateTime('to', 'Do')
             ->setFormat('j.n.Y', 'd. m. yyyy');
-        $grid->addColumnText('message', 'Zpráva');
+        $grid->addColumnText('message', 'Zpráva')
+            ->setRenderer(renderer: function ($item): Html {
+                return Html::el()->setHtml($item->message);
+            });
         $grid->addAction('delete', 'Smazat', 'delete!')
             ->setIcon('trash')
             ->setClass('btn btn-danger btn-xs');

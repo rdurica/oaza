@@ -43,16 +43,16 @@ final class NewsManager extends Model
         $this->getEntityTable()->where("id = ?", $id)->delete();
     }
 
-    public function save(?int $id, string $title, bool $isOnHomepage, string $text): void
+    public function save(?int $id, string $title, bool $isOnHomepage, string $text, bool $show = true): void
     {
         if ($id) {
-            $this->update($id, $title, $isOnHomepage, $text);
+            $this->update($id, $title, $isOnHomepage, $text, $show);
         } else {
-            $this->insert($title, $isOnHomepage, $text);
+            $this->insert($title, $isOnHomepage, $text, $show);
         }
     }
 
-    private function insert(string $title, bool $isOnHomepage, string $text): void
+    private function insert(string $title, bool $isOnHomepage, string $text, bool $show = true): void
     {
         $this->getEntityTable()->insert([
             "name" => $title,
@@ -62,12 +62,12 @@ final class NewsManager extends Model
         ]);
     }
 
-    private function update(int $id, string $title, bool $isOnHomepage, string $text): void
+    private function update(int $id, string $title, bool $isOnHomepage, string $text, bool $show = true): void
     {
         $this->getEntityTable()->where("id = ?", $id)->update([
             "name" => $title,
             "text" => $text,
-            "show" => 1,
+            "show" => $show,
             "show_homepage" => $isOnHomepage,
         ]);
     }

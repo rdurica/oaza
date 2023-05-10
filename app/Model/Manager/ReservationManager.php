@@ -88,7 +88,7 @@ final class ReservationManager extends Model
                 "telefon" => "restriction",
                 "name" => "restriction",
                 "user_id" => 5,
-                "reyervationDate" => $reservationDate,
+                "rezervationDate" => $reservationDate,
             ]);
 
             $reservationDate = $reservationDate->modifyClone('+1 day');

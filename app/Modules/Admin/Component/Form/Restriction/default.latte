@@ -15,14 +15,27 @@
             {input message, rows => '5'}
         </div>
     </div>
+    <br>
     <div class="row">
         <div class="col-md-12">
-            {input create_news}
+            {label showNewsOnHomepage /}
+            {input showNewsOnHomepage}
         </div>
     </div>
+    <br>
     <div class="row">
         <div class="col-md-12">
             {input save}
         </div>
     </div>
 {/form}
+{block scripts}
+    <script>
+        tinymce.init({
+            selector: '#textarea',
+            toolbar: 'undo redo | formatpainter casechange blocks | bold italic backcolor | ' +
+                'alignleft aligncenter alignright alignjustify | ' +
+                'bullist numlist checklist outdent indent | removeformat | a11ycheck code table'
+        });
+    </script>
+{/block}

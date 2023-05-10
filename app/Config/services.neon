@@ -20,7 +20,7 @@ services:
     - App\Component\Form\Auth\Login\ILoginForm
     - App\Component\Form\Auth\Register\IRegistrationForm
     - App\Component\Form\Auth\ResetPassword\IResetPassword
-    - App\Component\Form\Restriction\IRestrictionForm
+    - App\Modules\Admin\Component\Form\Restriction\IRestriction
     - App\Component\Form\Reservation\IReservation
 
 ## Grid
