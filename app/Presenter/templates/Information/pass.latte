@@ -12,13 +12,14 @@
         </div>
         <div class="row" style="margin-top: 40px;">
             {foreach $sodexo as $sodexoPass}
+                {varType App\Model\Entity\SodexoPass $sodexoPass}
                 <div class="col-sm-5 col-md-3">
                     <figure>
                         <div class="element element-sodexo">
-                            <span class="symbol">{$sodexoPass->name}</span>
+                            <span class="symbol">{$sodexoPass->getName()}</span>
                         </div>
                         <figcaption>
-                            <img src="{$basePath}{$sodexoPass->imagePath}" alt="{$sodexoPass->name}">
+                            <img src="{$sodexoPass->getFullPath()}" alt="{$sodexoPass->getName()}">
                         </figcaption>
                     </figure>
                 </div>

@@ -53,7 +53,7 @@ class Restriction extends Component
             ->setHtmlAttribute('style', 'float: right;')
             ->setHtmlAttribute('class', 'btn btn-info');
 
-        $form->onSuccess[] = [$this, 'success'];
+        $form->onSuccess[] = [$this, 'onSuccess'];
 
         return $form;
     }
@@ -63,7 +63,7 @@ class Restriction extends Component
      * @throws AbortException
      * @throws \Exception
      */
-    public function success(Form $form, ArrayHash $values)
+    public function onSuccess(Form $form, ArrayHash $values): void
     {
         $createNews = $values->showNewsOnHomepage;
         $from = new DateTime($values->from);

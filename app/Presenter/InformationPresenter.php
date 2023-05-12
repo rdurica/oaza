@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Presenter;
 
-use AlesWita\Components\VisualPaginator;
+use App\Model\Entity\SodexoPass;
 use App\Model\Manager\NewsManager;
-use App\Util\SodexoPass;
 use Nette\DI\Attributes\Inject;
 
 class InformationPresenter extends Presenter
@@ -18,14 +17,14 @@ class InformationPresenter extends Presenter
     /**
      * Render Pass page
      */
-    public function renderPass()
+    public function renderPass(): void
     {
         $this->getTemplate()->sodexo = [
-            new SodexoPass("Bonus", "/assets/images/sodexo/Bonus.jpg"),
-            new SodexoPass("Darkovy", "/assets/images/sodexo/Darkovy.jpg"),
-            new SodexoPass("Flexi", "/assets/images/sodexo/Flexi.jpg"),
-            new SodexoPass("Fokus", "/assets/images/sodexo/Fokus.jpg"),
-            new SodexoPass("Relax", "/assets/images/sodexo/Relax.jpg"),
+            SodexoPass::create("Bonus"),
+            SodexoPass::create("Darkovy"),
+            SodexoPass::create("Flexi"),
+            SodexoPass::create("Fokus"),
+            SodexoPass::create("Relax"),
         ];
     }
 
