@@ -21,7 +21,6 @@ use Nette\Utils\ArrayHash;
  */
 class News extends Component
 {
-
     /**
      * Constructor.
      *
@@ -30,11 +29,10 @@ class News extends Component
      * @param NewsManager $newsManager
      */
     public function __construct(
-        public ?int                  $id,
-        private readonly Translator  $translator,
+        public ?int $id,
+        private readonly Translator $translator,
         private readonly NewsManager $newsManager
-    )
-    {
+    ) {
     }
 
 

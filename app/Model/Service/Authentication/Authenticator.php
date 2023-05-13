@@ -29,9 +29,8 @@ class Authenticator implements NetteAuthenticator
      */
     public function __construct(
         private readonly UserManager $userManager,
-        private readonly Passwords   $passwords
-    )
-    {
+        private readonly Passwords $passwords
+    ) {
     }
 
 
@@ -82,12 +81,11 @@ class Authenticator implements NetteAuthenticator
      * @return void
      */
     public function createAccount(
-        string                        $email,
+        string $email,
         #[\SensitiveParameter] string $plainPassword,
-        string                        $name,
-        int                           $telephone
-    ): void
-    {
+        string $name,
+        int $telephone
+    ): void {
         $this->userManager->getEntityTable()->insert([
             "email" => $email,
             "name" => $name,

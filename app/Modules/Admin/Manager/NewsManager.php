@@ -16,7 +16,6 @@ use Nette\Database\Table\Selection;
  */
 final class NewsManager extends Manager
 {
-
     /** @inheritDoc */
     public function getEntityTable(): Selection
     {

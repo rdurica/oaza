@@ -98,6 +98,4 @@ abstract class Presenter extends NettePresenter
         $this->presenter->flashMessage($this->translator->trans("flash.loggedOut"), FlashType::INFO);
         $this->presenter->redirect(':Homepage:Default');
     }
-
-
 }

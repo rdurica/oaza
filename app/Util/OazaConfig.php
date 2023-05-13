@@ -17,7 +17,6 @@ use Nette\Neon\Neon;
  */
 trait OazaConfig
 {
-
     /**
      * Get exact value from config based on key.
      *

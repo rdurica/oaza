@@ -35,11 +35,10 @@ class Reservation extends Component
      * @param ReservationServiceOld $reservationService
      */
     public function __construct(
-        private readonly Translator            $translator,
-        private readonly User                  $user,
+        private readonly Translator $translator,
+        private readonly User $user,
         private readonly ReservationServiceOld $reservationService,
-    )
-    {
+    ) {
     }
 
 

@@ -31,11 +31,10 @@ class ContactUs extends Component
      * @param MailService $mailService
      */
     public function __construct(
-        private readonly Translator  $translator,
-        private readonly User        $user,
+        private readonly Translator $translator,
+        private readonly User $user,
         private readonly MailService $mailService
-    )
-    {
+    ) {
     }
 
 

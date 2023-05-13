@@ -27,9 +27,8 @@ class User extends Component
      */
     public function __construct(
         public readonly UserManager $userManager,
-        public readonly Translator  $translator
-    )
-    {
+        public readonly Translator $translator
+    ) {
     }
 
 

@@ -25,7 +25,6 @@ use Ublaboo\DataGrid\Exception\DataGridException;
  */
 class Reservation extends Component
 {
-
     /**
      * Constructor.
      *
@@ -34,11 +33,10 @@ class Reservation extends Component
      * @param Translator            $translator
      */
     public function __construct(
-        public readonly ReservationManager    $reservationManager,
+        public readonly ReservationManager $reservationManager,
         public readonly ReservationServiceOld $reservationService,
-        public readonly Translator            $translator,
-    )
-    {
+        public readonly Translator $translator,
+    ) {
     }
 
     /**

@@ -17,7 +17,6 @@ use Exception;
  */
 class PasswordService
 {
-
     /**
      * Constructor.
      *
@@ -26,11 +25,10 @@ class PasswordService
      * @param Authenticator $authenticator
      */
     public function __construct(
-        private readonly MailService   $mailService,
-        private readonly UserManager   $userManager,
+        private readonly MailService $mailService,
+        private readonly UserManager $userManager,
         private readonly Authenticator $authenticator,
-    )
-    {
+    ) {
     }
 
 

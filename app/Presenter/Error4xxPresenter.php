@@ -15,7 +15,6 @@ use Nette\Application\Request;
  */
 class Error4xxPresenter extends Presenter
 {
-
     /**
      * Startup.
      *

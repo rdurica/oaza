@@ -13,6 +13,5 @@ namespace App\Component\Form\Auth\Register;
  */
 interface IRegistration
 {
-
     public function create(): Registration;
 }

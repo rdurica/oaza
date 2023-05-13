@@ -22,7 +22,6 @@ use Ublaboo\DataGrid\Exception\DataGridException;
  */
 class News extends Component
 {
-
     /**
      * Constructor.
      *
@@ -31,9 +30,8 @@ class News extends Component
      */
     public function __construct(
         public readonly NewsManager $newsManager,
-        public readonly Translator  $translator
-    )
-    {
+        public readonly Translator $translator
+    ) {
     }
 
 

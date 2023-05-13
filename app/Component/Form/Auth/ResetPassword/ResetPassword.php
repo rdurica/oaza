@@ -23,7 +23,6 @@ use Nette\Utils\ArrayHash;
  */
 class ResetPassword extends Component
 {
-
     /**
      * Constructor.
      *
@@ -31,10 +30,9 @@ class ResetPassword extends Component
      * @param PasswordService $passwordService
      */
     public function __construct(
-        private readonly Translator      $translator,
+        private readonly Translator $translator,
         private readonly PasswordService $passwordService,
-    )
-    {
+    ) {
     }
 
     /**

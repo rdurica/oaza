@@ -15,7 +15,6 @@ use Nette\Bootstrap\Configurator;
  */
 class Bootstrap
 {
-
     /**
      * Boot.
      *

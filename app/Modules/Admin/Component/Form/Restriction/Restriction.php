@@ -24,7 +24,6 @@ use Nette\Utils\DateTime;
  */
 class Restriction extends Component
 {
-
     /**
      * Constructor.
      *
@@ -35,11 +34,10 @@ class Restriction extends Component
      */
     public function __construct(
         private readonly RestrictionManager $restrictionManager,
-        private readonly NewsManager        $newsModel,
+        private readonly NewsManager $newsModel,
         private readonly ReservationManager $reservationManager,
-        public readonly Translator          $translator
-    )
-    {
+        public readonly Translator $translator
+    ) {
     }
 
     /**

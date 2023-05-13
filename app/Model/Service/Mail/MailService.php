@@ -28,10 +28,9 @@ class MailService
      * @param string $emailPassword
      */
     public function __construct(
-        public readonly string        $emailAdmin,
+        public readonly string $emailAdmin,
         #[\SensitiveParameter] string $emailPassword
-    )
-    {
+    ) {
         $this->latte = new Engine();
         $this->mail = new SmtpMailer([
             'host' => 'smtp.zoner.com',
@@ -99,11 +98,10 @@ class MailService
         string $email,
         string $name,
         string $date,
-        int    $child,
-        int    $count,
+        int $child,
+        int $count,
         string $comment
-    ): void
-    {
+    ): void {
         $mail = new Message();
         $mail->setFrom($this->emailAdmin)
             ->addTo($email)

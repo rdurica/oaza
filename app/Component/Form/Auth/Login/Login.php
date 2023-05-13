@@ -34,11 +34,10 @@ class Login extends Component
      * @param Authenticator $authenticator
      */
     public function __construct(
-        private readonly Translator    $translator,
-        private readonly User          $user,
+        private readonly Translator $translator,
+        private readonly User $user,
         private readonly Authenticator $authenticator
-    )
-    {
+    ) {
     }
 
 

@@ -30,9 +30,8 @@ class Restriction extends Component
      */
     public function __construct(
         private readonly RestrictionManager $restrictionManager,
-        private readonly Translator         $translator,
-    )
-    {
+        private readonly Translator $translator,
+    ) {
     }
 
 

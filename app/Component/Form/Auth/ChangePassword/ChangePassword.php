@@ -37,12 +37,11 @@ class ChangePassword extends Component
      * @param MailService   $mailService
      */
     public function __construct(
-        private readonly Translator    $translator,
+        private readonly Translator $translator,
         private readonly Authenticator $authenticator,
-        private readonly User          $user,
-        private readonly MailService   $mailService
-    )
-    {
+        private readonly User $user,
+        private readonly MailService $mailService
+    ) {
     }
 
 

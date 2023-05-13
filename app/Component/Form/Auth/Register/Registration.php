@@ -35,10 +35,9 @@ class Registration extends Component
      * @param Authenticator $authenticator
      */
     public function __construct(
-        private readonly Translator    $translator,
+        private readonly Translator $translator,
         private readonly Authenticator $authenticator
-    )
-    {
+    ) {
     }
 
     /**
