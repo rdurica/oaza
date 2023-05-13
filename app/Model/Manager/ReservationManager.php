@@ -4,19 +4,29 @@ declare(strict_types=1);
 
 namespace App\Model\Manager;
 
-use App\Model\Model;
+use App\Model\Manager;
 use Nette\Database\Table\Selection;
 use Nette\Utils\DateTime;
 
-final class ReservationManager extends Model
+/**
+ * ReservationManager.
+ *
+ * @package   App\Model\Manager
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
+final class ReservationManager extends Manager
 {
+    /** @inheritDoc */
     public function getEntityTable(): Selection
     {
         return $this->database->table("rezervations");
     }
 
     /**
-     * Find all active reservations (reservation date is in future)
+     * Find all active reservations (reservation date is in future).
+     *
+     * @return array
      */
     public function findAllActive(): array
     {
@@ -37,6 +47,12 @@ final class ReservationManager extends Model
         )->fetchAll();
     }
 
+    /**
+     * Get number of reservations based on days. Returns only count of rows not sum.
+     *
+     * @param string $dateTime
+     * @return int
+     */
     public function getReservationCountByDate(string $dateTime): int
     {
         $count = $this->getEntityTable()
@@ -47,7 +63,9 @@ final class ReservationManager extends Model
     }
 
     /**
-     * Find all reservations in specific format for calendar render
+     * Find all reservations in specific format for calendar render.
+     *
+     * @return Selection
      */
     public function findAllReservationsFormatted(): Selection
     {
@@ -58,9 +76,11 @@ final class ReservationManager extends Model
 
 
     /**
-     * Find all restrictions and fetch pairs [id => date]
+     * Find all reservations and fetch pairs [id => date].
+     *
+     * @return array
      */
-    public function findRestrictionPairs(): array
+    public function findReservationsPairs(): array
     {
         return $this->getEntityTable()
             ->select('id, rezervationDate')
@@ -69,20 +89,33 @@ final class ReservationManager extends Model
     }
 
 
+    /**
+     * Find all reservations for user.
+     *
+     * @param int $userId
+     * @return Selection
+     */
     public function findReservationsByUser(int $userId): Selection
     {
         return $this->getEntityTable()
             ->where('user_id = ?', $userId);
     }
 
-    public function insertRestricted($start, $end): void
+    /**
+     * Block days. New reservations will not be allowed.
+     *
+     * @param DateTime $start
+     * @param DateTime $end
+     * @return void
+     */
+    public function blockDays(DateTime $start, DateTime $end): void
     {
         $dif = date_diff($start, $end);
         $reservationDate = $start->setTime(8, 0, 0);
 
         $i = 0;
         while ($i <= $dif->days) {
-            $this->deleteRestrictedReservation($reservationDate);
+            $this->deleteRestrictedReservationByDate($reservationDate); // Do not block same day twice
             $this->getEntityTable()->insert([
                 "count" => 5,
                 "telefon" => "restriction",
@@ -97,9 +130,18 @@ final class ReservationManager extends Model
         }
     }
 
-    public function deleteRestrictedReservation($date): void
+    /**
+     * Delete restricted reservation by date.
+     *
+     * @param DateTime $date
+     * @return void
+     */
+    private function deleteRestrictedReservationByDate(DateTime $date): void
     {
         $format = $date->format('Y-m-d');
-        $this->getEntityTable()->where('rezervationDate LIKE ?', $format . ' %')->delete();
+        $this->getEntityTable()
+            ->where('rezervationDate LIKE ?', $format . ' %')
+            ->where("name = ?", "restriction")
+            ->delete();
     }
 }

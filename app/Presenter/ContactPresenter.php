@@ -2,19 +2,29 @@
 
 namespace App\Presenter;
 
+use App\Component\Form\ContactUs\ContactUs;
 use App\Component\Form\ContactUs\IContactUs;
+use Nette\DI\Attributes\Inject;
 
+/**
+ * ContactPresenter
+ *
+ * @package   App\Presenter
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
 class ContactPresenter extends Presenter
 {
-    /** @var IContactUs @inject */
-    public $contactUs;
+    #[Inject]
+    public IContactUs $contactUsForm;
 
     /**
-     * Contact us form
-     * @return \Oaza\Forms\ContactUs
+     * Create contact-us form
+     *
+     * @return ContactUs
      */
-    protected function createComponentContactUs()
+    protected function createComponentContactUsForm(): ContactUs
     {
-        return $this->contactUs->create();
+        return $this->contactUsForm->create();
     }
 }

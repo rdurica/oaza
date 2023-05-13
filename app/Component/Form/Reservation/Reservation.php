@@ -6,25 +6,48 @@ namespace App\Component\Form\Reservation;
 
 use App\Component\Component;
 use App\Component\ComponentRenderer;
-use App\Model\Service\ReservationService;
+use App\Model\Service\ReservationServiceOld;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
+use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Forms\Form as NetteForm;
 use Nette\Security\User;
+use Nette\Utils\ArrayHash;
 
+/**
+ * Reservation form.
+ *
+ * @package   App\Component\Form\Reservation
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
 class Reservation extends Component
 {
     use ComponentRenderer;
 
+
+    /**
+     * Constructor.
+     *
+     * @param Translator            $translator
+     * @param User                  $user
+     * @param ReservationServiceOld $reservationService
+     */
     public function __construct(
-        private readonly Translator $translator,
-        private readonly User $user,
-        private readonly ReservationService $reservationService,
-    ) {
+        private readonly Translator            $translator,
+        private readonly User                  $user,
+        private readonly ReservationServiceOld $reservationService,
+    )
+    {
     }
 
 
+    /**
+     * Create Reservation form.
+     *
+     * @return Form
+     */
     public function createComponentReservationForm(): Form
     {
         $form = new Form();
@@ -58,22 +81,33 @@ class Reservation extends Component
         $form->addSubmit('send', $this->translator->trans('button.reserve'))
             ->setHtmlAttribute('class', 'btn btn-info');
 
-        $form->onSuccess[] = [$this, 'formSucceeded'];
+        $form->onSuccess[] = [$this, 'onSuccess'];
 
         return $form;
     }
 
 
-    public function formSucceeded(Form $form, $values)
+    /**
+     * Process Reservation form.
+     *
+     * @param Form      $form
+     * @param ArrayHash $values
+     * @return void
+     * @throws AbortException
+     */
+    public function onSuccess(Form $form, ArrayHash $values): void
     {
         try {
             if ($this->user->isLoggedIn()) {
                 $values->user_id = $this->user->id;
             }
             $this->reservationService->insert($values);
-            $this->presenter->flashMessage($this->translator->trans('flash.reservationCreated'), FlashType::SUCCESS);
+            $this->getPresenter()->flashMessage(
+                $this->translator->trans('flash.reservationCreated'),
+                FlashType::SUCCESS
+            );
         } catch (\Exception $ex) {
-            $this->presenter->flashMessage($ex->getMessage(), FlashType::ERROR);
+            $this->getPresenter()->flashMessage($ex->getMessage(), FlashType::ERROR);
         }
         $this->getPresenter()->redirect('this');
     }

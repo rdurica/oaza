@@ -11,7 +11,7 @@ use Nette\Utils\ArrayHash;
 use Nette\Utils\DateTime;
 
 #[Deprecated("Will be replaced")]
-class CalendarService
+class CalendarServiceOld
 {
     public function __construct(
         private readonly ReservationManager $reservationManager,
@@ -50,7 +50,7 @@ class CalendarService
     private function fillEmptyDates($usedSlots)
     {
         $data = [];
-        $restrictions = $this->reservationManager->findRestrictionPairs();
+        $restrictions = $this->reservationManager->findReservationsPairs();
 
         foreach (\range(0, 99) as $i) { // 100 Days
             $calculationDate = new DateTime("now + {$i}days");

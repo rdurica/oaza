@@ -17,17 +17,34 @@ use Nette\Database\UniqueConstraintViolationException;
 use Nette\Forms\Form as NetteForm;
 use Nette\Utils\ArrayHash;
 
-class RegistrationForm extends Component
+/**
+ * Registration form.
+ *
+ * @package   App\Component\Form\Auth\Register
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
+class Registration extends Component
 {
     use OazaConfig;
 
+    /**
+     * Constructor.
+     *
+     * @param Translator    $translator
+     * @param Authenticator $authenticator
+     */
     public function __construct(
-        private readonly Translator $translator,
+        private readonly Translator    $translator,
         private readonly Authenticator $authenticator
-    ) {
+    )
+    {
     }
 
     /**
+     * Create Registration form.
+     *
+     * @return Form
      * @throws OazaException
      */
     protected function createComponentForm(): Form
@@ -66,15 +83,20 @@ class RegistrationForm extends Component
         $form->addCheckbox('licence', '')->setRequired();
         $form->addSubmit('save', $this->translator->trans('button.register'));
 
-        $form->onSuccess[] = [$this, 'onFormSuccess'];
+        $form->onSuccess[] = [$this, 'onSuccess'];
 
         return $form;
     }
 
     /**
+     * Process Registration form.
+     *
+     * @param Form      $form
+     * @param ArrayHash $values
+     * @return void
      * @throws AbortException
      */
-    #[NoReturn] public function onFormSuccess(Form $form, ArrayHash $values): void
+    public function onSuccess(Form $form, ArrayHash $values): void
     {
         try {
             $this->authenticator->createAccount(

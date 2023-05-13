@@ -5,25 +5,41 @@ declare(strict_types=1);
 namespace App\Modules\Admin\Component\Grid\Restriction;
 
 use App\Component\Component;
-use App\Model\Manager\RestrictionManager;
+use App\Modules\Admin\Manager\RestrictionManager;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
-use JetBrains\PhpStorm\NoReturn;
 use Nette\Application\AbortException;
 use Nette\Utils\Html;
 use Ublaboo\DataGrid\DataGrid;
 use Ublaboo\DataGrid\Exception\DataGridException;
 
+/**
+ * Restriction grid.
+ *
+ * @package   App\Modules\Admin\Component\Grid\Restriction
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
 class Restriction extends Component
 {
+    /**
+     * Constructor.
+     *
+     * @param RestrictionManager $restrictionManager
+     * @param Translator         $translator
+     */
     public function __construct(
         private readonly RestrictionManager $restrictionManager,
-        private readonly Translator $translator,
-    ) {
+        private readonly Translator         $translator,
+    )
+    {
     }
 
 
     /**
+     * Create restriction grid.
+     *
+     * @return DataGrid
      * @throws DataGridException
      */
     public function createComponentGrid(): DataGrid
@@ -46,11 +62,15 @@ class Restriction extends Component
     }
 
     /**
+     * Action delete restriction.
+     *
+     * @param int $id
+     * @return void
      * @throws AbortException
      */
-    #[NoReturn] public function handleDelete(int $id): void
+    public function handleDelete(int $id): void
     {
-        $this->restrictionManager->deleteById($id);
+        $this->restrictionManager->delete($id);
         $this->getPresenter()->flashMessage($this->translator->trans("flash.restrictionDeleted"), FlashType::SUCCESS);
         $this->getPresenter()->redirect('Restrictions:');
     }

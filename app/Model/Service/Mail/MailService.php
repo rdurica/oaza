@@ -8,16 +8,30 @@ use Latte\Engine;
 use Nette\Mail\Message;
 use Nette\Mail\SmtpMailer;
 
+/**
+ * Service which sends emails.
+ *
+ * @package   App\Model\Service\Mail
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
 class MailService
 {
     private Engine $latte;
     private SmtpMailer $mail;
 
 
+    /**
+     * Constructor.
+     *
+     * @param string $emailAdmin
+     * @param string $emailPassword
+     */
     public function __construct(
-        public readonly string $emailAdmin,
+        public readonly string        $emailAdmin,
         #[\SensitiveParameter] string $emailPassword
-    ) {
+    )
+    {
         $this->latte = new Engine();
         $this->mail = new SmtpMailer([
             'host' => 'smtp.zoner.com',
@@ -28,7 +42,10 @@ class MailService
 
 
     /**
-     * Email on reservation cancel
+     * Sends email of cancelled reservation.
+     *
+     * @param string $emailAddress
+     * @return void
      */
     public function reservationCanceled(string $emailAddress): void
     {
@@ -44,7 +61,11 @@ class MailService
 
 
     /**
-     * Send email from Contact us form
+     * Sends email to administrator from ContactUs form.
+     *
+     * @param string $from
+     * @param string $message
+     * @return void
      */
     public function contactUs(string $from, string $message): void
     {
@@ -64,16 +85,25 @@ class MailService
 
 
     /**
-     * Email on new reservation
+     * Sends email with reservation detail.
+     *
+     * @param string $email
+     * @param string $name
+     * @param string $date
+     * @param int    $child
+     * @param int    $count
+     * @param string $comment
+     * @return void
      */
     public function newReservation(
         string $email,
         string $name,
         string $date,
-        int $child,
-        int $count,
+        int    $child,
+        int    $count,
         string $comment
-    ): void {
+    ): void
+    {
         $mail = new Message();
         $mail->setFrom($this->emailAdmin)
             ->addTo($email)
@@ -95,7 +125,11 @@ class MailService
 
 
     /**
-     * Send email with new password
+     * Sends new temporary password.
+     *
+     * @param string $email
+     * @param string $newPassword
+     * @return void
      */
     public function sendNewPassword(string $email, string $newPassword): void
     {
@@ -114,7 +148,10 @@ class MailService
 
 
     /**
-     * Password changed email
+     * Confirmation email when user change password.
+     *
+     * @param string $email
+     * @return void
      */
     public function passwordChanged(string $email): void
     {

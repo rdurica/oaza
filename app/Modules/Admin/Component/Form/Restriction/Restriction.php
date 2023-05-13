@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Modules\Admin\Component\Form\Restriction;
 
 use App\Component\Component;
-use App\Model\Manager\NewsManager;
 use App\Model\Manager\ReservationManager;
-use App\Model\Manager\RestrictionManager;
+use App\Modules\Admin\Manager\NewsManager;
+use App\Modules\Admin\Manager\RestrictionManager;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use Nette\Application\AbortException;
@@ -15,18 +15,36 @@ use Nette\Application\UI\Form;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\DateTime;
 
+/**
+ * Restriction form.
+ *
+ * @package   App\Modules\Admin\Component\Form\Restriction
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
 class Restriction extends Component
 {
+
+    /**
+     * Constructor.
+     *
+     * @param RestrictionManager $restrictionManager
+     * @param NewsManager        $newsModel
+     * @param ReservationManager $reservationManager
+     * @param Translator         $translator
+     */
     public function __construct(
         private readonly RestrictionManager $restrictionManager,
-        private readonly NewsManager $newsModel,
+        private readonly NewsManager        $newsModel,
         private readonly ReservationManager $reservationManager,
-        public readonly Translator $translator
-    ) {
+        public readonly Translator          $translator
+    )
+    {
     }
 
     /**
-     * Restriction Form
+     * Create Restriction form
+     *
      * @return Form
      */
     public function createComponentForm(): Form
@@ -60,8 +78,12 @@ class Restriction extends Component
 
 
     /**
+     * Process Restriction form.
+     *
+     * @param Form      $form
+     * @param ArrayHash $values
+     * @return void
      * @throws AbortException
-     * @throws \Exception
      */
     public function onSuccess(Form $form, ArrayHash $values): void
     {
@@ -70,6 +92,9 @@ class Restriction extends Component
         $to = new DateTime($values->to);
 
         //Todo: Fix logic
+        // 1. create restriction
+        // 2. create new if requested
+        // 3. delete reservations & send mails
         try {
             $this->restrictionManager->create($from, $to, $values->message);
 
@@ -77,7 +102,7 @@ class Restriction extends Component
                 $this->newsModel->save(null, "Omezení provozu", $values->showNewsOnHomepage, $values->message, false);
             }
 
-            $this->reservationManager->insertRestricted($from, $to);
+            $this->reservationManager->blockDays($from, $to);
 
             $this->presenter->flashMessage('Omezení provozu přidáno', FlashType::SUCCESS);
         } catch (\Exception $exception) {

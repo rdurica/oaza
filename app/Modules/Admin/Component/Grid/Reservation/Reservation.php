@@ -7,7 +7,7 @@ namespace App\Modules\Admin\Component\Grid\Reservation;
 use App\Component\Component;
 use App\Exception\NotAllowedOperationException;
 use App\Model\Manager\ReservationManager;
-use App\Model\Service\ReservationService;
+use App\Model\Service\ReservationServiceOld;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use JetBrains\PhpStorm\NoReturn;
@@ -16,16 +16,35 @@ use Ublaboo\DataGrid\Column\Action\Confirmation\StringConfirmation;
 use Ublaboo\DataGrid\DataGrid;
 use Ublaboo\DataGrid\Exception\DataGridException;
 
+/**
+ * Reservation grid.
+ *
+ * @package   App\Modules\Admin\Component\Grid\Reservation
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
 class Reservation extends Component
 {
+
+    /**
+     * Constructor.
+     *
+     * @param ReservationManager    $reservationManager
+     * @param ReservationServiceOld $reservationService
+     * @param Translator            $translator
+     */
     public function __construct(
-        public readonly ReservationManager $reservationManager,
-        public readonly ReservationService $reservationService,
-        public readonly Translator $translator,
-    ) {
+        public readonly ReservationManager    $reservationManager,
+        public readonly ReservationServiceOld $reservationService,
+        public readonly Translator            $translator,
+    )
+    {
     }
 
     /**
+     * Create reservation grid.
+     *
+     * @return DataGrid
      * @throws DataGridException
      */
     public function createComponentGrid(): DataGrid
@@ -54,10 +73,14 @@ class Reservation extends Component
     }
 
     /**
-     * @throws NotAllowedOperationException
+     * Action cancel reservation.
+     *
+     * @param int $id
+     * @return void
      * @throws AbortException
+     * @throws NotAllowedOperationException
      */
-    #[NoReturn] public function handleCancelReservation(int $id): void
+    public function handleCancelReservation(int $id): void
     {
         $this->reservationService->delete($id, true);
         $this->getPresenter()->flashMessage($this->translator->trans("flash.reservationDeleted"), FlashType::SUCCESS);

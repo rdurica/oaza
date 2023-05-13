@@ -7,37 +7,51 @@ namespace App\Presenter;
 use App\Component\Form\Auth\ChangePassword\ChangePassword;
 use App\Component\Form\Auth\ChangePassword\IChangePassword;
 use App\Exception\NotAllowedOperationException;
-use App\Model\Service\CalendarService;
-use App\Model\Service\ReservationService;
+use App\Model\Service\CalendarServiceOld;
+use App\Model\Service\ReservationServiceOld;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use Nette\Application\AbortException;
 use Nette\DI\Attributes\Inject;
 
+/**
+ * UserPresenter
+ *
+ * @package   App\Presenter
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
 class UserPresenter extends SecurePresenter
 {
     #[Inject]
-    public CalendarService $calendarService;
+    public CalendarServiceOld $calendarService;
 
     #[Inject]
-    public ReservationService $reservationService;
+    public ReservationServiceOld $reservationService;
 
     #[Inject]
-    public IChangePassword $changePassword;
+    public IChangePassword $changePasswordForm;
 
     #[Inject]
     public Translator $translator;
 
 
+    /**
+     * Render calendar page.
+     *
+     * @return void
+     */
     public function renderCalendar(): void
     {
-        /** Calendar data */
         $this->getTemplate()->data = $this->calendarService->getUserData();
     }
 
 
     /**
-     * Handler for cancel reservation
+     * Cancel reservation.
+     *
+     * @param $reservationId
+     * @return void
      * @throws AbortException
      */
     public function handleCancelReservation($reservationId): void
@@ -54,10 +68,12 @@ class UserPresenter extends SecurePresenter
 
 
     /**
-     * Form
+     * Create change password form.
+     *
+     * @return ChangePassword
      */
-    public function createComponentChangePassword(): ChangePassword
+    public function createComponentChangePasswordForm(): ChangePassword
     {
-        return $this->changePassword->create();
+        return $this->changePasswordForm->create();
     }
 }

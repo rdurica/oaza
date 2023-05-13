@@ -3,33 +3,45 @@
 namespace App\Presenter;
 
 use Nette;
+use Nette\Application\BadRequestException;
+use Nette\Application\Request;
 
 /**
- * Class Error4xxPresenter
- * @package App\Presenters
+ * Error4xxPresenter
+ *
+ * @package   App\Presenter
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
  */
 class Error4xxPresenter extends Presenter
 {
+
     /**
-     * Startup
+     * Startup.
+     *
+     * @return void
+     * @throws Nette\Application\AbortException
+     * @throws BadRequestException
      */
     public function startup(): void
     {
         parent::startup();
-        if (!$this->getRequest()->isMethod(Nette\Application\Request::FORWARD)) {
+        if (!$this->getRequest()->isMethod(Request::FORWARD)) {
             $this->error();
         }
     }
 
 
     /**
-     * Render exception
-     * @param Nette\Application\BadRequestException $exception
+     * Render error page.
+     *
+     * @param BadRequestException $exception
+     * @return void
      */
-    public function renderDefault(Nette\Application\BadRequestException $exception)
+    public function renderDefault(BadRequestException $exception): void
     {
         // load template 403.latte or 404.latte or ... 4xx.latte
         $file = __DIR__ . "/templates/Error/{$exception->getCode()}.latte";
-        $this->template->setFile(is_file($file) ? $file : __DIR__ . '/templates/Error/4xx.latte');
+        $this->getTemplate()->setFile(is_file($file) ? $file : __DIR__ . '/templates/Error/4xx.latte');
     }
 }

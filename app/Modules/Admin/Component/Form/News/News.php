@@ -5,26 +5,44 @@ declare(strict_types=1);
 namespace App\Modules\Admin\Component\Form\News;
 
 use App\Component\Component;
-use App\Model\Manager\NewsManager;
+use App\Modules\Admin\Manager\NewsManager;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
+use Nette\Utils\ArrayHash;
 
 /**
- * Class CreateNews
- * @package Oaza\Form
+ * News form.
+ *
+ * @package   App\Modules\Admin\Component\Form\News
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
  */
 class News extends Component
 {
+
+    /**
+     * Constructor.
+     *
+     * @param int|null    $id
+     * @param Translator  $translator
+     * @param NewsManager $newsManager
+     */
     public function __construct(
-        public ?int $id,
-        private readonly Translator $translator,
+        public ?int                  $id,
+        private readonly Translator  $translator,
         private readonly NewsManager $newsManager
-    ) {
+    )
+    {
     }
 
 
+    /**
+     * Create News form.
+     *
+     * @return Form
+     */
     public function createComponentForm(): Form
     {
         $form = new Form();
@@ -41,7 +59,7 @@ class News extends Component
         $form->addSubmit('confirm', $this->translator->trans('button.save'))
             ->setHtmlAttribute('style', 'float: right;')
             ->setHtmlAttribute('class', 'btn btn-info');
-        $form->onSuccess[] = [$this, 'formOnSuccess'];
+        $form->onSuccess[] = [$this, 'onSuccess'];
 
         if ($this->id) {
             $data = $this->newsManager->getEntityTable()->where("id = ?", $this->id)->fetch();
@@ -53,9 +71,14 @@ class News extends Component
 
 
     /**
+     * Process News form.
+     *
+     * @param Form      $form
+     * @param ArrayHash $values
+     * @return void
      * @throws AbortException
      */
-    public function formOnSuccess(Form $form, $values): void
+    public function onSuccess(Form $form, ArrayHash $values): void
     {
         try {
             $this->newsManager->save((int)$values->id, $values->name, (bool)$values->show_homepage, $values->text);

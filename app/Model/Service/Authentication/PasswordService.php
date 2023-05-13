@@ -8,18 +8,37 @@ use App\Model\Manager\UserManager;
 use App\Model\Service\Mail\MailService;
 use Exception;
 
+/**
+ * PasswordService.
+ *
+ * @package   App\Model\Service\Authentication
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
 class PasswordService
 {
+
+    /**
+     * Constructor.
+     *
+     * @param MailService   $mailService
+     * @param UserManager   $userManager
+     * @param Authenticator $authenticator
+     */
     public function __construct(
-        private readonly MailService $mailService,
-        private readonly UserManager $userManager,
+        private readonly MailService   $mailService,
+        private readonly UserManager   $userManager,
         private readonly Authenticator $authenticator,
-    ) {
+    )
+    {
     }
 
 
     /**
-     * Reset password
+     * Create new temporary password and send it to user.
+     *
+     * @param string $email
+     * @return void
      * @throws Exception
      */
     public function resetPassword(string $email): void

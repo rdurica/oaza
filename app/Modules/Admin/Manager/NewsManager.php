@@ -2,13 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Manager;
+namespace App\Modules\Admin\Manager;
 
-use App\Model\Model;
+use App\Model\Manager;
 use Nette\Database\Table\Selection;
 
-final class NewsManager extends Model
+/**
+ * NewsManager.
+ *
+ * @package   App\Modules\Admin\Manager
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
+final class NewsManager extends Manager
 {
+
+    /** @inheritDoc */
     public function getEntityTable(): Selection
     {
         return $this->database->table("news");
@@ -16,7 +25,9 @@ final class NewsManager extends Model
 
 
     /**
-     * Show last new on default page
+     * Find last news which will be displayed on homepage.
+     *
+     * @return Selection
      */
     public function findHomepageNews(): Selection
     {
@@ -28,21 +39,26 @@ final class NewsManager extends Model
 
 
     /**
-     * Get posts for Paginator
+     * Delete news by id.
+     *
+     * @param int $id
+     * @return void
      */
-    public function getPaginatorPosts($length, $offset): Selection
-    {
-        return $this->getEntityTable()
-            ->where('show = 1')
-            ->order('id DESC')
-            ->limit($length, $offset);
-    }
-
-    public function deleteById(int $id): void
+    public function delete(int $id): void
     {
         $this->getEntityTable()->where("id = ?", $id)->delete();
     }
 
+    /**
+     * Create or update news.
+     *
+     * @param int|null $id
+     * @param string   $title
+     * @param bool     $isOnHomepage
+     * @param string   $text
+     * @param bool     $show
+     * @return void
+     */
     public function save(?int $id, string $title, bool $isOnHomepage, string $text, bool $show = true): void
     {
         if ($id) {
@@ -52,6 +68,16 @@ final class NewsManager extends Model
         }
     }
 
+    /**
+     * Create new news.
+     *
+     * @param string $title
+     * @param bool   $isOnHomepage
+     * @param string $text
+     * @param bool   $show
+     * @return void
+     * @see NewsManager::save()
+     */
     private function insert(string $title, bool $isOnHomepage, string $text, bool $show = true): void
     {
         $this->getEntityTable()->insert([
@@ -62,6 +88,17 @@ final class NewsManager extends Model
         ]);
     }
 
+    /**
+     * Update news by id.
+     *
+     * @param int    $id
+     * @param string $title
+     * @param bool   $isOnHomepage
+     * @param string $text
+     * @param bool   $show
+     * @return void
+     * @see NewsManager::save()
+     */
     private function update(int $id, string $title, bool $isOnHomepage, string $text, bool $show = true): void
     {
         $this->getEntityTable()->where("id = ?", $id)->update([

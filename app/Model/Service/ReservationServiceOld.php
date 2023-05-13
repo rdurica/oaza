@@ -7,11 +7,13 @@ namespace App\Model\Service;
 use App\Exception\NotAllowedOperationException;
 use App\Model\Manager\ReservationManager;
 use App\Model\Service\Mail\MailService;
+use JetBrains\PhpStorm\Deprecated;
 use Nette\Security\User;
 use Nette\Utils\ArrayHash;
 use Nette\Utils\DateTime;
 
-class ReservationService
+#[Deprecated("Will be replaced")]
+class ReservationServiceOld
 {
     public function __construct(
         private readonly ReservationManager $reservationManager,

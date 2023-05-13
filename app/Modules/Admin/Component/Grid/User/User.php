@@ -6,19 +6,37 @@ use App\Component\Component;
 use App\Model\Manager\UserManager;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
-use JetBrains\PhpStorm\NoReturn;
 use Nette\Application\AbortException;
 use Ublaboo\DataGrid\DataGrid;
 use Ublaboo\DataGrid\Exception\DataGridException;
 
+/**
+ * User grid.
+ *
+ * @package   App\Modules\Admin\Component\Grid\User
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
 class User extends Component
 {
-    public function __construct(public readonly UserManager $userManager, public readonly Translator $translator)
+    /**
+     * Constructor.
+     *
+     * @param UserManager $userManager
+     * @param Translator  $translator
+     */
+    public function __construct(
+        public readonly UserManager $userManager,
+        public readonly Translator  $translator
+    )
     {
     }
 
 
     /**
+     * Create user grid.
+     *
+     * @return DataGrid
      * @throws DataGridException
      */
     public function createComponentGrid(): DataGrid
@@ -53,10 +71,13 @@ class User extends Component
 
 
     /**
-     * Change enabled/disabled handler
+     * Action change status (Enabled/Disabled)
+     *
+     * @param int $id
+     * @return void
      * @throws AbortException
      */
-    #[NoReturn] public function handleStatus(int $id): void
+    public function handleStatus(int $id): void
     {
         $this->userManager->changeStatus($id);
         $this->getPresenter()->flashMessage($this->translator->trans("flash.userUpdated"), FlashType::INFO);
@@ -65,12 +86,15 @@ class User extends Component
 
 
     /**
-     * Delete user handler
+     * Action delete user
+     *
+     * @param int $id
+     * @return void
      * @throws AbortException
      */
-    #[NoReturn] public function handleDelete(int $id): void
+    public function handleDelete(int $id): void
     {
-        $this->userManager->deleteById($id);
+        $this->userManager->delete($id);
         $this->getPresenter()->flashMessage($this->translator->trans("flash.userDeleted"), FlashType::INFO);
         $this->getPresenter()->redirect('this');
     }

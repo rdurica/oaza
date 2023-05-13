@@ -1,37 +1,47 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Presenter;
 
 use App\Component\Form\Reservation\IReservation;
-use App\Model\Service\CalendarService;
+use App\Component\Form\Reservation\Reservation;
+use App\Model\Service\CalendarServiceOld;
+use Nette\DI\Attributes\Inject;
 
 /**
- * Class ReservationsPresenter
- * @package App\Presenters
+ * ReservationsPresenter
+ *
+ * @package   App\Presenter
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
  */
 class ReservationsPresenter extends Presenter
 {
-    /** @var  CalendarService @inject */
-    public $calendarService;
+    #[Inject]
+    public CalendarServiceOld $calendarService;
 
-    /** @var  IReservation @inject */
-    public $reservationForm;
+    #[Inject]
+    public IReservation $reservationForm;
 
 
     /**
-     * Render Create
+     * Create reservation page.
+     *
+     * @return void
      */
-    public function renderCreate()
+    public function renderCreate(): void
     {
-        $resault = $this->calendarService->getData();
-        $this->template->data = $resault;
+        $this->getTemplate()->data = $this->calendarService->getData();
     }
 
 
     /**
-     * @return \Oaza\Forms\Reservation
+     * Create reservation form.
+     *
+     * @return Reservation
      */
-    public function createComponentRezervationForm()
+    public function createComponentReservationForm(): Reservation
     {
         return $this->reservationForm->create();
     }

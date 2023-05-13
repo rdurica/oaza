@@ -14,14 +14,34 @@ use Nette\Application\UI\Form;
 use Nette\Forms\Form as NetteForm;
 use Nette\Utils\ArrayHash;
 
+/**
+ * ResetPassword form.
+ *
+ * @package   App\Component\Form\Auth\ResetPassword
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
 class ResetPassword extends Component
 {
+
+    /**
+     * Constructor.
+     *
+     * @param Translator      $translator
+     * @param PasswordService $passwordService
+     */
     public function __construct(
-        private readonly Translator $translator,
+        private readonly Translator      $translator,
         private readonly PasswordService $passwordService,
-    ) {
+    )
+    {
     }
 
+    /**
+     * Create ResetPassword form.
+     *
+     * @return Form
+     */
     public function createComponentForm(): Form
     {
         $form = new Form();
@@ -31,16 +51,21 @@ class ResetPassword extends Component
             ->setRequired()
             ->setHtmlAttribute('placeholder', $this->translator->trans('user.email'));
         $form->addSubmit('save', $this->translator->trans('button.resetPassword'));
-        $form->onSuccess[] = [$this, 'success'];
+        $form->onSuccess[] = [$this, 'onSuccess'];
 
         return $form;
     }
 
 
     /**
+     * Process ResetPassword form.
+     *
+     * @param Form      $form
+     * @param ArrayHash $values
+     * @return void
      * @throws AbortException
      */
-    #[NoReturn] public function success(Form $form, ArrayHash $values): void
+    public function onSuccess(Form $form, ArrayHash $values): void
     {
         try {
             $this->passwordService->resetPassword($values->email);

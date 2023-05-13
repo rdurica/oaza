@@ -6,13 +6,19 @@ use App\Util\FlashType;
 use Nette\Application\AbortException;
 
 /**
- * Class SecurePresenter
- * @package App\Presenters
+ * Base presenter for presenters with restricted access. User should be logged-in.
+ * All presenters with this condition must extend this one.
+ *
+ * @package   App\Presenter
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
  */
 abstract class SecurePresenter extends Presenter
 {
     /**
-     * Permissions check
+     * Checks if user is logged-in.
+     *
+     * @return void
      * @throws AbortException
      */
     public function startup(): void

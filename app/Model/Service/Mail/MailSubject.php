@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace App\Model\Service\Mail;
 
+/**
+ * Contains all subjects of emails which are send from system.
+ *
+ * @package   App\Model\Service\Mail
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
 final class MailSubject
 {
     public const RESERVATION_NEW = "Rezervace úspěšně vytvořena";

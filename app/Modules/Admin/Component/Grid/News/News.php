@@ -5,25 +5,42 @@ declare(strict_types=1);
 namespace App\Modules\Admin\Component\Grid\News;
 
 use App\Component\Component;
-use App\Model\Manager\NewsManager;
+use App\Modules\Admin\Manager\NewsManager;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
-use JetBrains\PhpStorm\NoReturn;
 use Nette\Application\AbortException;
 use Nette\Utils\Html;
 use Ublaboo\DataGrid\DataGrid;
 use Ublaboo\DataGrid\Exception\DataGridException;
 
+/**
+ * News grid.
+ *
+ * @package   App\Modules\Admin\Component\Grid\News
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
 class News extends Component
 {
+
+    /**
+     * Constructor.
+     *
+     * @param NewsManager $newsManager
+     * @param Translator  $translator
+     */
     public function __construct(
         public readonly NewsManager $newsManager,
-        public readonly Translator $translator
-    ) {
+        public readonly Translator  $translator
+    )
+    {
     }
 
 
     /**
+     * Create News grid.
+     *
+     * @return DataGrid
      * @throws DataGridException
      */
     public function createComponentGrid(): DataGrid
@@ -48,8 +65,9 @@ class News extends Component
     }
 
     /**
-     * Convert value to string Yes / No
-     * @param bool $value
+     * Convert int/bool value to string Yes / No
+     *
+     * @param bool|int $value
      * @return string
      */
     private function convertToYesNo(bool|int $value): string
@@ -58,12 +76,15 @@ class News extends Component
     }
 
     /**
-     * Delete user handler
+     * Delete action.
+     *
+     * @param int $id
+     * @return void
      * @throws AbortException
      */
-    #[NoReturn] public function handleDelete(int $id): void
+    public function handleDelete(int $id): void
     {
-        $this->newsManager->deleteById($id);
+        $this->newsManager->delete($id);
         $this->getPresenter()->flashMessage($this->translator->trans("flash.newsDeleted"), FlashType::SUCCESS);
         $this->getPresenter()->redirect("News:");
     }

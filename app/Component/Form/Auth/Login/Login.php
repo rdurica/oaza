@@ -17,16 +17,36 @@ use Nette\Security\AuthenticationException;
 use Nette\Security\User;
 use Nette\Utils\ArrayHash;
 
-class LoginForm extends Component
+/**
+ * Login form.
+ *
+ * @package   App\Component\Form\Auth\Login
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
+class Login extends Component
 {
+    /**
+     * Constructor.
+     *
+     * @param Translator    $translator
+     * @param User          $user
+     * @param Authenticator $authenticator
+     */
     public function __construct(
-        private readonly Translator $translator,
-        private readonly User $user,
+        private readonly Translator    $translator,
+        private readonly User          $user,
         private readonly Authenticator $authenticator
-    ) {
+    )
+    {
     }
 
 
+    /**
+     * Create Login form.
+     *
+     * @return Form
+     */
     public function createComponentLoginForm(): Form
     {
         $form = new Form();
@@ -40,17 +60,21 @@ class LoginForm extends Component
         $form->addSubmit("send", $this->translator->trans("button.login"))
             ->setHtmlAttribute("class", "btn btn-info");
 
-        $form->onSuccess[] = [$this, "onFormSuccess"];
+        $form->onSuccess[] = [$this, "onSuccess"];
 
         return $form;
     }
 
 
     /**
+     * Process Login form.
+     *
+     * @param Form      $form
+     * @param ArrayHash $values
+     * @return void
      * @throws AbortException
-     * @noinspection PhpUndefinedFieldInspection
      */
-    public function onFormSuccess(Form $form, ArrayHash $values): void
+    public function onSuccess(Form $form, ArrayHash $values): void
     {
         try {
             $identity = $this->authenticator->authenticate($values->email, $values->password);

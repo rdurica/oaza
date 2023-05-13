@@ -4,6 +4,13 @@ declare(strict_types=1);
 
 namespace App\Model\Entity;
 
+/**
+ * Class SodexoPass
+ *
+ * @package   App\Model\Entity
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
 class SodexoPass
 {
     /** @var string Root path for sodexo pass images */
@@ -12,9 +19,9 @@ class SodexoPass
     /** @var string Image extension */
     private const EXTENSION = ".jpg";
 
-
     /**
      * Constructor.
+     *
      * @param string $name
      */
     private function __construct(private readonly string $name)
@@ -22,7 +29,8 @@ class SodexoPass
     }
 
     /**
-     * Factory method
+     * Factory method for object creation.
+     *
      * @param string $name
      * @return self
      */
@@ -32,7 +40,8 @@ class SodexoPass
     }
 
     /**
-     * Get full path of image from app root dir
+     * Get full path of image from app root dir.
+     *
      * @return string
      */
     public function getFullPath(): string
@@ -41,7 +50,8 @@ class SodexoPass
     }
 
     /**
-     * Get image name without extension
+     * Get image name without extension.
+     *
      * @return string
      */
     public function getName(): string

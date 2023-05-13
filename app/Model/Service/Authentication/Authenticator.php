@@ -1,7 +1,5 @@
 <?php
 
-/** @noinspection PhpUndefinedFieldInspection */
-
 declare(strict_types=1);
 
 namespace App\Model\Service\Authentication;
@@ -14,15 +12,35 @@ use Nette\Security\Authenticator as NetteAuthenticator;
 use Nette\Security\Passwords;
 use Nette\Security\SimpleIdentity;
 
+/**
+ * Handle authentication and account & password management.
+ *
+ * @package   App\Model\Service\Authentication
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
 class Authenticator implements NetteAuthenticator
 {
-    public function __construct(private UserManager $userManager, private Passwords $passwords)
+    /**
+     * Constructor.
+     *
+     * @param UserManager $userManager
+     * @param Passwords   $passwords
+     */
+    public function __construct(
+        private readonly UserManager $userManager,
+        private readonly Passwords   $passwords
+    )
     {
     }
 
 
     /**
-     * Performs an authentication.
+     * Authenticate user.
+     *
+     * @param string $user
+     * @param string $password
+     * @return SimpleIdentity
      * @throws AuthenticationException
      * @throws UserBlockedException
      */
@@ -55,15 +73,21 @@ class Authenticator implements NetteAuthenticator
 
 
     /**
-     * Add new user
-     * @throws UniqueConstraintViolationException
+     * Create new account.
+     *
+     * @param string $email
+     * @param string $plainPassword
+     * @param string $name
+     * @param int    $telephone
+     * @return void
      */
     public function createAccount(
-        string $email,
+        string                        $email,
         #[\SensitiveParameter] string $plainPassword,
-        string $name,
-        int $telephone
-    ): void {
+        string                        $name,
+        int                           $telephone
+    ): void
+    {
         $this->userManager->getEntityTable()->insert([
             "email" => $email,
             "name" => $name,
@@ -73,7 +97,12 @@ class Authenticator implements NetteAuthenticator
     }
 
     /**
-     * Change password
+     * Change user password.
+     *
+     * @param int    $id
+     * @param string $password
+     * @param        $isTempPassword
+     * @return void
      */
     public function changePassword(int $id, #[\SensitiveParameter] string $password, $isTempPassword = false): void
     {

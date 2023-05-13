@@ -5,9 +5,16 @@ declare(strict_types=1);
 namespace App\Presenter;
 
 use App\Model\Entity\SodexoPass;
-use App\Model\Manager\NewsManager;
+use App\Modules\Admin\Manager\NewsManager;
 use Nette\DI\Attributes\Inject;
 
+/**
+ * InformationPresenter
+ *
+ * @package   App\Presenter
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
 class InformationPresenter extends Presenter
 {
     #[Inject]
@@ -15,7 +22,9 @@ class InformationPresenter extends Presenter
 
 
     /**
-     * Render Pass page
+     * Create sodexo pass.
+     *
+     * @return void
      */
     public function renderPass(): void
     {
@@ -30,14 +39,13 @@ class InformationPresenter extends Presenter
 
 
     /**
-     * Render news page
+     * Render last 10 news.
+     *
+     * @return void
      */
     public function renderNews(): void
     {
-        $dataSource = $this->newsManager->getPaginatorPosts(
-            10,
-            0
-        );
+        $dataSource = $this->newsManager->getEntityTable()->limit(10);
         $this->getTemplate()->news = $dataSource;
     }
 }

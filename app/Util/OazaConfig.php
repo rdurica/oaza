@@ -8,9 +8,21 @@ use App\Exception\OazaException;
 use Nette\Neon\Exception;
 use Nette\Neon\Neon;
 
+/**
+ * Work with oaza config file.
+ *
+ * @package   App\Util
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
 trait OazaConfig
 {
+
     /**
+     * Get exact value from config based on key.
+     *
+     * @param string $key
+     * @return mixed
      * @throws OazaException
      */
     protected function getConfig(string $key): mixed

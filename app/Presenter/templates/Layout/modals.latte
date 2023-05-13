@@ -52,7 +52,7 @@
                     <h4 class="modal-title decored-text" id="dateTimeCreation">Rezervace</h4>
                 </div>
                 {if isLinkCurrent('Reservations:create')}
-                    {control rezervationForm}
+                    {control reservationForm}
                 {/if}
             </div>
         </div>
@@ -94,7 +94,7 @@
                 </div>
                 <div class="modal-body">
                     <h5 style="font-size: medium">
-                        {control login}<br>
+                        {control loginForm}<br>
                         <a href="" type="submit" style="border-radius: 0%;" data-toggle="modal"
                            data-target="#registration"
                            id="register" onclick="modalClose()">Registrace</a>
@@ -116,7 +116,7 @@
                     <h4 class="modal-title">{_navbar.register}</h4>
                 </div>
                 <div class="modal-body">
-                    {control registration}
+                    {control registrationForm}
                 </div>
             </div>
         </div>
@@ -131,7 +131,7 @@
                     <h4 class="modal-title">{_navbar.ressetPassword}</h4>
                 </div>
                 <div class="modal-body">
-                    {control resetPassword}
+                    {control resetPasswordForm}
                 </div>
             </div>
         </div>

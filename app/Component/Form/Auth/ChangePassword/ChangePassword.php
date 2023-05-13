@@ -17,21 +17,39 @@ use Nette\Forms\Form as NetteForm;
 use Nette\Security\User;
 use Nette\Utils\ArrayHash;
 
+/**
+ * ChangePassword form.
+ *
+ * @package   App\Component\Form\Auth\ChangePassword
+ * @author    Robert Durica <r.durica@gmail.com>
+ * @copyright Copyright (c) 2023, Robert Durica
+ */
 class ChangePassword extends Component
 {
     use OazaConfig;
 
+    /**
+     * Constructor.
+     *
+     * @param Translator    $translator
+     * @param Authenticator $authenticator
+     * @param User          $user
+     * @param MailService   $mailService
+     */
     public function __construct(
-        private readonly Translator $translator,
+        private readonly Translator    $translator,
         private readonly Authenticator $authenticator,
-        private readonly User $user,
-        private readonly MailService $mailService
-    ) {
+        private readonly User          $user,
+        private readonly MailService   $mailService
+    )
+    {
     }
 
 
     /**
-     * Register Form
+     * Create ChangePassword form.
+     *
+     * @return Form
      * @throws OazaException
      */
     protected function createComponentForm(): Form
@@ -61,6 +79,11 @@ class ChangePassword extends Component
 
 
     /**
+     * Process ChangePassword form.
+     *
+     * @param Form      $form
+     * @param ArrayHash $values
+     * @return void
      * @throws AbortException
      */
     public function onSuccess(Form $form, ArrayHash $values): void
