@@ -49,17 +49,6 @@ final class UserManager extends Manager
         ]);
     }
 
-    /**
-     * Delete user by id
-     *
-     * @param int $userId
-     * @return void
-     */
-    public function delete(int $userId): void
-    {
-        $this->getEntityTable()->where('id = ?', $userId)->delete();
-    }
-
 
     /**
      * Change user status to enabled/disabled

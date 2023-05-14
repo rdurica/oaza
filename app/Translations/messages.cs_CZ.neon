@@ -42,6 +42,8 @@ button:
     send: "Odeslat"
     reserve: "Rezervovat"
     save: "Uložit"
+    edit: "Upravit"
+    delete: "Smazat"
 
 navbar:
     contact: "Kontaktujte nás"
@@ -66,10 +68,13 @@ navbar:
 
 forms:
     message: "Zpráva"
-    header: "Název"
+    news: "Novinka"
     showNews: "Zobrazit novinku"
     showNewsHomepage: "Zobrazit novinku na hlavní strance"
     qty: "Množství"
     childs: "Děti"
     comment: "Komentář"
+    isDraft: "Draft"
+    newsOnHomepage: "Na hlavní stránce"
+
 

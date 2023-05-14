@@ -43,25 +43,25 @@ class News extends Component
      */
     public function createComponentForm(): Form
     {
+        $yesNo = [0 => 'Ne', 1 => 'Ano'];
+
         $form = new Form();
         $form->addHidden("id");
-        $form->addText('name', $this->translator->trans('forms.header'))
-            ->setRequired()
-            ->setMaxLength(50)
-            ->setHtmlAttribute('class', 'form-control');
-        $form->addSelect('show_homepage', $this->translator->trans('forms.showNewsHomepage'), [0 => 'Ne', 1 => 'Ano'])
-            ->setHtmlAttribute('class', 'form-control')
-            ->setDefaultValue(true);
-        $form->addTextArea('text', 'Text')
+        $form->addTextArea('text', $this->translator->trans('forms.news'))
             ->setHtmlAttribute('id', 'textarea');
+        $form->addSelect('display_on_homepage', $this->translator->trans('forms.newsOnHomepage'), $yesNo)
+            ->setHtmlAttribute('class', 'form-control')
+            ->setDefaultValue(1);
+        $form->addSelect('is_draft', $this->translator->trans('forms.isDraft'), $yesNo)
+            ->setHtmlAttribute('class', 'form-control')
+            ->setDefaultValue(0);
         $form->addSubmit('confirm', $this->translator->trans('button.save'))
             ->setHtmlAttribute('style', 'float: right;')
             ->setHtmlAttribute('class', 'btn btn-info');
         $form->onSuccess[] = [$this, 'onSuccess'];
 
         if ($this->id) {
-            $data = $this->newsManager->getEntityTable()->where("id = ?", $this->id)->fetch();
-            $form->setDefaults($data);
+            $form->setDefaults($this->newsManager->find($this->id));
         }
 
         return $form;
@@ -79,7 +79,12 @@ class News extends Component
     public function onSuccess(Form $form, ArrayHash $values): void
     {
         try {
-            $this->newsManager->save((int)$values->id, $values->name, (bool)$values->show_homepage, $values->text);
+            $this->newsManager->save(
+                $values->text,
+                boolval($values->display_on_homepage),
+                boolval($values->is_draft),
+                intval($values->id)
+            );
             $this->getPresenter()->flashMessage($this->translator->trans('flash.newsSaved'), FlashType::SUCCESS);
         } catch (\Exception $exception) {
             $this->getPresenter()->flashMessage($this->translator->trans("flash.oops"), FlashType::ERROR);

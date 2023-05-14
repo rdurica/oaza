@@ -50,15 +50,4 @@ final class RestrictionManager extends Manager
     {
         return $this->getEntityTable()->where("to >= ?", new \DateTime());
     }
-
-    /**
-     * Delete restriction.
-     *
-     * @param int $id
-     * @return void
-     */
-    public function delete(int $id): void
-    {
-        $this->getEntityTable()->where('id = ?', $id)->delete();
-    }
 }

@@ -45,18 +45,18 @@ class News extends Component
     {
         $grid = new DataGrid();
         $grid->setDataSource($this->newsManager->getEntityTable()->order("id DESC"));
-        $grid->addColumnText('text', 'Text')
+        $grid->addColumnText('text', $this->translator->trans('forms.news'))
             ->setRenderer(renderer: function ($item): Html {
                 return Html::el()->setHtml($item->text);
             });
-        $grid->addColumnText('show_homepage', 'Na hlavni strance')
-            ->setRenderer(fn($item): string => $this->convertToYesNo($item->show_homepage));
-        $grid->addColumnText('show', 'Zobrazit')
-            ->setRenderer(fn($item): string => $this->convertToYesNo($item->show));
-        $grid->addAction('edit', 'Upravit', 'News:Edit')
-            ->setIcon('eye')
+        $grid->addColumnText('display_on_homepage', $this->translator->trans('forms.newsOnHomepage'))
+            ->setRenderer(fn($item): string => $this->convertToYesNo($item->display_on_homepage));
+        $grid->addColumnText('is_draft', $this->translator->trans('forms.isDraft'))
+            ->setRenderer(fn($item): string => $this->convertToYesNo($item->is_draft));
+        $grid->addAction('edit', $this->translator->trans('button.edit'), 'News:Edit')
+            ->setIcon('pencil')
             ->setClass('btn btn-info btn-xs');
-        $grid->addAction('delete', 'Smazat', 'delete!')
+        $grid->addAction('delete', $this->translator->trans('button.delete'), 'delete!')
             ->setIcon('trash')
             ->setClass('btn btn-danger btn-xs');
         return $grid;

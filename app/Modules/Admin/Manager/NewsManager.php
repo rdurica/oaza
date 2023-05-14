@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Admin\Manager;
 
 use App\Model\Manager;
+use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\Selection;
 
 /**
@@ -22,30 +23,18 @@ final class NewsManager extends Manager
         return $this->database->table("news");
     }
 
-
     /**
      * Find last news which will be displayed on homepage.
      *
-     * @return Selection
+     * @return ActiveRow|null
      */
-    public function findHomepageNews(): Selection
+    public function findHomepageNews(): ?ActiveRow
     {
         return $this->getEntityTable()
-            ->where('show_homepage = 1')
+            ->where('display_on_homepage = ?', 1)
+            ->where("is_draft = ?", 0)
             ->order('id DESC')
-            ->limit(1);
-    }
-
-
-    /**
-     * Delete news by id.
-     *
-     * @param int $id
-     * @return void
-     */
-    public function delete(int $id): void
-    {
-        $this->getEntityTable()->where("id = ?", $id)->delete();
+            ->fetch();
     }
 
     /**
@@ -55,35 +44,33 @@ final class NewsManager extends Manager
      * @param string   $title
      * @param bool     $isOnHomepage
      * @param string   $text
-     * @param bool     $show
+     * @param bool     $isDraft
      * @return void
      */
-    public function save(?int $id, string $title, bool $isOnHomepage, string $text, bool $show = true): void
+    public function save(string $text, bool $isOnHomepage = true, bool $isDraft = false, int $id = null): void
     {
         if ($id) {
-            $this->update($id, $title, $isOnHomepage, $text, $show);
+            $this->update($id, $text, $isOnHomepage, $isDraft);
         } else {
-            $this->insert($title, $isOnHomepage, $text, $show);
+            $this->insert($text, $isOnHomepage, $isDraft);
         }
     }
 
     /**
      * Create new news.
      *
-     * @param string $title
-     * @param bool   $isOnHomepage
      * @param string $text
-     * @param bool   $show
+     * @param bool   $isOnHomepage
+     * @param bool   $isDraft
      * @return void
      * @see NewsManager::save()
      */
-    private function insert(string $title, bool $isOnHomepage, string $text, bool $show = true): void
+    private function insert(string $text, bool $isOnHomepage, bool $isDraft): void
     {
         $this->getEntityTable()->insert([
-            "name" => $title,
             "text" => $text,
-            "show" => 1,
-            "show_homepage" => $isOnHomepage,
+            "is_draft" => $isDraft,
+            "display_on_homepage" => $isOnHomepage,
         ]);
     }
 
@@ -91,20 +78,18 @@ final class NewsManager extends Manager
      * Update news by id.
      *
      * @param int    $id
-     * @param string $title
-     * @param bool   $isOnHomepage
      * @param string $text
-     * @param bool   $show
+     * @param bool   $isOnHomepage
+     * @param bool   $isDraft
      * @return void
      * @see NewsManager::save()
      */
-    private function update(int $id, string $title, bool $isOnHomepage, string $text, bool $show = true): void
+    private function update(int $id, string $text, bool $isOnHomepage, bool $isDraft): void
     {
         $this->getEntityTable()->where("id = ?", $id)->update([
-            "name" => $title,
             "text" => $text,
-            "show" => $show,
-            "show_homepage" => $isOnHomepage,
+            "is_draft" => $isDraft,
+            "display_on_homepage" => $isOnHomepage,
         ]);
     }
 }

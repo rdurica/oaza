@@ -27,6 +27,6 @@ class HomepagePresenter extends Presenter
      */
     public function renderDefault(): void
     {
-        $this->getTemplate()->lastNews = $this->newsManager->findHomepageNews()->fetch();
+        $this->getTemplate()->lastNews = $this->newsManager->findHomepageNews();
     }
 }
