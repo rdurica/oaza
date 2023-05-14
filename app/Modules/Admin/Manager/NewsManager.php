@@ -47,12 +47,12 @@ final class NewsManager extends Manager
      * @param bool     $isDraft
      * @return void
      */
-    public function save(string $text, bool $isOnHomepage = true, bool $isDraft = false, int $id = null): void
+    public function save(string $text, bool $isOnHomepage = true, bool $isDraft = false, int $id = null): ?ActiveRow
     {
         if ($id) {
             $this->update($id, $text, $isOnHomepage, $isDraft);
         } else {
-            $this->insert($text, $isOnHomepage, $isDraft);
+            return $this->insert($text, $isOnHomepage, $isDraft);
         }
     }
 
@@ -65,9 +65,9 @@ final class NewsManager extends Manager
      * @return void
      * @see NewsManager::save()
      */
-    private function insert(string $text, bool $isOnHomepage, bool $isDraft): void
+    private function insert(string $text, bool $isOnHomepage, bool $isDraft): ?ActiveRow
     {
-        $this->getEntityTable()->insert([
+        return $this->getEntityTable()->insert([
             "text" => $text,
             "is_draft" => $isDraft,
             "display_on_homepage" => $isOnHomepage,

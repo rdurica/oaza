@@ -22,7 +22,8 @@ flash:
     userUpdated: "Uživatel aktualizován"
     newsDeleted: "Novinka smazana"
     newsSaved: "Novinka uložena"
-    restrictionDeleted: "Omezeni provozu smazano"
+    restrictionDeleted: "Omezení provozu smazáno"
+    restrictionAdded: "Omezení provozu přidáno"
     newsDoesNotExists: "Požadována novinka neexistuje. Prosím zkontrolujte správnost odkazu"
 
 user:
@@ -70,11 +71,14 @@ forms:
     message: "Zpráva"
     news: "Novinka"
     showNews: "Zobrazit novinku"
-    showNewsHomepage: "Zobrazit novinku na hlavní strance"
+    createNews: "Vytvořit novinku ?"
+    showNewsHomepage: "Zobrazit novinku na hlavní stránce ?"
     qty: "Množství"
     childs: "Děti"
     comment: "Komentář"
     isDraft: "Draft"
     newsOnHomepage: "Na hlavní stránce"
+    from: "Od"
+    to: "Do"
 
 

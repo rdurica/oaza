@@ -45,15 +45,11 @@ class Restriction extends Component
     {
         $grid = new DataGrid();
         $grid->setDataSource($this->restrictionManager->findAllActive());
-        $grid->addColumnDateTime('from', 'Od')
+        $grid->addColumnDateTime('from', $this->translator->trans('forms.from'))
             ->setFormat('j.n.Y', 'd. m. yyyy');
-        $grid->addColumnDateTime('to', 'Do')
+        $grid->addColumnDateTime('to', $this->translator->trans('forms.to'))
             ->setFormat('j.n.Y', 'd. m. yyyy');
-        $grid->addColumnText('message', 'Zpráva')
-            ->setRenderer(renderer: function ($item): Html {
-                return Html::el()->setHtml($item->message);
-            });
-        $grid->addAction('delete', 'Smazat', 'delete!')
+        $grid->addAction('delete', $this->translator->trans('button.delete'), 'delete!')
             ->setIcon('trash')
             ->setClass('btn btn-danger btn-xs');
 

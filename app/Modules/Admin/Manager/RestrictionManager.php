@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Modules\Admin\Manager;
 
 use App\Model\Manager;
+use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\Selection;
 use Nette\Utils\DateTime;
 
@@ -20,7 +21,7 @@ final class RestrictionManager extends Manager
     /** @inheritDoc */
     public function getEntityTable(): Selection
     {
-        return $this->database->table("restrictions");
+        return $this->database->table("restriction");
     }
 
     /**
@@ -28,15 +29,15 @@ final class RestrictionManager extends Manager
      *
      * @param DateTime $from
      * @param DateTime $to
-     * @param string   $message
-     * @return void
+     * @param int|null $newsId
+     * @return ActiveRow|null
      */
-    public function create(DateTime $from, DateTime $to, string $message): void
+    public function create(DateTime $from, DateTime $to, int $newsId = null): ?ActiveRow
     {
-        $this->getEntityTable()->insert([
+        return $this->getEntityTable()->insert([
             "from" => $from,
             "to" => $to,
-            "message" => $message,
+            "news_id" => $newsId,
         ]);
     }
 

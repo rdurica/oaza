@@ -8,6 +8,7 @@ use App\Component\Component;
 use App\Model\Manager\ReservationManager;
 use App\Modules\Admin\Manager\NewsManager;
 use App\Modules\Admin\Manager\RestrictionManager;
+use App\Modules\Admin\Service\RestrictionService;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use Nette\Application\AbortException;
@@ -27,15 +28,11 @@ class Restriction extends Component
     /**
      * Constructor.
      *
-     * @param RestrictionManager $restrictionManager
-     * @param NewsManager        $newsModel
-     * @param ReservationManager $reservationManager
+     * @param RestrictionService $restrictionService
      * @param Translator         $translator
      */
     public function __construct(
-        private readonly RestrictionManager $restrictionManager,
-        private readonly NewsManager $newsModel,
-        private readonly ReservationManager $reservationManager,
+        private readonly RestrictionService $restrictionService,
         public readonly Translator $translator
     ) {
     }
@@ -47,25 +44,21 @@ class Restriction extends Component
      */
     public function createComponentForm(): Form
     {
+        $yesNo = [0 => 'Ne', 1 => 'Ano'];
         $form = new Form();
 
-        $form->addText('from', 'Od')
-            ->setHtmlAttribute('class', 'form-control')
+        $form->addText('from', $this->translator->trans('forms.from'))
             ->setRequired(true);
-        $form->addText('to', 'Do')
-            ->setHtmlAttribute('class', 'form-control')
+        $form->addText('to', $this->translator->trans('forms.to'))
             ->setRequired(true);
-        $form->addTextArea('message', 'Zpráva')
+        $form->addTextArea('text', $this->translator->trans('forms.news'))
             ->setHtmlAttribute('class', 'form-control')
             ->setHtmlAttribute('id', 'textarea');
-        $form->addSelect(
-            'showNewsOnHomepage',
-            $this->translator->trans('forms.showNewsHomepage'),
-            [0 => 'Ne', 1 => 'Ano']
-        )
-            ->setHtmlAttribute('class', 'form-control')
-            ->setDefaultValue(0);
-        $form->addSubmit('save', 'Uložit')
+        $form->addSelect('createNews', $this->translator->trans('forms.createNews'), $yesNo)
+            ->setDefaultValue(1);
+        $form->addSelect('display_on_homepage', $this->translator->trans('forms.showNewsHomepage'), $yesNo)
+            ->setDefaultValue(1);
+        $form->addSubmit('save', $this->translator->trans('button.save'))
             ->setHtmlAttribute('style', 'float: right;')
             ->setHtmlAttribute('class', 'btn btn-info');
 
@@ -85,26 +78,19 @@ class Restriction extends Component
      */
     public function onSuccess(Form $form, ArrayHash $values): void
     {
-        $createNews = $values->showNewsOnHomepage;
-        $from = new DateTime($values->from);
-        $to = new DateTime($values->to);
-
-        //Todo: Fix logic
-        // 1. create restriction
-        // 2. create new if requested
-        // 3. delete reservations & send mails
         try {
-            $this->restrictionManager->create($from, $to, $values->message);
-
-            if ($createNews === true) {
-                $this->newsModel->save(null, "Omezení provozu", $values->showNewsOnHomepage, $values->message, false);
-            }
-
-            $this->reservationManager->blockDays($from, $to);
-
-            $this->presenter->flashMessage('Omezení provozu přidáno', FlashType::SUCCESS);
+            $from = new DateTime($values->from);
+            $to = new DateTime($values->to);
+            $this->restrictionService->createRestriction(
+                $from,
+                $to,
+                boolval($values->createNews),
+                boolval($values->display_on_homepage),
+                $values->text,
+            );
+            $this->presenter->flashMessage($this->translator->trans('flash.restrictionAdded'), FlashType::SUCCESS);
         } catch (\Exception $exception) {
-            $this->presenter->flashMessage($exception->getMessage(), FlashType::ERROR);
+            $this->presenter->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
         }
 
         $this->presenter->redirect('Restrictions:');

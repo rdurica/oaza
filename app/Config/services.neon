@@ -7,6 +7,7 @@ services:
     - App\Model\Service\Authentication\Authenticator
     - App\Model\Service\Authentication\PasswordService
     - App\Model\Service\ReservationServiceOld
+    - App\Modules\Admin\Service\RestrictionService
 
 ## Manager
     - App\Model\Manager\UserManager

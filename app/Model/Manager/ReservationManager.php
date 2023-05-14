@@ -20,7 +20,7 @@ final class ReservationManager extends Manager
     /** @inheritDoc */
     public function getEntityTable(): Selection
     {
-        return $this->database->table("rezervations");
+        return $this->database->table("reservation");
     }
 
     /**
@@ -117,11 +117,9 @@ final class ReservationManager extends Manager
         while ($i <= $dif->days) {
             $this->deleteRestrictedReservationByDate($reservationDate); // Do not block same day twice
             $this->getEntityTable()->insert([
-                "count" => 5,
-                "telefon" => "restriction",
-                "name" => "restriction",
-                "user_id" => 5,
-                "rezervationDate" => $reservationDate,
+                "reservation_date" => $reservationDate,
+                "quantity" => 5,
+                "is_restricted" => true
             ]);
 
             $reservationDate = $reservationDate->modifyClone('+1 day');
@@ -140,8 +138,8 @@ final class ReservationManager extends Manager
     {
         $format = $date->format('Y-m-d');
         $this->getEntityTable()
-            ->where('rezervationDate LIKE ?', $format . ' %')
-            ->where("name = ?", "restriction")
+            ->where('reservation_date LIKE ?', $format . ' %')
+            ->where("is_restricted = ?", true)
             ->delete();
     }
 }
