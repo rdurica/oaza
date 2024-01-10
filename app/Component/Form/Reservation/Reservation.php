@@ -8,6 +8,7 @@ use App\Component\Component;
 use App\Component\ComponentRenderer;
 use App\Model\Service\ReservationServiceOld;
 use App\Util\FlashType;
+use App\Util\OazaConfig;
 use Contributte\Translation\Translator;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
@@ -25,6 +26,7 @@ use Nette\Utils\ArrayHash;
 class Reservation extends Component
 {
     use ComponentRenderer;
+    use OazaConfig;
 
 
     /**
@@ -62,8 +64,13 @@ class Reservation extends Component
                 ->setRequired();
             $form->addText('telefon', $this->translator->trans('user.telephone'))
                 ->setHtmlAttribute('placeholder', $this->translator->trans('user.telephone'))
-                ->setHtmlAttribute('class', 'form-control')
-                ->setRequired();
+                ->setRequired()
+                ->addRule(
+                    $form::Pattern,
+                    $this->translator->trans('flash.telephoneFormat'),
+                    $this->getConfig("telephoneRegex")
+                )
+                ->setMaxLength(9);
         }
         $form->addSelect('count', $this->translator->trans('forms.qty'))
             ->setHtmlAttribute('class', 'form-control')
