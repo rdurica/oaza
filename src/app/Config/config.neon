@@ -1,0 +1,29 @@
+php:
+	date.timezone: Europe/Prague
+
+application:
+	errorPresenter: Error
+	mapping:
+		*: App\Presenter\*Presenter
+		Admin: App\Modules\Admin\Presenter\*Presenter
+
+session:
+	autoStart: always
+	expiration: 14 days
+
+extensions:
+	translation: Contributte\Translation\DI\TranslationExtension
+	recaptcha: Contributte\ReCaptcha\DI\ReCaptchaExtension
+
+translation:
+	locales:
+		default: cs
+	dirs:
+		- %appDir%/Translations
+
+recaptcha:
+	secretKey: %CAPTCHA_SECRET_KEY%
+	siteKey: %CAPTCHA_SITE_KEY%
+
+includes:
+	- services.neon

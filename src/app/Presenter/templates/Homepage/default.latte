@@ -1,0 +1,228 @@
+{block content}
+{translator messages}
+    <section id="hero-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <div class="block">
+                        <!-- Slider -->
+                        <section class="cd-intro">
+                            <h1 class="cd-headline slide">
+                                <span>Solná jeskyně OAZA</span><br>
+                                <p> příznivě působí na</p>
+                                <span class="cd-words-wrapper" style="font-size: small;">
+                                    <b class="is-visible">Záněty hrdla, hrtanu, nosu i chronického nachlazení</b>
+                                    <b>zápaly plic a průdušek</b>
+                                    <b>astma</b>
+                                    <b>alergie různého druhu</b>
+                                    <b>choroby srdce - poinfarktové stavy, nedostatečný krevní oběh, vysoký krevní tlak</b>
+                                    <b>nedostatečnou činnost štítné žlázy</b>
+                                    <b>kožní alergie, záněty kůže, lupénka, ekzémy, dermatitidy u dospělých i dětí</b>
+                                    <b>poruchy nervového systému - neuróza, deprese, stres, stavy únavy, vyčerpání</b>
+                                    <b>zrychlení metabolismu buněk</b>
+                                    <b>uklidnění dýchacích cest kuřáků</b>
+                                </span>
+                            </h1>
+                        </section> <!-- cd-intro -->
+                        <h2>
+                            Pobyt v jeskyni pomáhá osobám s
+                            dýchacími nebo kožními potížemi. Celkový dojem z pobytu umocní příjemná relaxační hudba a
+                            světelná terapie.
+                        </h2>
+                        <a class="btn-lines dark light btn btn-default btn-green"
+                                n:href="Reservations:create">Rezervovat místo</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {* Last news *}
+    <section id="feature" n:if="$lastNews">
+        <div class="container">
+            <div class="wow animate__animated animate__fadeInUp section-heading">
+                {$lastNews->text|noescape}
+            </div>
+        </div>
+    </section>
+
+    {* Medical effects*}
+    <section id="feature" class="works">
+        <div class="container">
+            <div class="section-heading wow animate__animated animate__fadeInUp" style="text-align: center;">
+                <h1 class="title">Vítáme vás</h1>
+                <p>
+                    Vítejte v naší solné jeskyni, kde můžete najít útočiště před každodenním shonem a stresy moderního
+                    života. Prožijte jedinečný zážitek plný uvolnění a regenerace, který nabízí naše jeskyně plná
+                    přírodní soli.
+                </p>
+                <p>Naše solná jeskyně je ideálním místem pro ty, kteří hledají relaxaci a regeneraci. Pokud trpíte
+                    respiračními problémy, alergiemi, atopickým ekzémem, stresovými poruchami nebo jinými zdravotními
+                    problémy, může být pobyt v solné jeskyni prospěšný pro vaše zdraví.
+
+                    V naší solné jeskyni se můžete zcela oddat relaxaci, vychutnat si příjemnou atmosféru a pozitivní
+                    účinky soli. Naše vybavení vám nabízí pohodlné lehátka a atmosféru naplněnou harmonickou hudbou</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-lg-4 col-xs-12">
+                    <div class="wow animate__animated animate__fadeInUp media">
+                        <div class="media-left">
+                            <div class="icon">
+                                <i class="fa fa-gift" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Dárek</h4>
+                            <p>Darujte pobyt v jeskyni jako dárek svým blízkým</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-xs-12">
+                    <div class="wow animate__animated animate__fadeInUp media">
+                        <div class="media-left">
+                            <div class="icon">
+                                <i class="fa fa-ticket" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Permanentky</h4>
+                            <p>Možnost zakoupení pernamentky za výhodnou cenu</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-xs-12">
+                    <div class="wow animate__animated animate__fadeInUp media">
+                        <div class="media-left">
+                            <div class="icon">
+                                <i class="fa fa-calendar"></i>
+                            </div>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Kalendář</h4>
+                            <p>Budete mít přehled o svých rezervacích</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-xs-12">
+                    <div class="wow animate__animated animate__fadeInUp media">
+                        <div class="media-left">
+                            <div class="icon">
+                                <i class="fa fa-volume-up"></i>
+                            </div>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Relaxační hudba</h4>
+                            <p>Pobyt v jeskyni vám bude zpřijemňovat relaxační hudba</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-xs-12">
+                    <div class="wow animate__animated animate__fadeInUp media">
+                        <div class="media-left">
+                            <div class="icon">
+                                <i class="fa fa-child"></i>
+                            </div>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Děti</h4>
+                            <p>Vhodné i pro děti</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4 col-xs-12">
+                    <div class="wow animate__animated animate__fadeInUp media">
+                        <div class="media-left">
+                            <div class="icon">
+                                <i class="fa fa-wheelchair"></i>
+                            </div>
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading">Bezbarierový přístup</h4>
+                            <p>Díky bezbarierovému přístupu si pobyt užijí i lidé s hendicapem</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {* Reservation system*}
+    <section id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    <div class="wow animate__animated animate__fadeInLeft block">
+                        <h2>
+                            Jednoduchá a rychlá rezervace
+                        </h2>
+                        <p>
+                            Rezervace míst v naší solné jeskyni je velmi jednoduchá. Stačí si vybrat datum a čas, který
+                            vám nejlépe vyhovuje, a poté zadat své kontaktní údaje. Po potvrzení rezervace vám na váš
+                            e-mail dorazí potvrzení a další důležité informace o vaší návštěvě. Věříme, že si u nás
+                            užijete příjemný relax a odpočinek, bez stresu z přeplněných prostor.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="wow animate__animated animate__fadeInRight block">
+                        <img src="{$basePath}/assets/images/layout/calendar.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {* User calendar*}
+    <section id="about" class="works">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-sm-6">
+                    <div class="wow animate__animated animate__fadeInLeft block">
+                        <img src="{$basePath}/assets/images/layout/my_calendar.png" alt="">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6">
+                    <div class="wow animate__animated animate__fadeInRight block">
+                        <h2>
+                            Osobní kalendář a správa rezervací
+                        </h2>
+                        <p>
+                            Jako registrovaný uživatel naší solné jeskyně získáte přístup k exkluzivnímu kalendáři,
+                            který vám umožní přehledně sledovat všechny vaše rezervace. S naším kalendářem budete mít
+                            vše pod kontrolou a vždy budete vědět, kdy se k nám můžete těšit na relaxaci a odpočinek.
+                            Navíc, v případě neočekávaných překážek, máte možnost svou rezervaci snadno zrušit a
+                            přesunout ji na jiný vhodný termín.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section id="call-to-action">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block">
+                        <h1 class="wow animate__animated animate__fadeInUp title" style="color: white;">Potřebujete
+                            pomoci? </h1>
+                        <p class="wow animate__animated animate__fadeInUp">
+                            Nejste si jisti, zda naše solná jeskyně splňuje vaše požadavky? Nebo máte nějaké dotazy
+                            ohledně našich služeb? Pokud ano, navštivte nejprve naši sekci <a n:href="Information:faq"
+                                    style="color: white; text-decoration: underline;">{_navbar.faq|upper}</a>, kde
+                            najdete odpovědi na nejčastější otázky.
+                            Pokud vám to nepomůže a potřebujete další informace
+                            nebo osobní poradenství, neváhejte nás kontaktovat.Použijte náš kontaktní formulář
+                            níže, aby ste nás mohli snadno kontaktovat.
+                        </p>
+                        <a n:href="Contact:"
+                           class="wow animate__animated animate__fadeInUp btn btn-default btn-contact"
+                        >{_navbar.contact}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{/translator}

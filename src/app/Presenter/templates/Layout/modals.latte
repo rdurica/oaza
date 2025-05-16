@@ -1,0 +1,178 @@
+{translator messages}
+    {*Update Reservation*}
+    <div id="updateReservation" class="modal" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title decored-text">Upravit rezervaci</h4>
+                </div>
+                <div class="modal-body">
+                    {if isLinkCurrent("Reservations:calendar")}
+                        {control updateRezervation}
+                    {/if}
+
+                </div>
+            </div>
+            <script src="" type="text/javascript"></script>
+        </div>
+    </div>
+
+    {*Show Reservation*}
+    <div id="showReservationUserCalendar" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title decored-text">Detail</h4>
+                </div>
+                <div class="modal-body">
+                    <strong class="decored-text">Rezervace: </strong><h4 id="rezervationDate"></h4>
+                    <strong class="decored-text">Počet míst: </strong><h4 id="totalCount"></h4>
+                    <strong class="decored-text">Děti: </strong><h4 id="child"></h4>
+                    <strong class="decored-text">Komentář: </strong><h4 id="comment"></h4>
+                    <input type="submit" name="send" class="btn btn-danger btn-sm fh5co-btn-icon"
+                           value="Zrušit rezervaci"
+                           id="cancelReservationButton">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    {*Create reservation*}
+    <div id="createRezervationModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title decored-text" id="dateTimeCreation">Rezervace</h4>
+                </div>
+                {if isLinkCurrent('Reservations:create')}
+                    {control reservationForm}
+                {/if}
+            </div>
+        </div>
+    </div>
+
+    {*Show reservation*}
+    <div id="modalReservation" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title decored-text" id="detailId"></h4>
+                </div>
+                <div class="modal-body">
+                    <strong class="decored-text">Rezervace: </strong><h4 id="rezervationDate"></h4>
+                    <strong class="decored-text">Jméno: </strong><h4 id="userName"></h4>
+                    <strong class="decored-text">Počet míst: </strong><h4 id="totalCount"></h4>
+                    <strong class="decored-text">Děti: </strong><h4 id="child"></h4>
+                    <strong class="decored-text">Tel.č: </strong><h4 id="telephone"></h4>
+                    <strong class="decored-text">E-mail: </strong><h4 id="email"></h4>
+                    <strong class="decored-text">Komentář: </strong><h4 id="comment"></h4>
+                    <input type="submit" name="send" class="btn btn-danger btn-sm fh5co-btn-icon"
+                           value="Zrušit rezervaci"
+                           id="cancelReservation">
+                </div>
+                {*{control rezervationForm}*}
+            </div>
+        </div>
+    </div>
+
+    {*LOGIN*}
+    <div class="modal fade" id="login" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">{_navbar.login}</h4>
+                </div>
+                <div class="modal-body">
+                    <h5 style="font-size: medium">
+                        {control loginForm}<br>
+                        <a href="" type="submit" style="border-radius: 0%;" data-toggle="modal"
+                           data-target="#registration"
+                           id="register" onclick="modalClose()">Registrace</a>
+                        <a href="" type="submit" style="border-radius: 0%;" data-toggle="modal"
+                           data-target="#ressetPassword"
+                           id="register" onclick="modalClose()" class="pull-right">Resetovat heslo</a>
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {*REGISTER*}
+    <div class="modal fade" id="registration" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">{_navbar.register}</h4>
+                </div>
+                <div class="modal-body">
+                    {control registrationForm}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {*PASSWORD RESSET*}
+    <div class="modal fade" id="ressetPassword" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">{_navbar.ressetPassword}</h4>
+                </div>
+                <div class="modal-body">
+                    {control resetPasswordForm}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {*Custom*}
+    <div id="customMessages" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title decored-text" id="customText"></h4>
+                </div>
+            </div>
+            <script src="" type="text/javascript"></script>
+        </div>
+    </div>
+{/translator}
+<script>
+    function modalClose() {
+        $('#login').modal('hide');
+    }
+</script>
+<style>
+    .modal {
+        text-align: center;
+    }
+
+    @media screen and (min-width: 768px) {
+        .modal:before {
+            display: inline-block;
+            vertical-align: middle;
+            content: " ";
+            height: 100%;
+        }
+    }
+
+    .modal-dialog {
+        display: inline-block;
+        text-align: left;
+        vertical-align: middle;
+    }
+</style>

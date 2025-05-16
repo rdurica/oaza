@@ -1,0 +1,70 @@
+{block content}
+    {include "../Layout/page_header.latte", title:"messages.navbar.myCalendar"}
+    <div id="calendar" style="padding: 50px;"></div>
+{/block}
+{block scripts}
+    {include parent}
+    <script>
+        function openEdit() {
+            $("#showReservationUserCalendar").modal('hide');
+            $("#updateReservation").modal()
+        }
+
+        function modalClose() {
+            $('#login').modal('hide');
+        }
+
+        function confirmAction(id) {
+            var myHandler = {link cancelReservation!};
+            $.nette.ajax({
+                url: myHandler,
+                type: 'GET',
+                data: {
+                    reservationId: id,
+                }
+            });
+
+        }
+        ;
+
+        $('#calendar').fullCalendar({
+                locale: 'cs',
+                defaultView: 'month',
+                contentHeight: 500,
+                timeFormat: 'H:mm',
+                header: {
+                    left: '',
+                    center: 'title',
+                    right: 'prev,next today'
+                },
+                editable: false,
+                events: {$data},
+                eventClick: function (calEvent, jsEvent, view) {
+                    $('#showReservationUserCalendar').modal('toggle');
+                    document.getElementById('totalCount').innerHTML = calEvent.totalCount;
+                    document.getElementById('rezervationDate').innerHTML = calEvent.rezervationDate;
+                    document.getElementById('child').innerHTML = calEvent.child;
+                    document.getElementById('comment').innerHTML = calEvent.comment;
+                    var cancelButton = document.getElementById('cancelReservationButton');
+                    var dateNow = new Date();
+                    var dateCalendar = new Date(calEvent.start._i);
+                    if (dateCalendar >= dateNow) {
+                        cancelButton.setAttribute('onclick', 'confirmAction(' + calEvent.id + ')');
+                    } else {
+                        cancelButton.setAttribute('onclick', 'confirmAction(0)');
+                    }
+
+                },
+
+                buttonText: {
+                    today: 'Dnes'
+                }
+                ,
+                weekMode: "variable"
+            }
+        );
+
+
+    </script>
+{/block}
+

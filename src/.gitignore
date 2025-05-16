@@ -1,0 +1,10 @@
+log
+temp
+vendor
+www/webtemp
+www/bower
+www/.htaccess
+*.DS*
+.idea
+build/dev/oaza.env
+build/dev/cert

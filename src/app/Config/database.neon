@@ -1,0 +1,9 @@
+parameters:
+
+
+database:
+	dsn: %env.DB_DNS%
+	user: %env.DB_USERNAME%
+	password: %env.DB_PASSWORD%
+	options:
+		lazy: yes

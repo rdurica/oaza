@@ -1,0 +1,17 @@
+.idea
+.git
+.github
+build/dev/cert
+build/dev/example.env
+build/prod/manifest-template.yaml
+manifest.yaml
+src/log
+src/temp
+upload
+.gitignore
+.dockerignore
+Dockerfile
+LICENSE
+compose.yaml
+makefile
+README.MD

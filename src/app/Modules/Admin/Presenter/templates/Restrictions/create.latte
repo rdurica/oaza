@@ -1,0 +1,20 @@
+{block content}
+    <div class="row">
+        <div class="col col-md-8 col-md-offset-2">
+            {control form}
+        </div>
+    </div>
+{/block}
+
+{block scripts}
+    {include parent}
+    <script>
+        $(function () {
+            $('.form-control').datetimepicker({
+                format: 'DD.MM.YYYY',
+                daysOfWeekDisabled: [0, 6],
+                minDate : moment().add(1,'days')
+            });
+        });
+    </script>
+{/block}

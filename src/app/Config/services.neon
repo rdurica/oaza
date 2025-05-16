@@ -1,0 +1,30 @@
+services:
+    - App\Router\RouterFactory::createRouter
+
+## Services
+    - App\Model\Service\Mail\MailService(%env.EMAIL_ADMIN%, %env.EMAIL_ADMIN_PASSWORD%)
+    - App\Model\Service\CalendarServiceOld
+    - App\Model\Service\Authentication\Authenticator
+    - App\Model\Service\Authentication\PasswordService
+    - App\Model\Service\ReservationServiceOld
+
+## Manager
+    - App\Model\Manager\UserManager
+    - App\Modules\Admin\Manager\NewsManager
+    - App\Modules\Admin\Manager\RestrictionManager
+    - App\Model\Manager\ReservationManager
+## Forms
+    - App\Component\Form\Auth\ChangePassword\IChangePassword
+    - App\Component\Form\ContactUs\IContactUs
+    - App\Modules\Admin\Component\Form\News\INews
+    - App\Component\Form\Auth\Login\ILogin
+    - App\Component\Form\Auth\Register\IRegistration
+    - App\Component\Form\Auth\ResetPassword\IResetPassword
+    - App\Modules\Admin\Component\Form\Restriction\IRestriction
+    - App\Component\Form\Reservation\IReservation
+
+## Grid
+    - App\Modules\Admin\Component\Grid\Reservation\IReservation
+    - App\Modules\Admin\Component\Grid\User\IUser
+    - App\Modules\Admin\Component\Grid\News\INews
+    - App\Modules\Admin\Component\Grid\Restriction\IRestriction
