@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Component\Form\Auth\Register;
 
@@ -10,6 +8,7 @@ use App\Model\Service\Authentication\Authenticator;
 use App\Util\FlashType;
 use App\Util\OazaConfig;
 use Contributte\Translation\Translator;
+use Exception;
 use JetBrains\PhpStorm\NoReturn;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
@@ -20,9 +19,8 @@ use Nette\Utils\ArrayHash;
 /**
  * Registration form.
  *
- * @package   App\Component\Form\Auth\Register
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class Registration extends Component
 {
@@ -37,11 +35,12 @@ class Registration extends Component
     public function __construct(
         private readonly Translator $translator,
         private readonly Authenticator $authenticator
-    ) {
+    )
+    {
     }
 
     /**
-     * Create Registration form.
+     * Form.
      *
      * @return Form
      * @throws OazaException
@@ -60,19 +59,11 @@ class Registration extends Component
         $form->addText('telephone', $this->translator->trans('user.telephone'))
             ->setHtmlAttribute('placeholder', $this->translator->trans('user.telephone'))
             ->setRequired()
-            ->addRule(
-                $form::Pattern,
-                $this->translator->trans('flash.telephoneFormat'),
-                $this->getConfig("telephoneRegex")
-            )
+            ->addRule($form::Pattern, $this->translator->trans('flash.telephoneFormat'), $this->getConfig('telephoneRegex'))
             ->setMaxLength(9);
         $form->addPassword('password', $this->translator->trans('user.password'))
             ->setHtmlAttribute('placeholder', $this->translator->trans('user.password'))
-            ->addRule(
-                NetteForm::MIN_LENGTH,
-                $this->translator->trans('flash.minPasswordLength'),
-                $this->getConfig("passwordLength")
-            )
+            ->addRule(NetteForm::MIN_LENGTH, $this->translator->trans('flash.minPasswordLength'), $this->getConfig('passwordLength'))
             ->setRequired();
         $form->addPassword('passwordVerify', $this->translator->trans('user.passwordVerify'))
             ->setHtmlAttribute('placeholder', $this->translator->trans('user.passwordVerify'))
@@ -88,36 +79,29 @@ class Registration extends Component
     }
 
     /**
-     * Process Registration form.
+     * Process form.
      *
      * @param Form      $form
      * @param ArrayHash $values
+     *
      * @return void
      * @throws AbortException
      */
+    #[NoReturn]
     public function onSuccess(Form $form, ArrayHash $values): void
     {
-        try {
-            $this->authenticator->createAccount(
-                $values->email,
-                $values->password,
-                $values->name,
-                (int)$values->telephone
-            );
-            $this->presenter->flashMessage(
-                $this->translator->trans('flash.registrationSuccessful'),
-                FlashType::SUCCESS
-            );
-        } catch (UniqueConstraintViolationException $e) {
-            $this->presenter->flashMessage(
-                $this->translator->trans('flash.emailAlreadyUsedException'),
-                FlashType::WARNING
-            );
-        } catch (\Exception $e) {
-            $this->presenter->flashMessage(
-                $this->translator->trans('flash.oops'),
-                FlashType::ERROR
-            );
+        try
+        {
+            $this->authenticator->createAccount($values->email, $values->password, $values->name, (int)$values->telephone);
+            $this->presenter->flashMessage($this->translator->trans('flash.registrationSuccessful'), FlashType::SUCCESS);
+        }
+        catch (UniqueConstraintViolationException)
+        {
+            $this->presenter->flashMessage($this->translator->trans('flash.emailAlreadyUsedException'), FlashType::WARNING);
+        }
+        catch (Exception)
+        {
+            $this->presenter->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
         }
 
         $this->presenter->redirect('Homepage:');

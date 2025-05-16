@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Component\Form\Auth\ResetPassword;
 
@@ -8,6 +6,7 @@ use App\Component\Component;
 use App\Model\Service\Authentication\PasswordService;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
+use Exception;
 use JetBrains\PhpStorm\NoReturn;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
@@ -15,11 +14,10 @@ use Nette\Forms\Form as NetteForm;
 use Nette\Utils\ArrayHash;
 
 /**
- * ResetPassword form.
+ * Reset password form.
  *
- * @package   App\Component\Form\Auth\ResetPassword
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class ResetPassword extends Component
 {
@@ -32,18 +30,18 @@ class ResetPassword extends Component
     public function __construct(
         private readonly Translator $translator,
         private readonly PasswordService $passwordService,
-    ) {
+    )
+    {
     }
 
     /**
-     * Create ResetPassword form.
+     * Form.
      *
      * @return Form
      */
     public function createComponentForm(): Form
     {
         $form = new Form();
-
         $form->addText('email', $this->translator->trans('user.email'))
             ->addRule(NetteForm::EMAIL)
             ->setRequired()
@@ -54,23 +52,28 @@ class ResetPassword extends Component
         return $form;
     }
 
-
     /**
-     * Process ResetPassword form.
+     * Process form.
      *
      * @param Form      $form
      * @param ArrayHash $values
+     *
      * @return void
      * @throws AbortException
      */
+    #[NoReturn]
     public function onSuccess(Form $form, ArrayHash $values): void
     {
-        try {
+        try
+        {
             $this->passwordService->resetPassword($values->email);
-        } catch (\Exception $e) {
-            // Ignore - not relevant
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.newPasswordSent'), FlashType::INFO);
         }
-        $this->getPresenter()->flashMessage($this->translator->trans('flash.newPasswordSent'), FlashType::INFO);
+        catch (Exception)
+        {
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.passwordChangeFailed'), FlashType::ERROR);
+        }
+
         $this->getPresenter()->redirect('this');
     }
 }

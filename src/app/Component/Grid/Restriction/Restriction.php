@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
-
-namespace App\Modules\Admin\Component\Grid\Restriction;
+namespace App\Component\Grid\Restriction;
 
 use App\Component\Component;
 use App\Modules\Admin\Manager\RestrictionManager;
@@ -16,9 +14,8 @@ use Ublaboo\DataGrid\Exception\DataGridException;
 /**
  * Restriction grid.
  *
- * @package   App\Modules\Admin\Component\Grid\Restriction
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class Restriction extends Component
 {
@@ -31,9 +28,9 @@ class Restriction extends Component
     public function __construct(
         private readonly RestrictionManager $restrictionManager,
         private readonly Translator $translator,
-    ) {
+    )
+    {
     }
-
 
     /**
      * Create restriction grid.
@@ -50,9 +47,7 @@ class Restriction extends Component
         $grid->addColumnDateTime('to', 'Do')
             ->setFormat('j.n.Y', 'd. m. yyyy');
         $grid->addColumnText('message', 'Zpráva')
-            ->setRenderer(renderer: function ($item): Html {
-                return Html::el()->setHtml($item->message);
-            });
+            ->setRenderer(renderer: fn($item): Html => Html::el()->setHtml($item->message));
         $grid->addAction('delete', 'Smazat', 'delete!')
             ->setIcon('trash')
             ->setClass('btn btn-danger btn-xs');
@@ -64,13 +59,14 @@ class Restriction extends Component
      * Action delete restriction.
      *
      * @param int $id
+     *
      * @return void
      * @throws AbortException
      */
     public function handleDelete(int $id): void
     {
         $this->restrictionManager->delete($id);
-        $this->getPresenter()->flashMessage($this->translator->trans("flash.restrictionDeleted"), FlashType::SUCCESS);
+        $this->getPresenter()->flashMessage($this->translator->trans('flash.restrictionDeleted'), FlashType::SUCCESS);
         $this->getPresenter()->redirect('Restrictions:');
     }
 }

@@ -1,30 +1,31 @@
 services:
-    - App\Router\RouterFactory::createRouter
+  - App\Router\RouterFactory::createRouter
 
-## Services
-    - App\Model\Service\Mail\MailService(%env.EMAIL_ADMIN%, %env.EMAIL_ADMIN_PASSWORD%)
-    - App\Model\Service\CalendarServiceOld
-    - App\Model\Service\Authentication\Authenticator
-    - App\Model\Service\Authentication\PasswordService
-    - App\Model\Service\ReservationServiceOld
+  # Services
+  - App\Model\Service\Authentication\Authenticator
+  - App\Model\Service\Authentication\PasswordService
+  - App\Model\Service\CalendarServiceOld
+  - App\Model\Service\Mail\MailService(%env.EMAIL_ADMIN%, %env.EMAIL_ADMIN_PASSWORD%)
+  - App\Model\Service\ReservationServiceOld
 
-## Manager
-    - App\Model\Manager\UserManager
-    - App\Modules\Admin\Manager\NewsManager
-    - App\Modules\Admin\Manager\RestrictionManager
-    - App\Model\Manager\ReservationManager
-## Forms
-    - App\Component\Form\Auth\ChangePassword\IChangePassword
-    - App\Component\Form\ContactUs\IContactUs
-    - App\Modules\Admin\Component\Form\News\INews
-    - App\Component\Form\Auth\Login\ILogin
-    - App\Component\Form\Auth\Register\IRegistration
-    - App\Component\Form\Auth\ResetPassword\IResetPassword
-    - App\Modules\Admin\Component\Form\Restriction\IRestriction
-    - App\Component\Form\Reservation\IReservation
+  # Manager
+  - App\Model\Manager\ReservationManager
+  - App\Model\Manager\UserManager
+  - App\Modules\Admin\Manager\NewsManager
+  - App\Modules\Admin\Manager\RestrictionManager
 
-## Grid
-    - App\Modules\Admin\Component\Grid\Reservation\IReservation
-    - App\Modules\Admin\Component\Grid\User\IUser
-    - App\Modules\Admin\Component\Grid\News\INews
-    - App\Modules\Admin\Component\Grid\Restriction\IRestriction
+  # Forms
+  - App\Component\Form\Auth\ChangePassword\ChangePasswordFormFactory
+  - App\Component\Form\Auth\Login\LoginFormFactory
+  - App\Component\Form\Auth\Register\RegistrationFormFactory
+  - App\Component\Form\Auth\ResetPassword\ResetPasswordFormFactory
+  - App\Component\Form\ContactUs\ContactUsFormFactory
+  - App\Component\Form\Reservation\ReservationFormFactory
+  - App\Component\Form\News\NewsFormFactory
+  - App\Component\Form\Restriction\RestrictionFormFactory
+
+  # Grid
+  - App\Component\Grid\News\NewsGridFactory
+  - App\Component\Grid\Reservation\ReservationGridFactory
+  - App\Component\Grid\Restriction\RestrictionGridFactory
+  - App\Component\Grid\User\UserGridFactory

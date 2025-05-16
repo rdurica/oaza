@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Admin\Presenter;
 
-use App\Modules\Admin\Component\Grid\User\IUser;
-use App\Modules\Admin\Component\Grid\User\User;
+use App\Component\Grid\User\UserGridFactory;
+use App\Component\Grid\User\User;
 use Nette\DI\Attributes\Inject;
 
 /**
@@ -18,7 +18,7 @@ use Nette\DI\Attributes\Inject;
 class UsersPresenter extends AdminPresenter
 {
     #[Inject]
-    public IUser $userGrid;
+    public UserGridFactory $userGrid;
 
     /**
      * Create user grid.

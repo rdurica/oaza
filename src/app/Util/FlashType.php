@@ -13,9 +13,9 @@ namespace App\Util;
  */
 class FlashType
 {
-    public const ERROR = "error";
-    public const WARNING = "warning";
-    public const SUCCESS = "success";
-    public const INFO = "info";
-    public const QUESTION = "question";
+    public const ERROR = 'error';
+    public const WARNING = 'warning';
+    public const SUCCESS = 'success';
+    public const INFO = 'info';
+    public const QUESTION = 'question';
 }

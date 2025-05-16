@@ -1,15 +1,14 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Component\Form\Reservation;
 
 use App\Component\Component;
-use App\Component\ComponentRenderer;
+use App\Exception\OazaException;
 use App\Model\Service\ReservationServiceOld;
 use App\Util\FlashType;
 use App\Util\OazaConfig;
 use Contributte\Translation\Translator;
+use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Forms\Form as NetteForm;
@@ -19,15 +18,12 @@ use Nette\Utils\ArrayHash;
 /**
  * Reservation form.
  *
- * @package   App\Component\Form\Reservation
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class Reservation extends Component
 {
-    use ComponentRenderer;
     use OazaConfig;
-
 
     /**
      * Constructor.
@@ -40,20 +36,22 @@ class Reservation extends Component
         private readonly Translator $translator,
         private readonly User $user,
         private readonly ReservationServiceOld $reservationService,
-    ) {
+    )
+    {
     }
 
-
     /**
-     * Create Reservation form.
+     * Form.
      *
      * @return Form
+     * @throws OazaException
      */
-    public function createComponentReservationForm(): Form
+    public function createComponentForm(): Form
     {
         $form = new Form();
         $form->addHidden('rezervationDate');
-        if (!$this->user->isLoggedIn()) {
+        if (!$this->user->isLoggedIn())
+        {
             $form->addText('email', $this->translator->trans('user.email'))
                 ->setHtmlAttribute('placeholder', $this->translator->trans('user.email'))
                 ->setHtmlAttribute('class', 'form-control')
@@ -68,20 +66,20 @@ class Reservation extends Component
                 ->addRule(
                     $form::Pattern,
                     $this->translator->trans('flash.telephoneFormat'),
-                    $this->getConfig("telephoneRegex")
+                    $this->getConfig('telephoneRegex')
                 )
                 ->setMaxLength(9);
         }
         $form->addSelect('count', $this->translator->trans('forms.qty'))
             ->setHtmlAttribute('class', 'form-control')
-            ->setItems([1, 2, 3, 4, 5,], false)
+            ->setItems([1, 2, 3, 4, 5], false)
             ->setRequired();
         $form->addSelect('child', $this->translator->trans('forms.childs'))
             ->setHtmlAttribute('class', 'form-control')
-            ->setItems(["Ne", "Ano",], true)
+            ->setItems(['Ne', 'Ano'])
             ->setRequired();
         $form->addTextArea('comment', $this->translator->trans('forms.comment'))
-            ->setHtmlAttribute("rows", 5)
+            ->setHtmlAttribute('rows', 5)
             ->setHtmlAttribute('class', 'form-control')
             ->setHtmlAttribute('placeholder', $this->translator->trans('forms.comment'));
         $form->addSubmit('send', $this->translator->trans('button.reserve'))
@@ -92,29 +90,32 @@ class Reservation extends Component
         return $form;
     }
 
-
     /**
-     * Process Reservation form.
+     * Process form.
      *
      * @param Form      $form
      * @param ArrayHash $values
+     *
      * @return void
      * @throws AbortException
      */
     public function onSuccess(Form $form, ArrayHash $values): void
     {
-        try {
-            if ($this->user->isLoggedIn()) {
+        try
+        {
+            if ($this->user->isLoggedIn())
+            {
                 $values->user_id = $this->user->id;
             }
+
             $this->reservationService->insert($values);
-            $this->getPresenter()->flashMessage(
-                $this->translator->trans('flash.reservationCreated'),
-                FlashType::SUCCESS
-            );
-        } catch (\Exception $ex) {
-            $this->getPresenter()->flashMessage($ex->getMessage(), FlashType::ERROR);
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.reservationCreated'), FlashType::SUCCESS);
         }
+        catch (Exception)
+        {
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
+        }
+
         $this->getPresenter()->redirect('this');
     }
 }

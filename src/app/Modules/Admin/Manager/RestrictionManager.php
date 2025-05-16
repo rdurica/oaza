@@ -20,7 +20,7 @@ final class RestrictionManager extends Manager
     /** @inheritDoc */
     public function getEntityTable(): Selection
     {
-        return $this->database->table("restrictions");
+        return $this->database->table('restrictions');
     }
 
     /**
@@ -34,9 +34,9 @@ final class RestrictionManager extends Manager
     public function create(DateTime $from, DateTime $to, string $message): void
     {
         $this->getEntityTable()->insert([
-            "from" => $from,
-            "to" => $to,
-            "message" => $message,
+            'from'    => $from,
+            'to'      => $to,
+            'message' => $message,
         ]);
     }
 
@@ -48,7 +48,7 @@ final class RestrictionManager extends Manager
      */
     public function findAllActive(): Selection
     {
-        return $this->getEntityTable()->where("to >= ?", new \DateTime());
+        return $this->getEntityTable()->where('to >= ?', new \DateTime());
     }
 
     /**

@@ -3,7 +3,7 @@
 namespace App\Presenter;
 
 use App\Component\Form\ContactUs\ContactUs;
-use App\Component\Form\ContactUs\IContactUs;
+use App\Component\Form\ContactUs\ContactUsFormFactory;
 use Nette\DI\Attributes\Inject;
 
 /**
@@ -16,7 +16,7 @@ use Nette\DI\Attributes\Inject;
 class ContactPresenter extends Presenter
 {
     #[Inject]
-    public IContactUs $contactUsForm;
+    public ContactUsFormFactory $contactUsForm;
 
     /**
      * Create contact-us form

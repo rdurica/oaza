@@ -1,6 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-namespace App\Modules\Admin\Component\Grid\User;
+namespace App\Component\Grid\User;
 
 use App\Component\Component;
 use App\Model\Manager\UserManager;
@@ -13,9 +13,8 @@ use Ublaboo\DataGrid\Exception\DataGridException;
 /**
  * User grid.
  *
- * @package   App\Modules\Admin\Component\Grid\User
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class User extends Component
 {
@@ -28,12 +27,12 @@ class User extends Component
     public function __construct(
         public readonly UserManager $userManager,
         public readonly Translator $translator
-    ) {
+    )
+    {
     }
 
-
     /**
-     * Create user grid.
+     * Create grid.
      *
      * @return DataGrid
      * @throws DataGridException
@@ -49,15 +48,9 @@ class User extends Component
         $grid->addColumnText('telephone', 'Telefon')
             ->setFilterText();
         $grid->addColumnDateTime('registered', 'Datum registrace')
-            ->setFormat('j. n. Y', 'd. m. yyyy');
+            ->setFormat('j. n. Y');
         $grid->addColumnText('enabled', 'Status')
-            ->setRenderer(function ($item): string {
-                if ($item->enabled === 1) {
-                    return 'Povolen';
-                } else {
-                    return 'Zakazan';
-                }
-            });
+            ->setRenderer(fn($item): string => ($item->enabled === 1) ? 'Povolen' : 'Zakazan');
         $grid->addAction('delete', 'Smazat', 'delete!')
             ->setIcon('trash')
             ->setClass('btn btn-danger btn-xs');
@@ -68,33 +61,33 @@ class User extends Component
         return $grid;
     }
 
-
     /**
      * Action change status (Enabled/Disabled)
      *
      * @param int $id
+     *
      * @return void
      * @throws AbortException
      */
     public function handleStatus(int $id): void
     {
         $this->userManager->changeStatus($id);
-        $this->getPresenter()->flashMessage($this->translator->trans("flash.userUpdated"), FlashType::INFO);
+        $this->getPresenter()->flashMessage($this->translator->trans('flash.userUpdated'), FlashType::INFO);
         $this->getPresenter()->redirect('this');
     }
-
 
     /**
      * Action delete user
      *
      * @param int $id
+     *
      * @return void
      * @throws AbortException
      */
     public function handleDelete(int $id): void
     {
         $this->userManager->delete($id);
-        $this->getPresenter()->flashMessage($this->translator->trans("flash.userDeleted"), FlashType::INFO);
+        $this->getPresenter()->flashMessage($this->translator->trans('flash.userDeleted'), FlashType::INFO);
         $this->getPresenter()->redirect('this');
     }
 }

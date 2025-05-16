@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Modules\Admin\Presenter;
 
-use App\Modules\Admin\Component\Grid\Reservation\IReservation;
-use App\Modules\Admin\Component\Grid\Reservation\Reservation;
+use App\Component\Grid\Reservation\ReservationGridFactory;
+use App\Component\Grid\Reservation\Reservation;
 use Nette\DI\Attributes\Inject;
 
 /**
@@ -18,7 +18,7 @@ use Nette\DI\Attributes\Inject;
 class ReservationsPresenter extends AdminPresenter
 {
     #[Inject]
-    public IReservation $reservationGrid;
+    public ReservationGridFactory $reservationGrid;
 
     /**
      * Create reservation grid.

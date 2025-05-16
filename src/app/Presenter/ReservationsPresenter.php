@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presenter;
 
-use App\Component\Form\Reservation\IReservation;
+use App\Component\Form\Reservation\ReservationFormFactory;
 use App\Component\Form\Reservation\Reservation;
 use App\Model\Service\CalendarServiceOld;
 use Nette\DI\Attributes\Inject;
@@ -22,7 +22,7 @@ class ReservationsPresenter extends Presenter
     public CalendarServiceOld $calendarService;
 
     #[Inject]
-    public IReservation $reservationForm;
+    public ReservationFormFactory $reservationForm;
 
 
     /**

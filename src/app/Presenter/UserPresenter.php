@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presenter;
 
 use App\Component\Form\Auth\ChangePassword\ChangePassword;
-use App\Component\Form\Auth\ChangePassword\IChangePassword;
+use App\Component\Form\Auth\ChangePassword\ChangePasswordFormFactory;
 use App\Exception\NotAllowedOperationException;
 use App\Model\Service\CalendarServiceOld;
 use App\Model\Service\ReservationServiceOld;
@@ -30,7 +30,7 @@ class UserPresenter extends SecurePresenter
     public ReservationServiceOld $reservationService;
 
     #[Inject]
-    public IChangePassword $changePasswordForm;
+    public ChangePasswordFormFactory $changePasswordForm;
 
     #[Inject]
     public Translator $translator;

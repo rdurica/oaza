@@ -1,13 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
-
-namespace App\Modules\Admin\Component\Grid\News;
+namespace App\Component\Grid\News;
 
 use App\Component\Component;
 use App\Modules\Admin\Manager\NewsManager;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
+use JetBrains\PhpStorm\NoReturn;
 use Nette\Application\AbortException;
 use Nette\Utils\Html;
 use Ublaboo\DataGrid\DataGrid;
@@ -16,9 +15,8 @@ use Ublaboo\DataGrid\Exception\DataGridException;
 /**
  * News grid.
  *
- * @package   App\Modules\Admin\Component\Grid\News
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class News extends Component
 {
@@ -31,12 +29,12 @@ class News extends Component
     public function __construct(
         public readonly NewsManager $newsManager,
         public readonly Translator $translator
-    ) {
+    )
+    {
     }
 
-
     /**
-     * Create News grid.
+     * Create news grid.
      *
      * @return DataGrid
      * @throws DataGridException
@@ -44,21 +42,20 @@ class News extends Component
     public function createComponentGrid(): DataGrid
     {
         $grid = new DataGrid();
-        $grid->setDataSource($this->newsManager->getEntityTable()->order("id DESC"));
+        $grid->setDataSource($this->newsManager->getEntityTable()->order('id DESC'));
         $grid->addColumnText('text', 'Text')
-            ->setRenderer(renderer: function ($item): Html {
-                return Html::el()->setHtml($item->text);
-            });
+            ->setRenderer(renderer: fn($item): Html => Html::el()->setHtml($item->text));
         $grid->addColumnText('show_homepage', 'Na hlavni strance')
-            ->setRenderer(fn($item): string => $this->convertToYesNo($item->show_homepage));
+            ->setRenderer(fn($item): string => News::convertToYesNo($item->show_homepage));
         $grid->addColumnText('show', 'Zobrazit')
-            ->setRenderer(fn($item): string => $this->convertToYesNo($item->show));
+            ->setRenderer(fn($item): string => News::convertToYesNo($item->show));
         $grid->addAction('edit', 'Upravit', 'News:Edit')
             ->setIcon('eye')
             ->setClass('btn btn-info btn-xs');
         $grid->addAction('delete', 'Smazat', 'delete!')
             ->setIcon('trash')
             ->setClass('btn btn-danger btn-xs');
+
         return $grid;
     }
 
@@ -66,24 +63,27 @@ class News extends Component
      * Convert int/bool value to string Yes / No
      *
      * @param bool|int $value
+     *
      * @return string
      */
-    private function convertToYesNo(bool|int $value): string
+    private static function convertToYesNo(bool|int $value): string
     {
-        return $value ? "Ano" : "Ne";
+        return $value ? 'Ano' : 'Ne';
     }
 
     /**
      * Delete action.
      *
      * @param int $id
+     *
      * @return void
      * @throws AbortException
      */
+    #[NoReturn]
     public function handleDelete(int $id): void
     {
         $this->newsManager->delete($id);
-        $this->getPresenter()->flashMessage($this->translator->trans("flash.newsDeleted"), FlashType::SUCCESS);
-        $this->getPresenter()->redirect("News:");
+        $this->getPresenter()->flashMessage($this->translator->trans('flash.newsDeleted'), FlashType::SUCCESS);
+        $this->getPresenter()->redirect('News:');
     }
 }

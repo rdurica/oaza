@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Modules\Admin\Presenter;
 
-use App\Modules\Admin\Component\Form\News\INews as NewsFormFactory;
-use App\Modules\Admin\Component\Form\News\News as NewsForm;
-use App\Modules\Admin\Component\Grid\News\INews as NewsGridFactory;
-use App\Modules\Admin\Component\Grid\News\News as NewsGrid;
+use App\Component\Form\News\News as NewsForm;
+use App\Component\Form\News\NewsFormFactory as NewsFormFactory;
+use App\Component\Grid\News\News;
+use App\Component\Grid\News\NewsGridFactory as NewsGridFactory;
 use App\Modules\Admin\Manager\NewsManager;
 use App\Util\FlashType;
 use Nette\Application\AbortException;
@@ -36,9 +36,9 @@ class NewsPresenter extends AdminPresenter
     /**
      * Create news grid.
      *
-     * @return NewsGrid
+     * @return News
      */
-    public function createComponentGrid(): NewsGrid
+    public function createComponentGrid(): News
     {
         return $this->newsGrid->create();
     }

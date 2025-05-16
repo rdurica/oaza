@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Component\Form\Auth\ChangePassword;
 
@@ -11,6 +9,8 @@ use App\Model\Service\Mail\MailService;
 use App\Util\FlashType;
 use App\Util\OazaConfig;
 use Contributte\Translation\Translator;
+use Exception;
+use JetBrains\PhpStorm\NoReturn;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Forms\Form as NetteForm;
@@ -20,9 +20,8 @@ use Nette\Utils\ArrayHash;
 /**
  * ChangePassword form.
  *
- * @package   App\Component\Form\Auth\ChangePassword
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class ChangePassword extends Component
 {
@@ -41,9 +40,9 @@ class ChangePassword extends Component
         private readonly Authenticator $authenticator,
         private readonly User $user,
         private readonly MailService $mailService
-    ) {
+    )
+    {
     }
-
 
     /**
      * Create ChangePassword form.
@@ -55,11 +54,7 @@ class ChangePassword extends Component
     {
         $form = new Form();
         $form->addPassword('password', $this->translator->trans('user.newPassword'))
-            ->addRule(
-                NetteForm::MIN_LENGTH,
-                $this->translator->trans('flash.minPasswordLength'),
-                $this->getConfig("passwordLength")
-            )
+            ->addRule(NetteForm::MIN_LENGTH, $this->translator->trans('flash.minPasswordLength'), $this->getConfig('passwordLength'))
             ->setRequired()
             ->setHtmlAttribute('class', 'form-control')
             ->setHtmlAttribute('placeholder', $this->translator->trans('user.newPassword'));
@@ -76,24 +71,30 @@ class ChangePassword extends Component
         return $form;
     }
 
-
     /**
      * Process ChangePassword form.
      *
      * @param Form      $form
      * @param ArrayHash $values
+     *
      * @return void
      * @throws AbortException
      */
+    #[NoReturn]
     public function onSuccess(Form $form, ArrayHash $values): void
     {
-        try {
+        try
+        {
             $this->authenticator->changePassword($this->user->id, $values->password);
             $this->mailService->passwordChanged($this->user->identity->email);
+
             $this->presenter->flashMessage($this->translator->trans('flash.passwordChanged'), FlashType::SUCCESS);
-        } catch (\Exception $e) {
-            $this->presenter->flashMessage($this->translator->trans("flash.oops"), FlashType::ERROR);
         }
+        catch (Exception)
+        {
+            $this->presenter->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
+        }
+
         $this->user->logout(true);
         $this->getPresenter()->redirect('Homepage:');
     }

@@ -1,13 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
-
-namespace App\Modules\Admin\Component\Form\News;
+namespace App\Component\Form\News;
 
 use App\Component\Component;
 use App\Modules\Admin\Manager\NewsManager;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
+use Exception;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Utils\ArrayHash;
@@ -15,9 +14,8 @@ use Nette\Utils\ArrayHash;
 /**
  * News form.
  *
- * @package   App\Modules\Admin\Component\Form\News
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class News extends Component
 {
@@ -32,19 +30,19 @@ class News extends Component
         public ?int $id,
         private readonly Translator $translator,
         private readonly NewsManager $newsManager
-    ) {
+    )
+    {
     }
 
-
     /**
-     * Create News form.
+     * Create form.
      *
      * @return Form
      */
     public function createComponentForm(): Form
     {
         $form = new Form();
-        $form->addHidden("id");
+        $form->addHidden('id');
         $form->addText('name', $this->translator->trans('forms.header'))
             ->setRequired()
             ->setMaxLength(50)
@@ -59,31 +57,36 @@ class News extends Component
             ->setHtmlAttribute('class', 'btn btn-info');
         $form->onSuccess[] = [$this, 'onSuccess'];
 
-        if ($this->id) {
-            $data = $this->newsManager->getEntityTable()->where("id = ?", $this->id)->fetch();
+        if ($this->id)
+        {
+            $data = $this->newsManager->getEntityTable()->where('id = ?', $this->id)->fetch();
             $form->setDefaults($data);
         }
 
         return $form;
     }
 
-
     /**
      * Process News form.
      *
      * @param Form      $form
      * @param ArrayHash $values
+     *
      * @return void
      * @throws AbortException
      */
     public function onSuccess(Form $form, ArrayHash $values): void
     {
-        try {
+        try
+        {
             $this->newsManager->save((int)$values->id, $values->name, (bool)$values->show_homepage, $values->text);
             $this->getPresenter()->flashMessage($this->translator->trans('flash.newsSaved'), FlashType::SUCCESS);
-        } catch (\Exception $exception) {
-            $this->getPresenter()->flashMessage($this->translator->trans("flash.oops"), FlashType::ERROR);
         }
+        catch (Exception)
+        {
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
+        }
+
         $this->getPresenter()->redirect('News:');
     }
 }

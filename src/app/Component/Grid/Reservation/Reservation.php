@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types=1);
 
-declare(strict_types=1);
-
-namespace App\Modules\Admin\Component\Grid\Reservation;
+namespace App\Component\Grid\Reservation;
 
 use App\Component\Component;
 use App\Exception\NotAllowedOperationException;
@@ -10,7 +8,6 @@ use App\Model\Manager\ReservationManager;
 use App\Model\Service\ReservationServiceOld;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
-use JetBrains\PhpStorm\NoReturn;
 use Nette\Application\AbortException;
 use Ublaboo\DataGrid\Column\Action\Confirmation\StringConfirmation;
 use Ublaboo\DataGrid\DataGrid;
@@ -19,9 +16,8 @@ use Ublaboo\DataGrid\Exception\DataGridException;
 /**
  * Reservation grid.
  *
- * @package   App\Modules\Admin\Component\Grid\Reservation
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class Reservation extends Component
 {
@@ -36,11 +32,12 @@ class Reservation extends Component
         public readonly ReservationManager $reservationManager,
         public readonly ReservationServiceOld $reservationService,
         public readonly Translator $translator,
-    ) {
+    )
+    {
     }
 
     /**
-     * Create reservation grid.
+     * Create grid.
      *
      * @return DataGrid
      * @throws DataGridException
@@ -58,14 +55,12 @@ class Reservation extends Component
             ->setFilterText();
         $grid->addColumnText('count', 'Pocet mist');
         $grid->addColumnDateTime('reservationDate', 'Rezervace')
-            ->setFormat('j.n.Y H:i', 'd. m. yyyy');
+            ->setFormat('j.n.Y H:i');
         $grid->addColumnText('children', 'Děti');
         $grid->addAction('cancel', 'Zrusit', 'cancelReservation!')
             ->setIcon('trash')
             ->setClass('btn btn-danger btn-xs')
-            ->setConfirmation(
-                new StringConfirmation('Naozaj chcete zrusit rezervaci %s??', 'reservationDate')
-            );
+            ->setConfirmation(new StringConfirmation('Naozaj chcete zrusit rezervaci %s??', 'reservationDate'));
 
         return $grid;
     }
@@ -74,6 +69,7 @@ class Reservation extends Component
      * Action cancel reservation.
      *
      * @param int $id
+     *
      * @return void
      * @throws AbortException
      * @throws NotAllowedOperationException
@@ -81,7 +77,7 @@ class Reservation extends Component
     public function handleCancelReservation(int $id): void
     {
         $this->reservationService->delete($id, true);
-        $this->getPresenter()->flashMessage($this->translator->trans("flash.reservationDeleted"), FlashType::SUCCESS);
+        $this->getPresenter()->flashMessage($this->translator->trans('flash.reservationDeleted'), FlashType::SUCCESS);
         $this->getPresenter()->redirect('Reservations:');
     }
 }

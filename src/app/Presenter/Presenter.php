@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Presenter;
 
-use App\Component\Form\Auth\Login\ILogin;
+use App\Component\Form\Auth\Login\LoginFormFactory;
 use App\Component\Form\Auth\Login\Login;
-use App\Component\Form\Auth\Register\IRegistration;
+use App\Component\Form\Auth\Register\RegistrationFormFactory;
 use App\Component\Form\Auth\Register\Registration;
-use App\Component\Form\Auth\ResetPassword\IResetPassword;
+use App\Component\Form\Auth\ResetPassword\ResetPasswordFormFactory;
 use App\Component\Form\Auth\ResetPassword\ResetPassword;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
@@ -26,13 +26,13 @@ use Nette\DI\Attributes\Inject;
 abstract class Presenter extends NettePresenter
 {
     #[Inject]
-    public ILogin $loginForm;
+    public LoginFormFactory $loginForm;
 
     #[Inject]
-    public IRegistration $registrationForm;
+    public RegistrationFormFactory $registrationForm;
 
     #[Inject]
-    public IResetPassword $resetPasswordForm;
+    public ResetPasswordFormFactory $resetPasswordForm;
 
     #[Inject]
     public Translator $translator;

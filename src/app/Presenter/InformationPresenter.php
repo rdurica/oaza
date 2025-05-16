@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presenter;
 
@@ -29,11 +27,11 @@ class InformationPresenter extends Presenter
     public function renderPass(): void
     {
         $this->getTemplate()->sodexo = [
-            SodexoPass::create("Bonus"),
-            SodexoPass::create("Darkovy"),
-            SodexoPass::create("Flexi"),
-            SodexoPass::create("Fokus"),
-            SodexoPass::create("Relax"),
+            SodexoPass::create('Bonus'),
+            SodexoPass::create('Darkovy'),
+            SodexoPass::create('Flexi'),
+            SodexoPass::create('Fokus'),
+            SodexoPass::create('Relax'),
         ];
     }
 
@@ -45,7 +43,7 @@ class InformationPresenter extends Presenter
      */
     public function renderNews(): void
     {
-        $dataSource = $this->newsManager->getEntityTable()->limit(10);
+        $dataSource = $this->newsManager->getEntityTable()->order('id DESC')->limit(10);
         $this->getTemplate()->news = $dataSource;
     }
 }

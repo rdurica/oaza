@@ -19,9 +19,8 @@ final class NewsManager extends Manager
     /** @inheritDoc */
     public function getEntityTable(): Selection
     {
-        return $this->database->table("news");
+        return $this->database->table('news');
     }
-
 
     /**
      * Find last news which will be displayed on homepage.
@@ -36,16 +35,16 @@ final class NewsManager extends Manager
             ->limit(1);
     }
 
-
     /**
      * Delete news by id.
      *
      * @param int $id
+     *
      * @return void
      */
     public function delete(int $id): void
     {
-        $this->getEntityTable()->where("id = ?", $id)->delete();
+        $this->getEntityTable()->where('id = ?', $id)->delete();
     }
 
     /**
@@ -56,6 +55,7 @@ final class NewsManager extends Manager
      * @param bool     $isOnHomepage
      * @param string   $text
      * @param bool     $show
+     *
      * @return void
      */
     public function save(?int $id, string $title, bool $isOnHomepage, string $text, bool $show = true): void
@@ -74,16 +74,17 @@ final class NewsManager extends Manager
      * @param bool   $isOnHomepage
      * @param string $text
      * @param bool   $show
+     *
      * @return void
      * @see NewsManager::save()
      */
     private function insert(string $title, bool $isOnHomepage, string $text, bool $show = true): void
     {
         $this->getEntityTable()->insert([
-            "name" => $title,
-            "text" => $text,
-            "show" => 1,
-            "show_homepage" => $isOnHomepage,
+            'name'          => $title,
+            'text'          => $text,
+            'show'          => 1,
+            'show_homepage' => $isOnHomepage,
         ]);
     }
 
@@ -95,16 +96,17 @@ final class NewsManager extends Manager
      * @param bool   $isOnHomepage
      * @param string $text
      * @param bool   $show
+     *
      * @return void
      * @see NewsManager::save()
      */
     private function update(int $id, string $title, bool $isOnHomepage, string $text, bool $show = true): void
     {
-        $this->getEntityTable()->where("id = ?", $id)->update([
-            "name" => $title,
-            "text" => $text,
-            "show" => $show,
-            "show_homepage" => $isOnHomepage,
+        $this->getEntityTable()->where('id = ?', $id)->update([
+            'name'          => $title,
+            'text'          => $text,
+            'show'          => $show,
+            'show_homepage' => $isOnHomepage,
         ]);
     }
 }

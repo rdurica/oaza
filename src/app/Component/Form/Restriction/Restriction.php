@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Admin\Component\Form\Restriction;
+namespace App\Component\Form\Restriction;
 
 use App\Component\Component;
 use App\Model\Manager\ReservationManager;
@@ -10,6 +10,8 @@ use App\Modules\Admin\Manager\NewsManager;
 use App\Modules\Admin\Manager\RestrictionManager;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
+use Exception;
+use JetBrains\PhpStorm\NoReturn;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Utils\ArrayHash;
@@ -18,9 +20,8 @@ use Nette\Utils\DateTime;
 /**
  * Restriction form.
  *
- * @package   App\Modules\Admin\Component\Form\Restriction
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class Restriction extends Component
 {
@@ -36,12 +37,13 @@ class Restriction extends Component
         private readonly RestrictionManager $restrictionManager,
         private readonly NewsManager $newsModel,
         private readonly ReservationManager $reservationManager,
-        public readonly Translator $translator
-    ) {
+        private readonly Translator $translator
+    )
+    {
     }
 
     /**
-     * Create Restriction form
+     * Create form.
      *
      * @return Form
      */
@@ -51,18 +53,14 @@ class Restriction extends Component
 
         $form->addText('from', 'Od')
             ->setHtmlAttribute('class', 'form-control')
-            ->setRequired(true);
+            ->setRequired();
         $form->addText('to', 'Do')
             ->setHtmlAttribute('class', 'form-control')
-            ->setRequired(true);
+            ->setRequired();
         $form->addTextArea('message', 'Zpráva')
             ->setHtmlAttribute('class', 'form-control')
             ->setHtmlAttribute('id', 'textarea');
-        $form->addSelect(
-            'showNewsOnHomepage',
-            $this->translator->trans('forms.showNewsHomepage'),
-            [0 => 'Ne', 1 => 'Ano']
-        )
+        $form->addSelect('showNewsOnHomepage', $this->translator->trans('forms.showNewsHomepage'), [0 => 'Ne', 1 => 'Ano'])
             ->setHtmlAttribute('class', 'form-control')
             ->setDefaultValue(0);
         $form->addSubmit('save', 'Uložit')
@@ -74,15 +72,17 @@ class Restriction extends Component
         return $form;
     }
 
-
     /**
-     * Process Restriction form.
+     * Process form.
      *
      * @param Form      $form
      * @param ArrayHash $values
+     *
      * @return void
      * @throws AbortException
+     * @throws Exception
      */
+    #[NoReturn]
     public function onSuccess(Form $form, ArrayHash $values): void
     {
         $createNews = $values->showNewsOnHomepage;
@@ -93,18 +93,22 @@ class Restriction extends Component
         // 1. create restriction
         // 2. create new if requested
         // 3. delete reservations & send mails
-        try {
+        try
+        {
             $this->restrictionManager->create($from, $to, $values->message);
 
-            if ($createNews === true) {
-                $this->newsModel->save(null, "Omezení provozu", $values->showNewsOnHomepage, $values->message, false);
+            if ($createNews === true)
+            {
+                $this->newsModel->save(null, 'Omezení provozu', $values->showNewsOnHomepage, $values->message, false);
             }
 
             $this->reservationManager->blockDays($from, $to);
 
             $this->presenter->flashMessage('Omezení provozu přidáno', FlashType::SUCCESS);
-        } catch (\Exception $exception) {
-            $this->presenter->flashMessage($exception->getMessage(), FlashType::ERROR);
+        }
+        catch (Exception)
+        {
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
         }
 
         $this->presenter->redirect('Restrictions:');

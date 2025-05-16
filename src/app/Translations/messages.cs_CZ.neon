@@ -15,6 +15,7 @@ flash:
     equalPassword: "Hesla se musí shodovat"
     passwordChanged: "Heslo bylo úspěšně změneno. Nyní se můžete přihlásit"
     newPasswordSent: "Na zadaný e-mail jsme odeslali odkaz pro resetování hesla. Zkontrolujte svou e-mailovou schránku"
+    passwordChangeFailed: "Nepodařilo se změnit heslo. Zkuste to prosím znovu."
     telephoneFormat: "Nesprávny formát telefonního čísla"
     minPasswordLength: "Minimální délka hesla je %s znaků"
     notAuthorized: "Litujeme, ale zdá se, že nemáte dostatečná oprávnění pro přístup k této stránce"

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Component\Form\ContactUs;
 
@@ -8,6 +6,8 @@ use App\Component\Component;
 use App\Model\Service\Mail\MailService;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
+use Exception;
+use JetBrains\PhpStorm\NoReturn;
 use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Forms\Form as NetteForm;
@@ -17,9 +17,8 @@ use Nette\Utils\ArrayHash;
 /**
  * ContactUs form.
  *
- * @package   App\Component\Form\ContactUs
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class ContactUs extends Component
 {
@@ -34,25 +33,27 @@ class ContactUs extends Component
         private readonly Translator $translator,
         private readonly User $user,
         private readonly MailService $mailService
-    ) {
+    )
+    {
     }
 
-
     /**
-     * Create ContactUs form.
+     * Form.
      *
      * @return Form
      */
     public function createComponentForm(): Form
     {
         $form = new Form();
-        if (!$this->user->isLoggedIn()) {
+        if (!$this->user->isLoggedIn())
+        {
             $form->addText('from', $this->translator->trans('user.email'))
                 ->setHtmlAttribute('class', 'form-control')
                 ->setHtmlAttribute('placeholder', $this->translator->trans('user.email'))
                 ->setRequired()
                 ->addRule(NetteForm::EMAIL);
-        } else {
+        } else
+        {
             $form->addHidden('from', $this->translator->trans('user.email'))
                 ->setDefaultValue($this->user->identity->email);
         }
@@ -70,24 +71,28 @@ class ContactUs extends Component
         return $form;
     }
 
-
     /**
-     * Process ContactUs form.
+     * Process form.
      *
      * @param Form      $form
      * @param ArrayHash $values
+     *
      * @return void
      * @throws AbortException
      */
+    #[NoReturn]
     public function onSuccess(Form $form, ArrayHash $values): void
     {
-        try {
+        try
+        {
             $this->mailService->contactUs($values->from, $values->message);
             $this->presenter->flashMessage($this->translator->trans('flash.contactUsSuccess'), FlashType::INFO);
-        } catch (\Exception $ex) {
-            $this->presenter->flashMessage($ex->getMessage(), FlashType::ERROR);
+        }
+        catch (Exception)
+        {
+            $this->presenter->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
         }
 
-        $this->presenter->redirect("this");
+        $this->presenter->redirect('this');
     }
 }

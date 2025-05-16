@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Modules\Admin\Presenter;
 
-use App\Modules\Admin\Component\Form\Restriction\IRestriction as RestrictionFormFactory;
-use App\Modules\Admin\Component\Form\Restriction\Restriction as RestrictionForm;
-use App\Modules\Admin\Component\Grid\Restriction\IRestriction as RestrictionGridFactory;
-use App\Modules\Admin\Component\Grid\Restriction\Restriction;
+use App\Component\Form\Restriction\Restriction as RestrictionForm;
+use App\Component\Form\Restriction\RestrictionFormFactory as RestrictionFormFactory;
+use App\Component\Grid\Restriction\RestrictionGridFactory as RestrictionGridFactory;
+use App\Component\Grid\Restriction\Restriction;
 use Nette\DI\Attributes\Inject;
 
 /**

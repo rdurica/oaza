@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Component\Form\Auth\Login;
 
@@ -20,9 +18,8 @@ use Nette\Utils\ArrayHash;
 /**
  * Login form.
  *
- * @package   App\Component\Form\Auth\Login
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class Login extends Component
 {
@@ -37,88 +34,85 @@ class Login extends Component
         private readonly Translator $translator,
         private readonly User $user,
         private readonly Authenticator $authenticator
-    ) {
+    )
+    {
     }
 
-
     /**
-     * Create Login form.
+     * Form.
      *
      * @return Form
      */
-    public function createComponentLoginForm(): Form
+    public function createComponentForm(): Form
     {
         $form = new Form();
-        $form->addText("email", $this->translator->trans("user.email"))
-            ->setHtmlAttribute("placeholder", $this->translator->trans("user.email"))
+        $form->addText('email', $this->translator->trans('user.email'))
+            ->setHtmlAttribute('placeholder', $this->translator->trans('user.email'))
             ->addRule(NetteForm::EMAIL)
             ->setRequired();
-        $form->addPassword("password", $this->translator->trans("user.password"))
-            ->setHtmlAttribute("placeholder", $this->translator->trans("user.password"))
+        $form->addPassword('password', $this->translator->trans('user.password'))
+            ->setHtmlAttribute('placeholder', $this->translator->trans('user.password'))
             ->setRequired();
-        $form->addSubmit("send", $this->translator->trans("button.login"))
-            ->setHtmlAttribute("class", "btn btn-info");
+        $form->addSubmit('send', $this->translator->trans('button.login'))
+            ->setHtmlAttribute('class', 'btn btn-info');
 
-        $form->onSuccess[] = [$this, "onSuccess"];
+        $form->onSuccess[] = [$this, 'onSuccess'];
 
         return $form;
     }
-
 
     /**
      * Process Login form.
      *
      * @param Form      $form
      * @param ArrayHash $values
+     *
      * @return void
      * @throws AbortException
      */
     public function onSuccess(Form $form, ArrayHash $values): void
     {
-        try {
+        try
+        {
             $identity = $this->authenticator->authenticate($values->email, $values->password);
-            $this->user->setExpiration("14 days", false);
+            $this->user->setExpiration('14 days', false);
             $this->user->login($identity);
 
-            ($identity->needNewPassword === true) ? $this->changePasswordRedirect() : $this->loggedInRedirect();
-        } catch (AuthenticationException $e) {
-            $this->getPresenter()->flashMessage(
-                $this->translator->trans("flash.authenticationException"),
-                FlashType::WARNING
-            );
-        } catch (UserBlockedException $e) {
-            $this->getPresenter()->flashMessage(
-                $this->translator->trans("flash.blockedUserException"),
-                FlashType::ERROR
-            );
+            match ($identity->needNewPassword)
+            {
+                true  => $this->changePasswordRedirect(),
+                false => $this->loggedInRedirect(),
+            };
+        }
+        catch (AuthenticationException)
+        {
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.authenticationException'), FlashType::WARNING);
+        }
+        catch (UserBlockedException)
+        {
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.blockedUserException'), FlashType::ERROR);
         }
 
-        $this->getPresenter()->redirect("this");
+        $this->getPresenter()->redirect('this');
     }
-
 
     /**
      * @throws AbortException
      */
-    #[NoReturn] private function changePasswordRedirect(): void
+    #[NoReturn]
+    private function changePasswordRedirect(): void
     {
-        $this->getPresenter()->flashMessage(
-            $this->translator->trans("flash.newPasswordRequired"),
-            FlashType::SUCCESS
-        );
-        $this->getPresenter()->redirect(":User:changePassword");
+        $this->getPresenter()->flashMessage($this->translator->trans('flash.newPasswordRequired'), FlashType::SUCCESS);
+        $this->getPresenter()->redirect(':User:changePassword');
     }
-
 
     /**
      * @throws AbortException
      */
-    #[NoReturn] private function loggedInRedirect(): void
+    #[NoReturn]
+    private function loggedInRedirect(): void
     {
-        $this->getPresenter()->flashMessage(
-            $this->translator->trans("flash.loggedIn"),
-            FlashType::SUCCESS
-        );
-        $this->getPresenter()->redirect("this");
+        $this->getPresenter()->flashMessage($this->translator->trans('flash.loggedIn'), FlashType::SUCCESS);
+        $this->getPresenter()->redirect('this');
     }
 }
