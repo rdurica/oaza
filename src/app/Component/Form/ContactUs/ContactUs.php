@@ -63,7 +63,6 @@ class ContactUs extends Component
             ->setHtmlAttribute('id', 'textarea')
             ->setHtmlAttribute('placeholder', $this->translator->trans('forms.message'))
             ->setHtmlAttribute('style', 'height: 30vh;');
-        $form->addReCaptcha('recaptcha', $label = 'Captcha', $required = true, $message = 'Are you a bot?');
         $form->addSubmit('sent', $this->translator->trans('button.send'))
             ->setHtmlAttribute('class', 'btn btn-info');
         $form->onSuccess[] = [$this, 'onSuccess'];

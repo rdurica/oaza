@@ -9,7 +9,9 @@ use App\Model\Service\CalendarServiceOld;
 use App\Model\Service\ReservationServiceOld;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
+use Exception;
 use Nette\Application\AbortException;
+use Nette\Mail\SmtpException;
 
 /**
  * UserPresenter.
@@ -37,10 +39,6 @@ class UserPresenter extends SecurePresenter
         parent::__construct();
     }
 
-    public function startup(): void
-    {
-    }
-
     /**
      * Render calendar page.
      *
@@ -66,9 +64,20 @@ class UserPresenter extends SecurePresenter
             $this->reservationService->delete((int)$reservationId);
             $this->presenter->flashMessage($this->translator->trans('flash.reservationDeleted'), FlashType::INFO);
         }
+        catch (SmtpException)
+        {
+            $this->getPresenter()->flashMessage(
+                'Nastal problém při odesílání potvrzovacího e-mailu.',
+                FlashType::WARNING
+            );
+        }
         catch (NotAllowedOperationException)
         {
             $this->presenter->flashMessage($this->translator->trans('flash.operationNotAllowed'), FlashType::ERROR);
+        }
+        catch (Exception)
+        {
+            $this->presenter->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
         }
 
         $this->getPresenter()->redirect('this');

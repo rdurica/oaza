@@ -3,7 +3,10 @@
 namespace App\Component\Form\Reservation;
 
 use App\Component\Component;
+use App\Exception\CapacityExceededException;
+use App\Exception\EmailNotSentException;
 use App\Exception\OazaException;
+use App\Exception\ReservationInPastException;
 use App\Model\Service\ReservationServiceOld;
 use App\Util\FlashType;
 use App\Util\OazaConfig;
@@ -110,6 +113,21 @@ class Reservation extends Component
 
             $this->reservationService->insert($values);
             $this->getPresenter()->flashMessage($this->translator->trans('flash.reservationCreated'), FlashType::SUCCESS);
+        }
+        catch (EmailNotSentException)
+        {
+            $this->getPresenter()->flashMessage(
+                'Rezervace byla úspěšně vytvořena, ale nastal problém při odesílání potvrzovacího e-mailu.',
+                FlashType::WARNING
+            );
+        }
+        catch (ReservationInPastException)
+        {
+            $this->getPresenter()->flashMessage('Termín rezervace musí být v budoucnu', FlashType::ERROR);
+        }
+        catch (CapacityExceededException)
+        {
+            $this->getPresenter()->flashMessage('Překročena maximalni kapacita jeskyne', FlashType::ERROR);
         }
         catch (Exception)
         {

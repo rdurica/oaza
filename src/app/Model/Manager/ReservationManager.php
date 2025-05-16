@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Model\Manager;
 
 use App\Model\Manager;
+use Exception;
 use Nette\Database\Table\Selection;
 use Nette\Utils\DateTime;
 
@@ -108,27 +109,41 @@ final class ReservationManager extends Manager
      * @param DateTime $end
      *
      * @return void
+     * @throws Exception
      */
     public function blockDays(DateTime $start, DateTime $end): void
     {
         $dif = date_diff($start, $end);
         $reservationDate = $start->setTime(8, 0, 0);
 
-        $i = 0;
-        while ($i <= $dif->days)
+        $this->database->beginTransaction();
+
+        try
         {
-            $this->deleteRestrictedReservationByDate($reservationDate); // Do not block same day twice
-            $this->getEntityTable()->insert([
-                'count'           => 5,
-                'telefon'         => 'restriction',
-                'name'            => 'restriction',
-                'user_id'         => 5,
-                'rezervationDate' => $reservationDate,
-            ]);
+            $i = 0;
+            while ($i <= $dif->days)
+            {
+                $this->deleteRestrictedReservationByDate($reservationDate); // Do not block same day twice
+                $this->getEntityTable()->insert([
+                    'count'           => 5,
+                    'telefon'         => 'restriction',
+                    'name'            => 'restriction',
+                    'user_id'         => 5,
+                    'rezervationDate' => $reservationDate,
+                ]);
 
-            $reservationDate = $reservationDate->modifyClone('+1 day');
+                $reservationDate = $reservationDate->modifyClone('+1 day');
 
-            $i++;
+                $i++;
+            }
+
+            $this->database->commit();
+        }
+        catch (Exception $e)
+        {
+            $this->database->rollBack();
+
+            throw $e;
         }
     }
 

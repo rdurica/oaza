@@ -8,7 +8,8 @@ use App\Model\Manager\ReservationManager;
 use App\Model\Service\ReservationServiceOld;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
-use Nette\Application\AbortException;
+use Exception;
+use Nette\Mail\SmtpException;
 use Ublaboo\DataGrid\Column\Action\Confirmation\StringConfirmation;
 use Ublaboo\DataGrid\DataGrid;
 use Ublaboo\DataGrid\Exception\DataGridException;
@@ -71,13 +72,30 @@ class Reservation extends Component
      * @param int $id
      *
      * @return void
-     * @throws AbortException
-     * @throws NotAllowedOperationException
      */
     public function handleCancelReservation(int $id): void
     {
-        $this->reservationService->delete($id, true);
-        $this->getPresenter()->flashMessage($this->translator->trans('flash.reservationDeleted'), FlashType::SUCCESS);
+        try
+        {
+            $this->reservationService->delete($id, true);
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.reservationDeleted'), FlashType::SUCCESS);
+        }
+        catch (SmtpException)
+        {
+            $this->getPresenter()->flashMessage(
+                'Nastal problém při odesílání potvrzovacího e-mailu.',
+                FlashType::WARNING
+            );
+        }
+        catch (NotAllowedOperationException)
+        {
+            $this->presenter->flashMessage($this->translator->trans('flash.operationNotAllowed'), FlashType::ERROR);
+        }
+        catch (Exception)
+        {
+            $this->presenter->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
+        }
+
         $this->getPresenter()->redirect('Reservations:');
     }
 }
