@@ -1,21 +1,24 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Util;
 
 /**
- * All types of flash message
+ * Types of flash messages.
  *
- * @package   App\Util
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class FlashType
 {
+    /** @var string Red. */
     public const ERROR = 'error';
+
+    /** @var string Orange. */
     public const WARNING = 'warning';
+
+    /** @var string Green. */
     public const SUCCESS = 'success';
+
+    /** @var string Blue. */
     public const INFO = 'info';
-    public const QUESTION = 'question';
 }

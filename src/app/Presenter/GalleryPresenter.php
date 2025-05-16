@@ -1,15 +1,12 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presenter;
 
 /**
- * GalleryPresenter
+ * GalleryPresenter.
  *
- * @package   App\Presenter
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class GalleryPresenter extends Presenter
 {
@@ -20,7 +17,7 @@ class GalleryPresenter extends Presenter
      */
     public function renderDefault(): void
     {
-        $dir = scandir("../www/assets/images/gallery/shortcut");
+        $dir = scandir('../www/assets/images/gallery/shortcut');
         unset($dir[0], $dir[1]);
         $this->getTemplate()->images = $dir;
     }

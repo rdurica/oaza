@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Presenter;
 
@@ -7,11 +7,9 @@ use Nette\Application\AbortException;
 
 /**
  * Base presenter for presenters with restricted access. User should be logged-in.
- * All presenters with this condition must extend this one.
  *
- * @package   App\Presenter
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 abstract class SecurePresenter extends Presenter
 {
@@ -24,7 +22,8 @@ abstract class SecurePresenter extends Presenter
     public function startup(): void
     {
         parent::startup();
-        if (!$this->getUser()->isLoggedIn()) {
+        if (!$this->getUser()->isLoggedIn())
+        {
             $this->flashMessage('Musíte být přihlášen', FlashType::ERROR);
             $this->redirect(':Homepage:');
         }

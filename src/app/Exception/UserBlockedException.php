@@ -1,21 +1,24 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Exception;
 
 /**
- * Occurs when user try to log-in but account is blocked.
+ * Account is blocked.
  *
- * @package   App\Exception
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class UserBlockedException extends OazaException
 {
+    /**
+     * Constructor.
+     *
+     * @param string $email
+     */
     public function __construct(string $email)
     {
-        $message = $email . " is blocked by administrator";
+        $message = $email . ' is blocked by administrator';
+
         parent::__construct($message);
     }
 }

@@ -1,29 +1,29 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presenter;
 
-use App\Component\Form\Reservation\ReservationFormFactory;
 use App\Component\Form\Reservation\Reservation;
+use App\Component\Form\Reservation\ReservationFormFactory;
 use App\Model\Service\CalendarServiceOld;
-use Nette\DI\Attributes\Inject;
 
 /**
- * ReservationsPresenter
+ * ReservationsPresenter.
  *
- * @package   App\Presenter
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class ReservationsPresenter extends Presenter
 {
-    #[Inject]
-    public CalendarServiceOld $calendarService;
-
-    #[Inject]
-    public ReservationFormFactory $reservationForm;
-
+    /**
+     * Constructor.
+     *
+     * @param CalendarServiceOld     $calendarService
+     * @param ReservationFormFactory $reservationFormFactory
+     */
+    public function __construct(private readonly CalendarServiceOld $calendarService, private readonly ReservationFormFactory $reservationFormFactory)
+    {
+        parent::__construct();
+    }
 
     /**
      * Create reservation page.
@@ -35,7 +35,6 @@ class ReservationsPresenter extends Presenter
         $this->getTemplate()->data = $this->calendarService->getData();
     }
 
-
     /**
      * Create reservation form.
      *
@@ -43,6 +42,6 @@ class ReservationsPresenter extends Presenter
      */
     public function createComponentReservationForm(): Reservation
     {
-        return $this->reservationForm->create();
+        return $this->reservationFormFactory->create();
     }
 }

@@ -1,13 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace App\Presenter;
 
 use App\Component\Form\ContactUs\ContactUs;
 use App\Component\Form\ContactUs\ContactUsFormFactory;
-use Nette\DI\Attributes\Inject;
 
 /**
- * ContactPresenter
+ * ContactPresenter.
  *
  * @package   App\Presenter
  * @author    Robert Durica <r.durica@gmail.com>
@@ -15,8 +14,15 @@ use Nette\DI\Attributes\Inject;
  */
 class ContactPresenter extends Presenter
 {
-    #[Inject]
-    public ContactUsFormFactory $contactUsForm;
+    /**
+     * Constructor.
+     *
+     * @param ContactUsFormFactory $contactUsFormFactory
+     */
+    public function __construct(private readonly ContactUsFormFactory $contactUsFormFactory)
+    {
+        parent::__construct();
+    }
 
     /**
      * Create contact-us form
@@ -25,6 +31,6 @@ class ContactPresenter extends Presenter
      */
     protected function createComponentContactUsForm(): ContactUs
     {
-        return $this->contactUsForm->create();
+        return $this->contactUsFormFactory->create();
     }
 }

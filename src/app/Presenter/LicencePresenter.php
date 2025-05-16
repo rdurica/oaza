@@ -1,15 +1,12 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presenter;
 
 /**
- * LicencePresenter
+ * LicencePresenter.
  *
- * @package   App\Presenter
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class LicencePresenter extends Presenter
 {

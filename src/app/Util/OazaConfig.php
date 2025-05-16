@@ -8,6 +8,8 @@ use App\Exception\OazaException;
 use Nette\Neon\Exception;
 use Nette\Neon\Neon;
 
+use function array_key_exists;
+
 /**
  * Work with oaza config file.
  *
@@ -28,12 +30,12 @@ trait OazaConfig
     {
 
         try {
-            $config = Neon::decodeFile(__DIR__ . "/../Config/oaza.neon")["parameters"];
+            $config = Neon::decodeFile(__DIR__ . '/../Config/oaza.neon')['parameters'];
         } catch (Exception $e) {
-            throw new OazaException("Oaza configuration do not exist");
+            throw new OazaException('Oaza configuration do not exist');
         }
 
-        if (!\array_key_exists($key, $config)) {
+        if (!array_key_exists($key, $config)) {
             throw new OazaException("Key {$key} does not found in configuration");
         }
 

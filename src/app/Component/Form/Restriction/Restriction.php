@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Component\Form\Restriction;
 
 use App\Component\Component;
+use App\Model\Manager\NewsManager;
 use App\Model\Manager\ReservationManager;
-use App\Modules\Admin\Manager\NewsManager;
-use App\Modules\Admin\Manager\RestrictionManager;
+use App\Model\Manager\RestrictionManager;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use Exception;

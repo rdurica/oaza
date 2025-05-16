@@ -1,17 +1,14 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App;
 
 use Nette\Bootstrap\Configurator;
 
 /**
- * Bootstrap
+ * Bootstrap.
  *
- * @package   App
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class Bootstrap
 {
@@ -25,7 +22,7 @@ class Bootstrap
         $configurator = new Configurator();
         $appDir = dirname(__DIR__);
 
-        $configurator->setDebugMode((bool)getenv()["DEBUG"]); // enable for your remote IP
+        $configurator->setDebugMode((bool)getenv()['DEBUG']); // enable for your remote IP
         $configurator->enableTracy($appDir . '/log');
 
         $configurator->setTimeZone('Europe/Prague');
@@ -37,8 +34,8 @@ class Bootstrap
             'env' => getenv(),
         ]);
         $configurator->addStaticParameters([
-            "CAPTCHA_SECRET_KEY" => getenv()["CAPTCHA_SECRET_KEY"],
-            "CAPTCHA_SITE_KEY" => getenv()["CAPTCHA_SITE_KEY"],
+            'CAPTCHA_SECRET_KEY' => getenv()['CAPTCHA_SECRET_KEY'],
+            'CAPTCHA_SITE_KEY'   => getenv()['CAPTCHA_SITE_KEY'],
         ]);
 
         $configurator->addConfig(__DIR__ . '/Config/database.neon');

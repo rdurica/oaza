@@ -1,15 +1,13 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presenter;
 
-use App\Component\Form\Auth\Login\LoginFormFactory;
 use App\Component\Form\Auth\Login\Login;
-use App\Component\Form\Auth\Register\RegistrationFormFactory;
+use App\Component\Form\Auth\Login\LoginFormFactory;
 use App\Component\Form\Auth\Register\Registration;
-use App\Component\Form\Auth\ResetPassword\ResetPasswordFormFactory;
+use App\Component\Form\Auth\Register\RegistrationFormFactory;
 use App\Component\Form\Auth\ResetPassword\ResetPassword;
+use App\Component\Form\Auth\ResetPassword\ResetPasswordFormFactory;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use Nette\Application\AbortException;
@@ -17,11 +15,10 @@ use Nette\Application\UI\Presenter as NettePresenter;
 use Nette\DI\Attributes\Inject;
 
 /**
- * Base presenter for public pages. All public presenters should extend it.
+ * Base presenter for public pages.
  *
- * @package   App\Presenter
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 abstract class Presenter extends NettePresenter
 {
@@ -37,7 +34,6 @@ abstract class Presenter extends NettePresenter
     #[Inject]
     public Translator $translator;
 
-
     /**
      * Checks if the user logged-in and password needs to be changed.
      *
@@ -48,9 +44,10 @@ abstract class Presenter extends NettePresenter
     {
         parent::startup();
         if (
-            $this->getUser()->identity?->data["needNewPassword"] === true &&
-            $this->getPresenter()->view !== "changePassword"
-        ) {
+            $this->getUser()->identity?->data['needNewPassword'] === true &&
+            $this->getPresenter()->view !== 'changePassword'
+        )
+        {
             $this->redirect(':User:ChangePassword');
         }
     }
@@ -64,7 +61,6 @@ abstract class Presenter extends NettePresenter
     {
         return $this->loginForm->create();
     }
-
 
     /**
      * Create registration form.
@@ -95,7 +91,7 @@ abstract class Presenter extends NettePresenter
     public function handleOut(): void
     {
         $this->getUser()->logout(true);
-        $this->presenter->flashMessage($this->translator->trans("flash.loggedOut"), FlashType::INFO);
+        $this->presenter->flashMessage($this->translator->trans('flash.loggedOut'), FlashType::INFO);
         $this->presenter->redirect(':Homepage:Default');
     }
 }

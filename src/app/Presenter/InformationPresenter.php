@@ -3,8 +3,7 @@
 namespace App\Presenter;
 
 use App\Model\Entity\SodexoPass;
-use App\Modules\Admin\Manager\NewsManager;
-use Nette\DI\Attributes\Inject;
+use App\Model\Manager\NewsManager;
 
 /**
  * InformationPresenter
@@ -15,9 +14,15 @@ use Nette\DI\Attributes\Inject;
  */
 class InformationPresenter extends Presenter
 {
-    #[Inject]
-    public NewsManager $newsManager;
-
+    /**
+     * Constructor.
+     *
+     * @param NewsManager $newsManager
+     */
+    public function __construct(private readonly NewsManager $newsManager)
+    {
+        parent::__construct();
+    }
 
     /**
      * Create sodexo pass.
@@ -34,7 +39,6 @@ class InformationPresenter extends Presenter
             SodexoPass::create('Relax'),
         ];
     }
-
 
     /**
      * Render last 10 news.

@@ -1,24 +1,26 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presenter;
 
-use App\Modules\Admin\Manager\NewsManager;
-use Nette\DI\Attributes\Inject;
+use App\Model\Manager\NewsManager;
 
 /**
- * HomepagePresenter
+ * HomepagePresenter.
  *
- * @package   App\Presenter
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class HomepagePresenter extends Presenter
 {
-    #[Inject]
-    public NewsManager $newsManager;
-
+    /**
+     * Constructor.
+     *
+     * @param NewsManager $newsManager
+     */
+    public function __construct(private readonly NewsManager $newsManager)
+    {
+        parent::__construct();
+    }
 
     /**
      * Fetch last new to homepage.

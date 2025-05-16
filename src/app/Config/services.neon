@@ -9,10 +9,10 @@ services:
   - App\Model\Service\ReservationServiceOld
 
   # Manager
+  - App\Model\Manager\NewsManager
   - App\Model\Manager\ReservationManager
+  - App\Model\Manager\RestrictionManager
   - App\Model\Manager\UserManager
-  - App\Modules\Admin\Manager\NewsManager
-  - App\Modules\Admin\Manager\RestrictionManager
 
   # Forms
   - App\Component\Form\Auth\ChangePassword\ChangePasswordFormFactory

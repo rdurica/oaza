@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presenter;
 
@@ -12,29 +10,36 @@ use App\Model\Service\ReservationServiceOld;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use Nette\Application\AbortException;
-use Nette\DI\Attributes\Inject;
 
 /**
- * UserPresenter
+ * UserPresenter.
  *
- * @package   App\Presenter
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class UserPresenter extends SecurePresenter
 {
-    #[Inject]
-    public CalendarServiceOld $calendarService;
+    /**
+     * Constructor.
+     *
+     * @param CalendarServiceOld        $calendarService
+     * @param ReservationServiceOld     $reservationService
+     * @param ChangePasswordFormFactory $changePasswordFormFactory
+     * @param Translator                $translator
+     */
+    public function __construct(
+        private readonly CalendarServiceOld $calendarService,
+        private readonly ReservationServiceOld $reservationService,
+        private readonly ChangePasswordFormFactory $changePasswordFormFactory,
+        public Translator $translator,
+    )
+    {
+        parent::__construct();
+    }
 
-    #[Inject]
-    public ReservationServiceOld $reservationService;
-
-    #[Inject]
-    public ChangePasswordFormFactory $changePasswordForm;
-
-    #[Inject]
-    public Translator $translator;
-
+    public function startup(): void
+    {
+    }
 
     /**
      * Render calendar page.
@@ -46,26 +51,28 @@ class UserPresenter extends SecurePresenter
         $this->getTemplate()->data = $this->calendarService->getUserData();
     }
 
-
     /**
      * Cancel reservation.
      *
      * @param $reservationId
+     *
      * @return void
      * @throws AbortException
      */
     public function handleCancelReservation($reservationId): void
     {
-        try {
+        try
+        {
             $this->reservationService->delete((int)$reservationId);
-            $this->presenter->flashMessage($this->translator->trans("flash.reservationDeleted"), FlashType::INFO);
-        } catch (NotAllowedOperationException $e) {
-            $this->presenter->flashMessage($this->translator->trans("flash.operationNotAllowed"), FlashType::ERROR);
+            $this->presenter->flashMessage($this->translator->trans('flash.reservationDeleted'), FlashType::INFO);
+        }
+        catch (NotAllowedOperationException)
+        {
+            $this->presenter->flashMessage($this->translator->trans('flash.operationNotAllowed'), FlashType::ERROR);
         }
 
         $this->getPresenter()->redirect('this');
     }
-
 
     /**
      * Create change password form.
@@ -74,6 +81,6 @@ class UserPresenter extends SecurePresenter
      */
     public function createComponentChangePasswordForm(): ChangePassword
     {
-        return $this->changePasswordForm->create();
+        return $this->changePasswordFormFactory->create();
     }
 }

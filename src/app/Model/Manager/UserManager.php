@@ -19,7 +19,7 @@ final class UserManager extends Manager
     /** @inheritDoc */
     public function getEntityTable(): Selection
     {
-        return $this->database->table("user");
+        return $this->database->table('user');
     }
 
     /**
@@ -30,7 +30,7 @@ final class UserManager extends Manager
      */
     public function findByEmail(string $email): Selection
     {
-        return $this->getEntityTable()->where(["email" => $email]);
+        return $this->getEntityTable()->where(['email' => $email]);
     }
 
     /**
@@ -43,9 +43,9 @@ final class UserManager extends Manager
      */
     public function setPassword(int $userId, string $hash, bool $isTempPassword): void
     {
-        $this->getEntityTable()->where("id = ?", $userId)->update([
-            "password" => $hash,
-            "password_resset" => $isTempPassword,
+        $this->getEntityTable()->where('id = ?', $userId)->update([
+            'password'        => $hash,
+            'password_resset' => $isTempPassword,
         ]);
     }
 
@@ -73,7 +73,7 @@ final class UserManager extends Manager
         $isEnabled = ($userData->enabled === 0) ? 1 : 0;
 
         $userData->update([
-            "enabled" => $isEnabled,
+            'enabled' => $isEnabled,
         ]);
     }
 }

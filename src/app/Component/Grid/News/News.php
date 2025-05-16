@@ -3,7 +3,7 @@
 namespace App\Component\Grid\News;
 
 use App\Component\Component;
-use App\Modules\Admin\Manager\NewsManager;
+use App\Model\Manager\NewsManager;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use JetBrains\PhpStorm\NoReturn;

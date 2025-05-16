@@ -8,7 +8,7 @@ use App\Component\Form\News\News as NewsForm;
 use App\Component\Form\News\NewsFormFactory as NewsFormFactory;
 use App\Component\Grid\News\News;
 use App\Component\Grid\News\NewsGridFactory as NewsGridFactory;
-use App\Modules\Admin\Manager\NewsManager;
+use App\Model\Manager\NewsManager;
 use App\Util\FlashType;
 use Nette\Application\AbortException;
 use Nette\DI\Attributes\Inject;

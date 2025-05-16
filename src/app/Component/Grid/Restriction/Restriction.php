@@ -3,7 +3,7 @@
 namespace App\Component\Grid\Restriction;
 
 use App\Component\Component;
-use App\Modules\Admin\Manager\RestrictionManager;
+use App\Model\Manager\RestrictionManager;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use Nette\Application\AbortException;

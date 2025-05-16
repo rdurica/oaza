@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Modules\Admin\Manager;
+namespace App\Model\Manager;
 
 use App\Model\Manager;
 use Nette\Database\Table\Selection;

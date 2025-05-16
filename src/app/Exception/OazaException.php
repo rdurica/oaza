@@ -1,16 +1,15 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Exception;
 
+use Exception;
+
 /**
- * OazaException is general application exception. All other exceptions should inherit from it.
+ * General application exception.
  *
- * @package   App\Exception
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
-class OazaException extends \Exception
+class OazaException extends Exception
 {
 }

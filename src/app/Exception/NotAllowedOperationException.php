@@ -1,17 +1,20 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Exception;
 
 /**
  * Occurs when user call unauthorized request.
  *
- * @package   App\Exception
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since     2025-05-16
  */
 class NotAllowedOperationException extends OazaException
 {
-    protected $message = "Operation is not allowed";
+    /**
+     * Constructor,
+     */
+    public function __construct()
+    {
+        parent::__construct('Operation is not allowed');
+    }
 }
