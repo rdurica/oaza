@@ -56,9 +56,9 @@ class ReservationServiceOld
                     $values->comment
                 );
             }
-            catch (Exception)
+            catch (Exception $e)
             {
-                throw new EmailNotSentException();
+                throw new EmailNotSentException($e->getMessage(), $e->getCode(), $e);
             }
 
         } else

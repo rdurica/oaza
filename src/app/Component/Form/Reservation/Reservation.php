@@ -17,6 +17,7 @@ use Nette\Application\UI\Form;
 use Nette\Forms\Form as NetteForm;
 use Nette\Security\User;
 use Nette\Utils\ArrayHash;
+use Tracy\Debugger;
 
 /**
  * Reservation form.
@@ -114,8 +115,9 @@ class Reservation extends Component
             $this->reservationService->insert($values);
             $this->getPresenter()->flashMessage($this->translator->trans('flash.reservationCreated'), FlashType::SUCCESS);
         }
-        catch (EmailNotSentException)
+        catch (EmailNotSentException $e)
         {
+            Debugger::log($e, Debugger::ERROR);
             $this->getPresenter()->flashMessage(
                 'Rezervace byla úspěšně vytvořena, ale nastal problém při odesílání potvrzovacího e-mailu.',
                 FlashType::WARNING
@@ -129,8 +131,9 @@ class Reservation extends Component
         {
             $this->getPresenter()->flashMessage('Překročena maximalni kapacita jeskyne', FlashType::ERROR);
         }
-        catch (Exception)
+        catch (Exception $e)
         {
+            Debugger::log($e, Debugger::CRITICAL);
             $this->getPresenter()->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
         }
 
