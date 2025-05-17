@@ -18,8 +18,8 @@ use Nette\Mail\SmtpMailer;
 class MailService
 {
     private Engine $latte;
-    private SmtpMailer $mail;
 
+    private SmtpMailer $mail;
 
     /**
      * Constructor.
@@ -30,20 +30,17 @@ class MailService
     public function __construct(
         public readonly string $emailAdmin,
         #[\SensitiveParameter] string $emailPassword
-    ) {
+    )
+    {
         $this->latte = new Engine();
-        $this->mail = new SmtpMailer([
-            'host' => 'smtp.zoner.com',
-            'username' => $emailAdmin,
-            'password' => $emailPassword,
-        ]);
+        $this->mail = new SmtpMailer('smtp.zoner.com', $emailAdmin, $emailPassword);
     }
-
 
     /**
      * Sends email of cancelled reservation.
      *
      * @param string $emailAddress
+     *
      * @return void
      */
     public function reservationCanceled(string $emailAddress): void
@@ -58,12 +55,12 @@ class MailService
         $this->mail->send($mail);
     }
 
-
     /**
      * Sends email to administrator from ContactUs form.
      *
      * @param string $from
      * @param string $message
+     *
      * @return void
      */
     public function contactUs(string $from, string $message): void
@@ -74,14 +71,13 @@ class MailService
             ->setSubject(MailSubject::CONTACT_US)
             ->setHtmlBody(
                 $this->latte->renderToString(__DIR__ . '/templates/contact.latte', [
-                    'from' => $from,
+                    'from'    => $from,
                     'message' => $message,
                 ])
             );
 
         $this->mail->send($mail);
     }
-
 
     /**
      * Sends email with reservation detail.
@@ -92,6 +88,7 @@ class MailService
      * @param int    $child
      * @param int    $count
      * @param string $comment
+     *
      * @return void
      */
     public function newReservation(
@@ -101,7 +98,8 @@ class MailService
         int $child,
         int $count,
         string $comment
-    ): void {
+    ): void
+    {
         $mail = new Message();
         $mail->setFrom($this->emailAdmin)
             ->addTo($email)
@@ -109,11 +107,11 @@ class MailService
             ->setSubject(MailSubject::RESERVATION_NEW)
             ->setHtmlBody(
                 $this->latte->renderToString(__DIR__ . '/templates/create.latte', [
-                    'email' => $email,
-                    'name' => $name,
-                    'date' => $date,
-                    'child' => $child,
-                    'count' => $count,
+                    'email'   => $email,
+                    'name'    => $name,
+                    'date'    => $date,
+                    'child'   => $child,
+                    'count'   => $count,
                     'comment' => $comment,
                 ])
             );
@@ -121,12 +119,12 @@ class MailService
         $this->mail->send($mail);
     }
 
-
     /**
      * Sends new temporary password.
      *
      * @param string $email
      * @param string $newPassword
+     *
      * @return void
      */
     public function sendNewPassword(string $email, string $newPassword): void
@@ -144,11 +142,11 @@ class MailService
         $this->mail->send($mail);
     }
 
-
     /**
      * Confirmation email when user change password.
      *
      * @param string $email
+     *
      * @return void
      */
     public function passwordChanged(string $email): void
