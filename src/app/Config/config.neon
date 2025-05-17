@@ -13,17 +13,12 @@ session:
 
 extensions:
 	translation: Contributte\Translation\DI\TranslationExtension
-	recaptcha: Contributte\ReCaptcha\DI\ReCaptchaExtension
 
 translation:
 	locales:
 		default: cs
 	dirs:
 		- %appDir%/Translations
-
-recaptcha:
-	secretKey: %CAPTCHA_SECRET_KEY%
-	siteKey: %CAPTCHA_SITE_KEY%
 
 includes:
 	- services.neon
