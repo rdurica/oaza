@@ -7,6 +7,7 @@ namespace App\Model\Service\Mail;
 use Latte\Engine;
 use Nette\Mail\Message;
 use Nette\Mail\SmtpMailer;
+use SensitiveParameter;
 
 /**
  * Service which sends emails.
@@ -24,16 +25,20 @@ class MailService
     /**
      * Constructor.
      *
+     * @param string $host
      * @param string $emailAdmin
      * @param string $emailPassword
+     * @param string $port
      */
     public function __construct(
+        public readonly string $host,
         public readonly string $emailAdmin,
-        #[\SensitiveParameter] string $emailPassword
+        #[SensitiveParameter] string $emailPassword,
+        public readonly string $port,
     )
     {
         $this->latte = new Engine();
-        $this->mail = new SmtpMailer('smtp.zoner.com', $emailAdmin, $emailPassword);
+        $this->mail = new SmtpMailer($host, $emailAdmin, $emailPassword, (int)$port);
     }
 
     /**
