@@ -13,6 +13,7 @@ session:
 
 extensions:
 	translation: Contributte\Translation\DI\TranslationExtension
+	sentry: Contributte\Sentry\DI\SentryExtension
 
 translation:
 	locales:
@@ -20,5 +21,18 @@ translation:
 	dirs:
 		- %appDir%/Translations
 
+sentry:
+	enable: %enableSentry%
+	client:
+		dsn: %env.SENTRY_DNS%
+		prefixes: [%appDir%]
+	integrations: true
+	logger:
+		captureMessages: true
+		captureLevels:
+			- warning
+			- error
+			- exception
+			- critical
 includes:
 	- services.neon
