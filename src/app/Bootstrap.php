@@ -33,10 +33,6 @@ class Bootstrap
         $configurator->addDynamicParameters([
             'env' => getenv(),
         ]);
-        $configurator->addStaticParameters([
-            'CAPTCHA_SECRET_KEY' => getenv()['CAPTCHA_SECRET_KEY'],
-            'CAPTCHA_SITE_KEY'   => getenv()['CAPTCHA_SITE_KEY'],
-        ]);
 
         $configurator->addConfig(__DIR__ . '/Config/database.neon');
         $configurator->addConfig(__DIR__ . '/Config/config.neon');

@@ -5,7 +5,7 @@ services:
   - App\Model\Service\Authentication\Authenticator
   - App\Model\Service\Authentication\PasswordService
   - App\Model\Service\CalendarServiceOld
-  - App\Model\Service\Mail\MailService(%env.EMAIL_HOST%, %env.EMAIL_ADMIN%, %env.EMAIL_ADMIN_PASSWORD%, %env.EMAIL_PORT%)
+  - App\Model\Service\Mail\MailService(%env.EMAIL_HOST%, %env.EMAIL_ADMIN%, %env.EMAIL_ADMIN_PASSWORD%, %env.EMAIL_PORT%, %env.EMAIL_ENCRYPTION%)
   - App\Model\Service\ReservationServiceOld
 
   # Manager

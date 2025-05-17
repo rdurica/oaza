@@ -35,10 +35,11 @@ class MailService
         public readonly string $emailAdmin,
         #[SensitiveParameter] string $emailPassword,
         public readonly string $port,
+        public readonly string $encription,
     )
     {
         $this->latte = new Engine();
-        $this->mail = new SmtpMailer($host, $emailAdmin, $emailPassword, (int)$port);
+        $this->mail = new SmtpMailer($host, $emailAdmin, $emailPassword, (int)$port, $encription);
     }
 
     /**
