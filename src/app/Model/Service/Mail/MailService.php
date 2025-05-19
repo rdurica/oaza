@@ -36,6 +36,8 @@ class MailService
         #[SensitiveParameter] string $emailPassword,
         public readonly string $port,
         public readonly string $encription,
+        public readonly string $emailFrom,
+        public readonly string $emailContact,
     )
     {
         $this->latte = new Engine();
@@ -52,9 +54,9 @@ class MailService
     public function reservationCanceled(string $emailAddress): void
     {
         $mail = new Message();
-        $mail->setFrom($this->emailAdmin)
+        $mail->setFrom($this->emailFrom)
             ->addTo($emailAddress)
-            ->addBcc($this->emailAdmin)
+            ->addBcc($this->emailContact)
             ->setSubject(MailSubject::RESERVATION_CANCELED)
             ->setHtmlBody($this->latte->renderToString(__DIR__ . '/templates/canceled.latte'));
 
@@ -72,8 +74,8 @@ class MailService
     public function contactUs(string $from, string $message): void
     {
         $mail = new Message();
-        $mail->setFrom($this->emailAdmin)
-            ->addTo($this->emailAdmin)
+        $mail->setFrom($this->emailFrom)
+            ->addTo($this->emailContact)
             ->setSubject(MailSubject::CONTACT_US)
             ->setHtmlBody(
                 $this->latte->renderToString(__DIR__ . '/templates/contact.latte', [
@@ -107,9 +109,9 @@ class MailService
     ): void
     {
         $mail = new Message();
-        $mail->setFrom($this->emailAdmin)
+        $mail->setFrom($this->emailFrom)
             ->addTo($email)
-            ->addBcc($this->emailAdmin)
+            ->addBcc($this->emailContact)
             ->setSubject(MailSubject::RESERVATION_NEW)
             ->setHtmlBody(
                 $this->latte->renderToString(__DIR__ . '/templates/create.latte', [
@@ -136,7 +138,7 @@ class MailService
     public function sendNewPassword(string $email, string $newPassword): void
     {
         $mail = new Message();
-        $mail->setFrom($this->emailAdmin)
+        $mail->setFrom($this->emailFrom)
             ->addTo($email)
             ->setSubject(MailSubject::PASSWORD_RESET)
             ->setHtmlBody(
@@ -158,7 +160,7 @@ class MailService
     public function passwordChanged(string $email): void
     {
         $mail = new Message();
-        $mail->setFrom($this->emailAdmin)
+        $mail->setFrom($this->emailFrom)
             ->addTo($email)
             ->setSubject(MailSubject::PASSWORD_CHANGED)
             ->setHtmlBody($this->latte->renderToString(__DIR__ . '/templates/passwordChanged.latte'));
