@@ -42,8 +42,8 @@
                 eventClick: function (calEvent, jsEvent, view) {
                     $('#showReservationUserCalendar').modal('toggle');
                     document.getElementById('totalCount').innerHTML = calEvent.totalCount;
-                    document.getElementById('rezervationDate').innerHTML = calEvent.rezervationDate;
-                    document.getElementById('child').innerHTML = calEvent.child;
+                    document.getElementById('date').innerHTML = calEvent.date;
+                    document.getElementById('hasChildren').innerHTML = calEvent.hasChildren;
                     document.getElementById('comment').innerHTML = calEvent.comment;
                     var cancelButton = document.getElementById('cancelReservationButton');
                     var dateNow = new Date();

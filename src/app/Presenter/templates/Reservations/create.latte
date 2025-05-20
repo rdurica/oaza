@@ -43,7 +43,7 @@
                         if (calEvent.color !== 'red') {
                             $('#createRezervationModal').modal('toggle');
                             $('#dateTimeCreation').text(moment(calEvent.start).format('DD.M.YYYY H:00'));
-                            $("input[name=rezervationDate]").val(moment(calEvent.start).format('YYYY-MM-DD HH:00:00'));
+                            $("input[name=date]").val(moment(calEvent.start).format('YYYY-MM-DD HH:00:00'));
                         } else {
                             notifyMessage('Oaza uz je plně obsazena. Vyberte prosím jinou hodinu', 'error');
 

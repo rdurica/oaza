@@ -55,13 +55,13 @@ class Reservation extends Component
         $grid->addColumnText('telephone', 'Telefon')
             ->setFilterText();
         $grid->addColumnText('count', 'Pocet mist');
-        $grid->addColumnDateTime('reservationDate', 'Rezervace')
+        $grid->addColumnDateTime('date', 'Rezervace')
             ->setFormat('j.n.Y H:i');
-        $grid->addColumnText('children', 'Děti');
+        $grid->addColumnText('hasChildren', 'Děti');
         $grid->addAction('cancel', 'Zrusit', 'cancelReservation!')
             ->setIcon('trash')
             ->setClass('btn btn-danger btn-xs')
-            ->setConfirmation(new StringConfirmation('Naozaj chcete zrusit rezervaci %s??', 'reservationDate'));
+            ->setConfirmation(new StringConfirmation('Naozaj chcete zrusit rezervaci %s??', 'date'));
 
         return $grid;
     }

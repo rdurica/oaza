@@ -29,3 +29,6 @@ services:
   - App\Component\Grid\Reservation\ReservationGridFactory
   - App\Component\Grid\Restriction\RestrictionGridFactory
   - App\Component\Grid\User\UserGridFactory
+
+  # Facade
+  - App\Facade\RestrictionFacade

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Model\Manager;
 
+use App\Dto\CanceledReservationDto;
 use App\Model\Manager;
-use Exception;
 use Nette\Database\Table\Selection;
 use Nette\Utils\DateTime;
 
@@ -21,7 +21,7 @@ final class ReservationManager extends Manager
     /** @inheritDoc */
     public function getEntityTable(): Selection
     {
-        return $this->database->table('rezervations');
+        return $this->database->table('reservation');
     }
 
     /**
@@ -36,13 +36,13 @@ final class ReservationManager extends Manager
             "select res.id,
                if(res.user_id, u.name, res.name) as name,
                if(res.user_id, u.email, res.email) as email,
-               if(res.user_id, u.telephone, res.telefon) as telephone,
-               if(res.child = 1, 'Ano', 'Ne') as children, 
+               if(res.user_id, u.telephone, res.telephone) as telephone,
+               if(res.has_children = 1, 'Ano', 'Ne') as hasChildren, 
                res.`count`,
-               res.rezervationDate as reservationDate
-               from rezervations as res
+               res.date as date
+               from reservation as res
                left outer join user u on u.id = res.user_id
-               where res.rezervationDate >= ?
+               where res.date >= ?
                order by res.id",
             new DateTime()
         )->fetchAll();
@@ -58,7 +58,7 @@ final class ReservationManager extends Manager
     public function getReservationCountByDate(string $dateTime): int
     {
         $count = $this->getEntityTable()
-            ->where("rezervationDate = '" . $dateTime . "'")
+            ->where("date = '" . $dateTime . "'")
             ->sum('count');
 
         return (int)$count ?? 0;
@@ -72,8 +72,8 @@ final class ReservationManager extends Manager
     public function findAllReservationsFormatted(): Selection
     {
         return $this->getEntityTable()
-            ->select('rezervationDate, SUM(child) AS child , SUM(count), name')
-            ->group('rezervationDate');
+            ->select('date, SUM(has_children) AS hasChildren , SUM(count), name')
+            ->group('date');
     }
 
     /**
@@ -84,9 +84,9 @@ final class ReservationManager extends Manager
     public function findReservationsPairs(): array
     {
         return $this->getEntityTable()
-            ->select('id, rezervationDate')
+            ->select('id, date')
             ->where('name = ?', 'restriction')
-            ->fetchPairs('id', 'rezervationDate');
+            ->fetchPairs('id', 'date');
     }
 
     /**
@@ -109,42 +109,71 @@ final class ReservationManager extends Manager
      * @param DateTime $end
      *
      * @return void
-     * @throws Exception
      */
-    public function blockDays(DateTime $start, DateTime $end): void
+    public function restrictDaysForBooking(DateTime $start, DateTime $end): void
     {
         $dif = date_diff($start, $end);
-        $reservationDate = $start->setTime(8, 0, 0);
+        $date = $start->setTime(8, 0, 0);
 
-        $this->database->beginTransaction();
-
-        try
+        $i = 0;
+        while ($i <= $dif->days)
         {
-            $i = 0;
-            while ($i <= $dif->days)
+            $this->deleteRestrictedReservationByDate($date); // Do not block same day twice
+            $this->getEntityTable()->insert([
+                'count'     => 5,
+                'telephone' => 'restriction',
+                'name'      => 'restriction',
+                'user_id'   => null,
+                'date'      => $date,
+            ]);
+
+            $date = $date->modifyClone('+1 day');
+
+            $i++;
+        }
+    }
+
+    /**
+     * Block days. New reservations will not be allowed.
+     *
+     * @param DateTime $start
+     * @param DateTime $end
+     *
+     * @return CanceledReservationDto[]
+     */
+    public function cancelReservations(DateTime $start, DateTime $end): array
+    {
+        $dif = date_diff($start, $end);
+        $date = $start->setTime(8, 0, 0);
+
+        $result = [];
+        $i = 0;
+        while ($i <= $dif->days)
+        {
+            $this->deleteRestrictedReservationByDate($date);
+
+            $userReservations = $this->findUserReservations($date);
+            foreach ($userReservations as $reservation)
             {
-                $this->deleteRestrictedReservationByDate($reservationDate); // Do not block same day twice
-                $this->getEntityTable()->insert([
-                    'count'           => 5,
-                    'telefon'         => 'restriction',
-                    'name'            => 'restriction',
-                    'user_id'         => 5,
-                    'rezervationDate' => $reservationDate,
-                ]);
 
-                $reservationDate = $reservationDate->modifyClone('+1 day');
+                $registeredUser = $reservation->user_id !== null;
 
-                $i++;
+                $reservationCanceledDto = new CanceledReservationDto();
+                $reservationCanceledDto->name = $registeredUser === true ? $reservation->user->name : $reservation->name;
+                $reservationCanceledDto->email = $registeredUser === true ? $reservation->user->email : $reservation->email;
+                $reservationCanceledDto->date = $reservation->date;
+
+                $result[] = $reservationCanceledDto;
+
+                $reservation->delete();
             }
 
-            $this->database->commit();
-        }
-        catch (Exception $e)
-        {
-            $this->database->rollBack();
+            $date = $date->modifyClone('+1 day');
 
-            throw $e;
+            $i++;
         }
+
+        return $result;
     }
 
     /**
@@ -158,8 +187,26 @@ final class ReservationManager extends Manager
     {
         $format = $date->format('Y-m-d');
         $this->getEntityTable()
-            ->where('rezervationDate LIKE ?', $format . ' %')
+            ->where('date LIKE ?', $format . ' %')
             ->where('name = ?', 'restriction')
             ->delete();
+    }
+
+    /**
+     * Delete restricted reservation by date.
+     *
+     * @param DateTime $date
+     *
+     * @return Selection
+     */
+    private function findUserReservations(DateTime $date): Selection
+    {
+        $reservationFrom = $date->setTime(0, 0, 0);
+        $reservationTo = $reservationFrom->modifyClone('+1 day');
+
+        return $this->getEntityTable()
+            ->where('date >= ', $reservationFrom)
+            ->where('date < ', $reservationTo)
+            ->where('name != ? OR name IS NULL', 'restriction');
     }
 }

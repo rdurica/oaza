@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Model\Service\Mail;
 
+use App\Dto\CanceledReservationDto;
 use Latte\Engine;
 use Nette\Mail\Message;
 use Nette\Mail\SmtpMailer;
+use Nette\Utils\DateTime;
 use SensitiveParameter;
 
 /**
@@ -64,6 +66,18 @@ class MailService
     }
 
     /**
+     * Sends email of cancelled reservation.
+     *
+     * @param CanceledReservationDto[] $canceledReservations
+     *
+     * @return void
+     */
+    public function reservationsCanceled(array $canceledReservations): void
+    {
+        // Todo: Email for all customers with deleted reservations.
+    }
+
+    /**
      * Sends email to administrator from ContactUs form.
      *
      * @param string $from
@@ -93,7 +107,7 @@ class MailService
      * @param string $email
      * @param string $name
      * @param string $date
-     * @param int    $child
+     * @param bool   $hasChildren
      * @param int    $count
      * @param string $comment
      *
@@ -103,7 +117,7 @@ class MailService
         string $email,
         string $name,
         string $date,
-        int $child,
+        bool $hasChildren,
         int $count,
         string $comment
     ): void
@@ -115,12 +129,12 @@ class MailService
             ->setSubject(MailSubject::RESERVATION_NEW)
             ->setHtmlBody(
                 $this->latte->renderToString(__DIR__ . '/templates/create.latte', [
-                    'email'   => $email,
-                    'name'    => $name,
-                    'date'    => $date,
-                    'child'   => $child,
-                    'count'   => $count,
-                    'comment' => $comment,
+                    'email'       => $email,
+                    'name'        => $name,
+                    'date'        => $date,
+                    'hasChildren' => $hasChildren,
+                    'count'       => $count,
+                    'comment'     => $comment,
                 ])
             );
 

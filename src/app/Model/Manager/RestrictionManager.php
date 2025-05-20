@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Model\Manager;
 
 use App\Model\Manager;
+use Nette\Database\Table\ActiveRow;
 use Nette\Database\Table\Selection;
 use Nette\Utils\DateTime;
 
@@ -49,6 +50,16 @@ final class RestrictionManager extends Manager
     public function findAllActive(): Selection
     {
         return $this->getEntityTable()->where('to >= ?', new \DateTime());
+    }
+
+    /**
+     * @param int $id
+     *
+     * @return ActiveRow|null
+     */
+    public function findById(int $id): ?ActiveRow
+    {
+        return $this->getEntityTable()->where('id = ?', $id)->fetch();
     }
 
     /**

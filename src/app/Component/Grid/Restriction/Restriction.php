@@ -3,6 +3,8 @@
 namespace App\Component\Grid\Restriction;
 
 use App\Component\Component;
+use App\Exception\DeleteRestrictionException;
+use App\Facade\RestrictionFacade;
 use App\Model\Manager\RestrictionManager;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
@@ -22,11 +24,12 @@ class Restriction extends Component
     /**
      * Constructor.
      *
-     * @param RestrictionManager $restrictionManager
-     * @param Translator         $translator
+     * @param RestrictionFacade $restrictionFacade
+     * @param Translator        $translator
      */
     public function __construct(
         private readonly RestrictionManager $restrictionManager,
+        private readonly RestrictionFacade $restrictionFacade,
         private readonly Translator $translator,
     )
     {
@@ -62,10 +65,11 @@ class Restriction extends Component
      *
      * @return void
      * @throws AbortException
+     * @throws DeleteRestrictionException
      */
     public function handleDelete(int $id): void
     {
-        $this->restrictionManager->delete($id);
+        $this->restrictionFacade->delete($id);
         $this->getPresenter()->flashMessage($this->translator->trans('flash.restrictionDeleted'), FlashType::SUCCESS);
         $this->getPresenter()->redirect('Restrictions:');
     }

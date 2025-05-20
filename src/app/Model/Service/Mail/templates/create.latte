@@ -15,7 +15,7 @@ Děkujeme Vám za rezervaci. Těšíme se na Vaši návštěvu a doufáme, že s
 <strong>Datum: </strong>{$date|date: "j.n.Y H:i"} <br>
 <strong>Jméno a Příjmení: </strong>{$name} <br>
 <strong>Počet míst: </strong>{$count} <br>
-<strong>Děti: </strong>{if $child == 1}Ano {else} Ne {/if}<br>
+<strong>Děti: </strong>{if $hasChildren == true}Ano {else} Ne {/if}<br>
 {if $comment}
 <strong>Komentář: </strong>{$comment} <br>
 {/if}

@@ -53,7 +53,7 @@ class Reservation extends Component
     public function createComponentForm(): Form
     {
         $form = new Form();
-        $form->addHidden('rezervationDate');
+        $form->addHidden('date');
         if (!$this->user->isLoggedIn())
         {
             $form->addText('email', $this->translator->trans('user.email'))
@@ -64,7 +64,7 @@ class Reservation extends Component
                 ->setHtmlAttribute('placeholder', $this->translator->trans('user.nameSurname'))
                 ->setHtmlAttribute('class', 'form-control')
                 ->setRequired();
-            $form->addText('telefon', $this->translator->trans('user.telephone'))
+            $form->addText('telephone', $this->translator->trans('user.telephone'))
                 ->setHtmlAttribute('placeholder', $this->translator->trans('user.telephone'))
                 ->setRequired()
                 ->addRule(
@@ -78,7 +78,7 @@ class Reservation extends Component
             ->setHtmlAttribute('class', 'form-control')
             ->setItems([1, 2, 3, 4, 5], false)
             ->setRequired();
-        $form->addSelect('child', $this->translator->trans('forms.childs'))
+        $form->addSelect('has_children', $this->translator->trans('forms.childs'))
             ->setHtmlAttribute('class', 'form-control')
             ->setItems(['Ne', 'Ano'])
             ->setRequired();

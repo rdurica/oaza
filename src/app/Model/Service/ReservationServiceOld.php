@@ -34,9 +34,9 @@ class ReservationServiceOld
      */
     public function insert(ArrayHash $values): void
     {
-        $count = $this->reservationManager->getReservationCountByDate($values->rezervationDate);
+        $count = $this->reservationManager->getReservationCountByDate($values->date);
 
-        if ($values->rezervationDate <= new DateTime())
+        if ($values->date <= new DateTime())
         {
             throw new ReservationInPastException();
         }
@@ -50,8 +50,8 @@ class ReservationServiceOld
                 $this->mailService->newReservation(
                     $values->email ?? $this->user->identity->email,
                     $values->name ?? $this->user->identity->name,
-                    $values->rezervationDate,
-                    $values->child,
+                    $values->date,
+                    (bool)$values->has_children,
                     $values->count,
                     $values->comment
                 );
@@ -60,7 +60,6 @@ class ReservationServiceOld
             {
                 throw new EmailNotSentException($e->getMessage(), $e->getCode(), $e);
             }
-
         } else
         {
             throw new CapacityExceededException();
