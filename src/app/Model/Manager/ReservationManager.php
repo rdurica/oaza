@@ -42,8 +42,8 @@ final class ReservationManager extends Manager
                res.date as date
                from reservation as res
                left outer join user u on u.id = res.user_id
-               where res.date >= ?
-               order by res.id",
+               where res.date >= ? AND (res.telephone <> 'restriction' or res.telephone is null)
+               order by res.date",
             new DateTime()
         )->fetchAll();
     }
@@ -162,6 +162,7 @@ final class ReservationManager extends Manager
                 $reservationCanceledDto->name = $registeredUser === true ? $reservation->user->name : $reservation->name;
                 $reservationCanceledDto->email = $registeredUser === true ? $reservation->user->email : $reservation->email;
                 $reservationCanceledDto->date = $reservation->date;
+                $reservationCanceledDto->count = (int) $reservation->count;
 
                 $result[] = $reservationCanceledDto;
 

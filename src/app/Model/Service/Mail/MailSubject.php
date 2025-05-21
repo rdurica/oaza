@@ -13,9 +13,15 @@ namespace App\Model\Service\Mail;
  */
 final class MailSubject
 {
-    public const RESERVATION_NEW = 'Rezervace úspěšně vytvořena';
+    public const RESERVATION_NEW = 'Rezervace byla úspěšně vytvořena';
+
     public const RESERVATION_CANCELED = 'Rezervace byla zrušena';
-    public const CONTACT_US = 'Dotaz';
-    public const PASSWORD_RESET = 'Reset hesla';
-    public const PASSWORD_CHANGED = 'Heslo bylo úspěšně zmněneno';
+
+    public const CONTACT_US = 'Nový dotaz z webu OÁZA';
+
+    public const PASSWORD_RESET = 'Obnovení hesla k účtu';
+
+    public const PASSWORD_CHANGED = 'Heslo bylo úspěšně změněno';
+
+    public const NEW_USER = 'Registrace byla úspěšně dokončena';
 }

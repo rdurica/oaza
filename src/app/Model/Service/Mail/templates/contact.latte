@@ -1,30 +1,14 @@
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>OAZA</title>
-</head>
-<body>
-<h1 style="color: #00bcd4">  <img src="https://oazahb.cz/images/logo.png">OAZA</h1>
-<br>
+{extends '@layout.latte'}
 
-<p>
-Dobrý den,<br><br>
-Nový dotaz od <strong>{$from}</strong>:
-<br>
-{$message}
+{block content}
+    <h4>Dobrý den,</h4>
+    <p>obdrželi jste nový dotaz od uživatele <strong>{$from}</strong>:</p>
 
-<br><br><br>
-<hr>
- <strong style="color: #00bcd4">Solná jeskyně OÁZA</strong><br>
-    Marie Roztočilová<br>
-    Chotěbořská 2943<br>
-    580 01 Havlíčkův Brod<br>
-    IČ: 75869896<br><br>
+    <div class="details">
+        {$message|noescape}
+    </div>
 
-    E-mail: info@oazahb.cz<br>
-    Telefon: 727 813 359
-</p>
-
-
-</body>
-</html>
+    <p>
+        Odpovězte prosím co nejdříve, pokud dotaz vyžaduje reakci.
+    </p>
+{/block}

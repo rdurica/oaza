@@ -1,31 +1,21 @@
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>OAZA</title>
-</head>
-<body>
-<h1 style="color: #00bcd4">  <img src="https://oazahb.cz/images/logo.png">OAZA</h1>
-<br>
-
-<p>
-Dobrý den,<br><br>
-Děkujeme, že jste se zaregistrovali na našich stránkach.
-
-Rádi bychom potvrdili, že váš účet byl úspěšně vytvořen. Pro přístup na portál klikněte na odkaz níže. <br>
-
- <a href="https://oazahb.cz">Oáza</a> <br> <br>
-
-Pokud zaznamenáte nějaké problémy s přihlášením ke svému účtu, kontaktujte nás na info@oazahb.cz.
-<br><br><br>
-<hr>
- <strong style="color: #00bcd4">Solná jeskyně OÁZA</strong><br>
-    Marie Roztočilová<br>
-    Chotěbořská 2943<br>
-    580 01 Havlíčkův Brod<br>
-    IČ: 75869896<br><br>
-
-    E-mail: info@oazahb.cz<br>
-    Telefon: 727 813 359
-</p>
-</body>
-</html>
+{extends '@layout.latte'}
+{block content}
+    <h4>Dobrý den,</h4>
+    <p>
+        děkujeme, že jste se zaregistrovali na našich stránkách.
+    </p>
+    <p>
+        Váš účet byl <strong>úspěšně vytvořen</strong>. Pro přístup k rezervačnímu systému klikněte na následující odkaz:
+    </p>
+    <p style="text-align: center; margin: 30px 0;">
+        <a href="https://oazahb.cz"
+           style="background-color: #00bcd4; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">
+            Přejít na portál OÁZA
+        </a>
+    </p>
+    <p>
+        Pokud narazíte na jakýkoli problém s přihlášením, neváhejte nás kontaktovat na
+        <a href="mailto:info@oazahb.cz">info@oazahb.cz</a>.
+    </p>
+    <p>Děkujeme a přejeme krásný den.</p>
+{/block}

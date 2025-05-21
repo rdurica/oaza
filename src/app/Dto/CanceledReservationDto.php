@@ -17,4 +17,6 @@ final class CanceledReservationDto
     public string $name;
 
     public DateTime $date;
+
+    public int $count;
 }

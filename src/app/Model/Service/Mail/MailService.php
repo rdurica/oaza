@@ -8,7 +8,6 @@ use App\Dto\CanceledReservationDto;
 use Latte\Engine;
 use Nette\Mail\Message;
 use Nette\Mail\SmtpMailer;
-use Nette\Utils\DateTime;
 use SensitiveParameter;
 
 /**
@@ -72,9 +71,25 @@ class MailService
      *
      * @return void
      */
-    public function reservationsCanceled(array $canceledReservations): void
+    public function reservationsCanceledByAdministrator(array $canceledReservations): void
     {
-        // Todo: Email for all customers with deleted reservations.
+        // Todo: refactor.
+        foreach ($canceledReservations as $canceledReservation)
+        {
+            $mail = new Message();
+            $mail->setFrom($this->emailFrom)
+                ->addTo($this->emailContact)
+                ->setSubject(MailSubject::RESERVATION_CANCELED)
+                ->setHtmlBody(
+                    $this->latte->renderToString(__DIR__ . '/templates/canceledByAdmin.latte', [
+                        'fullName' => $canceledReservation->name,
+                        'date'     => $canceledReservation->date,
+                        'count'     => $canceledReservation->count,
+                    ])
+                );
+
+            $this->mail->send($mail);
+        }
     }
 
     /**
@@ -178,6 +193,24 @@ class MailService
             ->addTo($email)
             ->setSubject(MailSubject::PASSWORD_CHANGED)
             ->setHtmlBody($this->latte->renderToString(__DIR__ . '/templates/passwordChanged.latte'));
+
+        $this->mail->send($mail);
+    }
+
+    /**
+     * Send email about new user.
+     *
+     * @param string $email
+     *
+     * @return void
+     */
+    public function userRegistered(string $email): void
+    {
+        $mail = new Message();
+        $mail->setFrom($this->emailFrom)
+            ->addTo($email)
+            ->setSubject(MailSubject::NEW_USER)
+            ->setHtmlBody($this->latte->renderToString(__DIR__ . '/templates/registration.latte'));
 
         $this->mail->send($mail);
     }

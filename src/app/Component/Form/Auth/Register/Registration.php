@@ -5,6 +5,7 @@ namespace App\Component\Form\Auth\Register;
 use App\Component\Component;
 use App\Exception\OazaException;
 use App\Model\Service\Authentication\Authenticator;
+use App\Model\Service\Mail\MailService;
 use App\Util\FlashType;
 use App\Util\OazaConfig;
 use Contributte\Translation\Translator;
@@ -31,10 +32,12 @@ class Registration extends Component
      *
      * @param Translator    $translator
      * @param Authenticator $authenticator
+     * @param MailService   $mailService
      */
     public function __construct(
         private readonly Translator $translator,
-        private readonly Authenticator $authenticator
+        private readonly Authenticator $authenticator,
+        private readonly MailService $mailService,
     )
     {
     }
@@ -93,6 +96,7 @@ class Registration extends Component
         try
         {
             $this->authenticator->createAccount($values->email, $values->password, $values->name, (int)$values->telephone);
+            $this->mailService->userRegistered($values->email);
             $this->presenter->flashMessage($this->translator->trans('flash.registrationSuccessful'), FlashType::SUCCESS);
         }
         catch (UniqueConstraintViolationException)

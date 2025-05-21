@@ -1,37 +1,24 @@
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>OAZA</title>
-</head>
-<body>
-<h1 style="color: #00bcd4">  <img src="https://oazahb.cz/images/logo.png">OAZA</h1>
-<br>
+{extends '@layout.latte'}
+{block content}
+    <h4>Dobrý den,</h4>
+    <p>
+        děkujeme Vám za Vaši rezervaci. Velmi si vážíme Vašeho zájmu a těšíme se na Vaši návštěvu.
+        Věříme, že si u nás odpočinete a načerpáte novou energii.
+    </p>
 
-<p>
-Dobrý den,<br><br>
-Děkujeme Vám za rezervaci. Těšíme se na Vaši návštěvu a doufáme, že se Vám u nás bude líbit.
-<br><br>
-<h3>Detail rezervace:</h3>
-<strong>Datum: </strong>{$date|date: "j.n.Y H:i"} <br>
-<strong>Jméno a Příjmení: </strong>{$name} <br>
-<strong>Počet míst: </strong>{$count} <br>
-<strong>Děti: </strong>{if $hasChildren == true}Ano {else} Ne {/if}<br>
-{if $comment}
-<strong>Komentář: </strong>{$comment} <br>
-{/if}
+    <div class="details">
+        <h3>Detaily Vaší rezervace:</h3>
+        <strong>Datum:</strong> {$date|date: "j.n.Y H:i"}<br>
+        <strong>Jméno a příjmení:</strong> {$name}<br>
+        <strong>Počet míst:</strong> {$count}<br>
+        <strong>Děti:</strong> {if $hasChildren == true}Ano{else}Ne{/if}<br>
+        {if $comment}
+            <strong>Komentář:</strong> {$comment}<br>
+        {/if}
+    </div>
 
-<br><br><br>
-<hr>
- <strong style="color: #00bcd4">Solná jeskyně OÁZA</strong><br>
-    Marie Roztočilová<br>
-    Chotěbořská 2943<br>
-    580 01 Havlíčkův Brod<br>
-    IČ: 75869896<br><br>
-
-    E-mail: info@oazahb.cz<br>
-    Telefon: 727 813 359
-</p>
-
-
-</body>
-</html>
+    <p>
+        V případě dotazů nebo změn nás neváhejte kontaktovat.<br>
+        Těšíme se na Vás!
+    </p>
+{/block}

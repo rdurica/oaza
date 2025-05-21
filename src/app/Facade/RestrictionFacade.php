@@ -101,7 +101,7 @@ final class RestrictionFacade
         }
 
         // Todo: send emails: $canceledReservationDtos
-        $this->mailService->reservationsCanceled($canceledReservationDtos);
+        $this->mailService->reservationsCanceledByAdministrator($canceledReservationDtos);
     }
 
     /**
