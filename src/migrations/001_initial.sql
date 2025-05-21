@@ -1,15 +1,3 @@
-create table faq
-(
-    id         int auto_increment
-        primary key,
-    question   varchar(100)                          not null,
-    answer     mediumtext                            not null,
-    created_ts timestamp default current_timestamp() not null,
-    updated_ts timestamp                             null on update current_timestamp(),
-    enabled    tinyint   default 1                   not null
-)
-    collate = utf8mb4_czech_ci;
-
 create table news
 (
     id            int auto_increment
