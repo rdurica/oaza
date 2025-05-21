@@ -50,7 +50,7 @@ create table reservation
     email        varchar(50) collate utf8mb4_czech_ci null,
     user_id      int                                       null,
     date         datetime                                  null,
-    comment      varchar(50) collate utf8mb4_czech_ci null,
+    comment      text collate utf8mb4_czech_ci        null,
     constraint FK_rezervations_user
         foreign key (user_id) references user (id)
 );
