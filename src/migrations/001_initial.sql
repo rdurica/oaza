@@ -22,13 +22,6 @@ create table restrictions
 )
     collate = utf8mb4_czech_ci;
 
-create table rules
-(
-    id      int auto_increment
-        primary key,
-    message longtext null
-);
-
 create table user
 (
     id              int(32) auto_increment
