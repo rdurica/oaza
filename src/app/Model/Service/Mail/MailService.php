@@ -78,7 +78,7 @@ class MailService
         {
             $mail = new Message();
             $mail->setFrom($this->emailFrom)
-                ->addTo($this->emailContact)
+                ->addTo($canceledReservation->email)
                 ->setSubject(MailSubject::RESERVATION_CANCELED)
                 ->setHtmlBody(
                     $this->latte->renderToString(__DIR__ . '/templates/canceledByAdmin.latte', [
