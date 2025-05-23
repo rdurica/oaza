@@ -84,7 +84,7 @@ class ContactUs extends Component
     {
         try
         {
-            $this->mailService->contactUs($values->from, $values->message);
+            $this->mailService->sendContactFormMessage($values->from, $values->message);
             $this->presenter->flashMessage($this->translator->trans('flash.contactUsSuccess'), FlashType::INFO);
         }
         catch (Exception)

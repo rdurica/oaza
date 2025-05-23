@@ -86,7 +86,7 @@ class ChangePassword extends Component
         try
         {
             $this->authenticator->changePassword($this->user->id, $values->password);
-            $this->mailService->passwordChanged($this->user->identity->email);
+            $this->mailService->sendPasswordChangedNotification($this->user->identity->email);
 
             $this->presenter->flashMessage($this->translator->trans('flash.passwordChanged'), FlashType::SUCCESS);
         }

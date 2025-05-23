@@ -96,7 +96,7 @@ class Registration extends Component
         try
         {
             $this->authenticator->createAccount($values->email, $values->password, $values->name, (int)$values->telephone);
-            $this->mailService->userRegistered($values->email);
+            $this->mailService->sendUserRegisteredNotification($values->email);
             $this->presenter->flashMessage($this->translator->trans('flash.registrationSuccessful'), FlashType::SUCCESS);
         }
         catch (UniqueConstraintViolationException)

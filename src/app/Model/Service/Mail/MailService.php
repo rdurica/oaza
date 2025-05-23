@@ -11,14 +11,25 @@ use Nette\Mail\SmtpMailer;
 use SensitiveParameter;
 
 /**
- * Service which sends emails.
+ * MailService.
  *
- * @package   App\Model\Service\Mail
- * @author    Robert Durica <r.durica@gmail.com>
- * @copyright Copyright (c) 2023, Robert Durica
+ * @copyright Copyright (c) 2025, Robert Durica
+ * @since 2025-05-23
  */
 class MailService
 {
+    private const string RESERVATION_NEW = 'Rezervace byla úspěšně vytvořena';
+
+    private const string RESERVATION_CANCELED = 'Rezervace byla zrušena';
+
+    private const string CONTACT_US = 'Nový dotaz z webu OÁZA';
+
+    private const string PASSWORD_RESET = 'Obnovení hesla k účtu';
+
+    private const string PASSWORD_CHANGED = 'Heslo bylo úspěšně změněno';
+
+    private const string NEW_USER = 'Registrace byla úspěšně dokončena';
+
     private Engine $latte;
 
     private SmtpMailer $mail;
@@ -30,19 +41,22 @@ class MailService
      * @param string $emailAdmin
      * @param string $emailPassword
      * @param string $port
+     * @param string $encryption
+     * @param string $emailFrom
+     * @param string $emailContact
      */
     public function __construct(
         public readonly string $host,
         public readonly string $emailAdmin,
         #[SensitiveParameter] string $emailPassword,
         public readonly string $port,
-        public readonly string $encription,
+        public readonly string $encryption,
         public readonly string $emailFrom,
         public readonly string $emailContact,
     )
     {
         $this->latte = new Engine();
-        $this->mail = new SmtpMailer($host, $emailAdmin, $emailPassword, (int)$port, $encription);
+        $this->mail = new SmtpMailer($host, $emailAdmin, $emailPassword, (int)$port, $encryption);
     }
 
     /**
@@ -52,14 +66,14 @@ class MailService
      *
      * @return void
      */
-    public function reservationCanceled(string $emailAddress): void
+    public function sendReservationCancellation(string $emailAddress): void
     {
         $mail = new Message();
         $mail->setFrom($this->emailFrom)
             ->addTo($emailAddress)
             ->addBcc($this->emailContact)
-            ->setSubject(MailSubject::RESERVATION_CANCELED)
-            ->setHtmlBody($this->latte->renderToString(__DIR__ . '/templates/canceled.latte'));
+            ->setSubject(self::RESERVATION_CANCELED)
+            ->setHtmlBody($this->latte->renderToString(__DIR__ . '/templates/reservationCancellation.latte'));
 
         $this->mail->send($mail);
     }
@@ -71,7 +85,7 @@ class MailService
      *
      * @return void
      */
-    public function reservationsCanceledByAdministrator(array $canceledReservations): void
+    public function sendReservationCancellationByAdministrator(array $canceledReservations): void
     {
         // Todo: refactor.
         foreach ($canceledReservations as $canceledReservation)
@@ -79,9 +93,9 @@ class MailService
             $mail = new Message();
             $mail->setFrom($this->emailFrom)
                 ->addTo($canceledReservation->email)
-                ->setSubject(MailSubject::RESERVATION_CANCELED)
+                ->setSubject(self::RESERVATION_CANCELED)
                 ->setHtmlBody(
-                    $this->latte->renderToString(__DIR__ . '/templates/canceledByAdmin.latte', [
+                    $this->latte->renderToString(__DIR__ . '/templates/reservationCancellationByAdministrator.latte', [
                         'fullName' => $canceledReservation->name,
                         'date'     => $canceledReservation->date,
                         'count'     => $canceledReservation->count,
@@ -100,14 +114,14 @@ class MailService
      *
      * @return void
      */
-    public function contactUs(string $from, string $message): void
+    public function sendContactFormMessage(string $from, string $message): void
     {
         $mail = new Message();
         $mail->setFrom($this->emailFrom)
             ->addTo($this->emailContact)
-            ->setSubject(MailSubject::CONTACT_US)
+            ->setSubject(self::CONTACT_US)
             ->setHtmlBody(
-                $this->latte->renderToString(__DIR__ . '/templates/contact.latte', [
+                $this->latte->renderToString(__DIR__ . '/templates/contactFormMessage.latte', [
                     'from'    => $from,
                     'message' => $message,
                 ])
@@ -128,7 +142,7 @@ class MailService
      *
      * @return void
      */
-    public function newReservation(
+    public function sendNewReservationDetails(
         string $email,
         string $name,
         string $date,
@@ -141,9 +155,9 @@ class MailService
         $mail->setFrom($this->emailFrom)
             ->addTo($email)
             ->addBcc($this->emailContact)
-            ->setSubject(MailSubject::RESERVATION_NEW)
+            ->setSubject(self::RESERVATION_NEW)
             ->setHtmlBody(
-                $this->latte->renderToString(__DIR__ . '/templates/create.latte', [
+                $this->latte->renderToString(__DIR__ . '/templates/newReservationDetails.latte', [
                     'email'       => $email,
                     'name'        => $name,
                     'date'        => $date,
@@ -164,14 +178,14 @@ class MailService
      *
      * @return void
      */
-    public function sendNewPassword(string $email, string $newPassword): void
+    public function sendTemporaryPassword(string $email, string $newPassword): void
     {
         $mail = new Message();
         $mail->setFrom($this->emailFrom)
             ->addTo($email)
-            ->setSubject(MailSubject::PASSWORD_RESET)
+            ->setSubject(self::PASSWORD_RESET)
             ->setHtmlBody(
-                $this->latte->renderToString(__DIR__ . '/templates/newPassword.latte', [
+                $this->latte->renderToString(__DIR__ . '/templates/temporaryPassword.latte', [
                     'password' => $newPassword,
                 ])
             );
@@ -186,13 +200,13 @@ class MailService
      *
      * @return void
      */
-    public function passwordChanged(string $email): void
+    public function sendPasswordChangedNotification(string $email): void
     {
         $mail = new Message();
         $mail->setFrom($this->emailFrom)
             ->addTo($email)
-            ->setSubject(MailSubject::PASSWORD_CHANGED)
-            ->setHtmlBody($this->latte->renderToString(__DIR__ . '/templates/passwordChanged.latte'));
+            ->setSubject(self::PASSWORD_CHANGED)
+            ->setHtmlBody($this->latte->renderToString(__DIR__ . '/templates/passwordChangedNotification.latte'));
 
         $this->mail->send($mail);
     }
@@ -204,13 +218,13 @@ class MailService
      *
      * @return void
      */
-    public function userRegistered(string $email): void
+    public function sendUserRegisteredNotification(string $email): void
     {
         $mail = new Message();
         $mail->setFrom($this->emailFrom)
             ->addTo($email)
-            ->setSubject(MailSubject::NEW_USER)
-            ->setHtmlBody($this->latte->renderToString(__DIR__ . '/templates/registration.latte'));
+            ->setSubject(self::NEW_USER)
+            ->setHtmlBody($this->latte->renderToString(__DIR__ . '/templates/userRegisteredNotification.latte'));
 
         $this->mail->send($mail);
     }

@@ -49,6 +49,6 @@ class PasswordService
 
         $plainPassword = bin2hex(random_bytes(16));
         $this->authenticator->changePassword($account->id, $plainPassword, true);
-        $this->mailService->sendNewPassword($email, $plainPassword);
+        $this->mailService->sendTemporaryPassword($email, $plainPassword);
     }
 }

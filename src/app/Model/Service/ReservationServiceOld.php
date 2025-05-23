@@ -47,7 +47,7 @@ class ReservationServiceOld
 
             try
             {
-                $this->mailService->newReservation(
+                $this->mailService->sendNewReservationDetails(
                     $values->email ?? $this->user->identity->email,
                     $values->name ?? $this->user->identity->name,
                     $values->date,
@@ -78,7 +78,7 @@ class ReservationServiceOld
         if ($reservationData && ($reservationData['user_id'] === $this->user->id) || $admin === true)
         {
             $this->reservationManager->getEntityTable()->where('id', $id)->delete();
-            $this->mailService->reservationCanceled($this->user->identity->email);
+            $this->mailService->sendReservationCancellation($this->user->identity->email);
         } else
         {
             throw new NotAllowedOperationException();
