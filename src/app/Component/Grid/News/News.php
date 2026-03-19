@@ -1,16 +1,18 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Component\Grid\News;
 
 use App\Component\Component;
 use App\Model\Manager\NewsManager;
 use App\Util\FlashType;
+use Contributte\Datagrid\Datagrid;
+use Contributte\Datagrid\Exception\DatagridException;
 use Contributte\Translation\Translator;
 use JetBrains\PhpStorm\NoReturn;
 use Nette\Application\AbortException;
 use Nette\Utils\Html;
-use Ublaboo\DataGrid\DataGrid;
-use Ublaboo\DataGrid\Exception\DataGridException;
 
 /**
  * News grid.
@@ -29,19 +31,17 @@ class News extends Component
     public function __construct(
         public readonly NewsManager $newsManager,
         public readonly Translator $translator
-    )
-    {
-    }
+    ) {}
 
     /**
      * Create news grid.
      *
-     * @return DataGrid
-     * @throws DataGridException
+     * @return Datagrid
+     * @throws DatagridException
      */
-    public function createComponentGrid(): DataGrid
+    public function createComponentGrid(): Datagrid
     {
-        $grid = new DataGrid();
+        $grid = new Datagrid();
         $grid->setDataSource($this->newsManager->getEntityTable()->order('id DESC'));
         $grid->addColumnText('text', 'Text')
             ->setRenderer(renderer: fn($item): Html => Html::el()->setHtml($item->text));

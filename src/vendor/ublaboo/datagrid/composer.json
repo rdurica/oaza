@@ -1,0 +1,81 @@
+{
+  "name": "ublaboo/datagrid",
+  "type": "library",
+  "description": "DataGrid for Nette Framework: filtering, sorting, pagination, tree view, table view, translator, etc",
+  "keywords": [
+    "datagrid",
+    "grid",
+    "nette",
+    "contributte",
+    "table",
+    "data"
+  ],
+  "license": [
+    "MIT"
+  ],
+  "authors": [
+    {
+      "name": "Pavel Janda",
+      "homepage": "https://paveljanda.com"
+    },
+    {
+      "name": "Milan Felix Šulc",
+      "homepage": "https://f3l1x.io"
+    }
+  ],
+  "require": {
+    "php": ">=8.2",
+    "nette/application": "^3.2.0",
+    "nette/di": "^3.0.0",
+    "nette/forms": "^3.2.0",
+    "nette/utils": "^4.0.0",
+    "symfony/property-access": "^6.4.0 || ^7.2.0"
+  },
+  "require-dev": {
+    "contributte/qa": "^0.3.0",
+    "dibi/dibi": "^5.0.2",
+    "doctrine/annotations": "^1.14.4",
+    "doctrine/cache": "^1.13.0",
+    "doctrine/orm": "^2.20.2",
+    "elasticsearch/elasticsearch": "^8.6",
+    "mockery/mockery": "^1.6.12",
+    "nette/database": "^3.0.2",
+    "nette/tester": "^2.3.4",
+    "nextras/dbal": "^4.0 || ^5.0",
+    "nextras/orm": "^4.0 || ^5.0",
+    "phpstan/phpstan-deprecation-rules": "^1.1",
+    "phpstan/phpstan-mockery": "^1.1",
+    "phpstan/phpstan-nette": "^1.0.0",
+    "phpstan/phpstan-strict-rules": "^1.4",
+    "tharos/leanmapper": "^3.4.2 || ^4.0.0",
+    "tracy/tracy": "^2.6.3"
+  },
+  "conflict": {
+    "doctrine/collections": "<2.2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Contributte\\Datagrid\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Contributte\\Datagrid\\Tests\\": "tests"
+    }
+  },
+  "prefer-stable": true,
+  "minimum-stability": "dev",
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true,
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "php-http/discovery": true
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "7.1.x-dev"
+    }
+  }
+}

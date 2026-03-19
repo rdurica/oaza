@@ -7,12 +7,12 @@ use App\Exception\NotAllowedOperationException;
 use App\Model\Manager\ReservationManager;
 use App\Model\Service\ReservationServiceOld;
 use App\Util\FlashType;
+use Contributte\Datagrid\Column\Action\Confirmation\StringConfirmation;
+use Contributte\Datagrid\Datagrid;
+use Contributte\Datagrid\Exception\DatagridException;
 use Contributte\Translation\Translator;
 use Exception;
 use Nette\Mail\SmtpException;
-use Ublaboo\DataGrid\Column\Action\Confirmation\StringConfirmation;
-use Ublaboo\DataGrid\DataGrid;
-use Ublaboo\DataGrid\Exception\DataGridException;
 
 /**
  * Reservation grid.
@@ -40,12 +40,12 @@ class Reservation extends Component
     /**
      * Create grid.
      *
-     * @return DataGrid
-     * @throws DataGridException
+     * @return Datagrid
+     * @throws DatagridException
      */
-    public function createComponentGrid(): DataGrid
+    public function createComponentGrid(): Datagrid
     {
-        $grid = new DataGrid();
+        $grid = new Datagrid();
 
         $grid->setDataSource($this->reservationManager->findAllActive());
         $grid->addColumnText('name', 'Jméno')

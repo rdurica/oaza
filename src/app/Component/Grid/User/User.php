@@ -5,11 +5,11 @@ namespace App\Component\Grid\User;
 use App\Component\Component;
 use App\Model\Manager\UserManager;
 use App\Util\FlashType;
+use Contributte\Datagrid\Datagrid;
+use Contributte\Datagrid\Exception\DatagridException;
 use Contributte\Translation\Translator;
 use Exception;
 use Nette\Application\AbortException;
-use Ublaboo\DataGrid\DataGrid;
-use Ublaboo\DataGrid\Exception\DataGridException;
 
 /**
  * User grid.
@@ -35,12 +35,12 @@ class User extends Component
     /**
      * Create grid.
      *
-     * @return DataGrid
-     * @throws DataGridException
+     * @return Datagrid
+     * @throws DatagridException
      */
-    public function createComponentGrid(): DataGrid
+    public function createComponentGrid(): Datagrid
     {
-        $grid = new DataGrid();
+        $grid = new Datagrid();
         $grid->setDataSource($this->userManager->getEntityTable());
         $grid->addColumnText('name', 'Jméno')
             ->setFilterText();

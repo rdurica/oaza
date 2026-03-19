@@ -7,11 +7,11 @@ use App\Exception\DeleteRestrictionException;
 use App\Facade\RestrictionFacade;
 use App\Model\Manager\RestrictionManager;
 use App\Util\FlashType;
+use Contributte\Datagrid\Datagrid;
+use Contributte\Datagrid\Exception\DatagridException;
 use Contributte\Translation\Translator;
 use Nette\Application\AbortException;
 use Nette\Utils\Html;
-use Ublaboo\DataGrid\DataGrid;
-use Ublaboo\DataGrid\Exception\DataGridException;
 
 /**
  * Restriction grid.
@@ -38,12 +38,12 @@ class Restriction extends Component
     /**
      * Create restriction grid.
      *
-     * @return DataGrid
-     * @throws DataGridException
+     * @return Datagrid
+     * @throws DatagridException
      */
-    public function createComponentGrid(): DataGrid
+    public function createComponentGrid(): Datagrid
     {
-        $grid = new DataGrid();
+        $grid = new Datagrid();
         $grid->setDataSource($this->restrictionManager->findAllActive());
         $grid->addColumnDateTime('from', 'Od')
             ->setFormat('j.n.Y', 'd. m. yyyy');

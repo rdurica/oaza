@@ -15,8 +15,10 @@ build/dev/certs
 #Nette
 src/temp
 src/log
-src/vendor
 upload
 
 # K8s
 manifest.yaml
+
+# Laravel
+!src/.env.example

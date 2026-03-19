@@ -1,0 +1,74 @@
+{
+  "name": "contributte/sentry",
+  "description": "First class integration of Sentry to Nette Framework",
+  "keywords": [
+    "nette",
+    "sentry",
+    "logging",
+    "errors",
+    "tracking"
+  ],
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://github.com/contributte/sentry",
+  "authors": [
+    {
+      "name": "Milan Felix Šulc",
+      "homepage": "https://f3l1x.io"
+    }
+  ],
+  "require": {
+    "php": ">=8.2",
+    "sentry/sentry": "^4.6.0",
+    "guzzlehttp/guzzle": "^7.8.1",
+    "guzzlehttp/psr7": "^2.6.3",
+    "php-http/guzzle7-adapter": "^1.1.0"
+  },
+  "require-dev": {
+    "contributte/qa": "~0.4.0",
+    "contributte/tester": "~0.3.0",
+    "contributte/phpstan": "~0.3.0",
+    "mockery/mockery": "^1.5.1",
+    "nette/application": "^3.1.0",
+    "nette/di": "^3.1.0",
+    "nette/http": "^3.2.1",
+    "nette/security": "^3.1.6",
+    "nette/tester": "^2.4.3",
+    "tracy/tracy": "^2.10.0"
+  },
+  "suggest": {
+    "ext-curl": "S3 upload"
+  },
+  "conflict": {
+    "nette/utils": "<3.2.8",
+    "nette/http": "<3.2.1",
+    "tracy/tracy": "<2.10.0",
+    "php-http/discovery": "<1.14.0",
+    "symfony/options-resolver": "<6.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Contributte\\Sentry\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true,
+      "composer/package-versions-deprecated": true,
+      "php-http/discovery": true
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.5.x-dev"
+    }
+  }
+}

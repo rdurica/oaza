@@ -1,0 +1,24 @@
+diff --git a/src/Utils/NetteDatabaseSelectionHelper.php b/src/Utils/NetteDatabaseSelectionHelper.php
+index e729d34..5055c2d 100644
+--- a/src/Utils/NetteDatabaseSelectionHelper.php
++++ b/src/Utils/NetteDatabaseSelectionHelper.php
+@@ -21,7 +21,6 @@ final class NetteDatabaseSelectionHelper
+ 		$reflection = new ReflectionClass($selection);
+ 
+ 		$explorerProperty = $reflection->getProperty('explorer');
+-		$explorerProperty->setAccessible(true);
+ 
+ 		return $explorerProperty->getValue($selection);
+ 	}
+diff --git a/src/DataSource/DibiFluentDataSource.php b/src/DataSource/DibiFluentDataSource.php
+index 042b538..c0cced5 100644
+--- a/src/DataSource/DibiFluentDataSource.php
++++ b/src/DataSource/DibiFluentDataSource.php
+@@ -84,7 +84,6 @@ class DibiFluentDataSource extends FilterableDataSource implements IDataSource,
+ 			$reflection = new ReflectionClass(Fluent::class);
+ 
+ 			$cursorProperty = $reflection->getProperty('cursor');
+-			$cursorProperty->setAccessible(true);
+ 			$cursor = $cursorProperty->getValue($this->dataSource);
+ 
+ 			if (!(bool) $cursor) {

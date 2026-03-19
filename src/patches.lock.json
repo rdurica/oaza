@@ -1,0 +1,17 @@
+{
+    "_hash": "a06bd2e5d101104f82fafc4db0d3d6691cd5986e61f37a51eac4d6a59aecf608",
+    "patches": {
+        "ublaboo/datagrid": [
+            {
+                "package": "ublaboo/datagrid",
+                "description": "Remove deprecated ReflectionProperty::setAccessible() calls for PHP 8.5",
+                "url": "patches/ublaboo-datagrid-php-8.5-compat.patch",
+                "sha256": "015d87e2a00d85fed4ce3bed813d4da14ea68f74e9c1a7cf23e6c55582e4d45e",
+                "depth": 1,
+                "extra": {
+                    "provenance": "root"
+                }
+            }
+        ]
+    }
+}
