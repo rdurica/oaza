@@ -38,6 +38,23 @@ repository are not carried over into the new version.
 - Responsive design for different devices
 - Easy to use interface
 
+## Local development
+
+Run `make init` after cloning the repository.
+
+The command:
+
+- creates a local self-signed TLS certificate in `build/dev/certs`
+- installs PHP dependencies into `src/vendor` if they are missing
+- starts a local MariaDB service and imports `src/migrations/001_initial.sql` on first bootstrap
+- creates the shared Docker network `apps` if it does not exist yet
+- builds the development image and starts the local stack
+
+Requirements on the host machine:
+
+- Docker with `docker compose`
+- OpenSSL
+
 
 ## License
 

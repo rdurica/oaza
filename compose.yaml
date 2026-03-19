@@ -1,9 +1,26 @@
 services:
+  mariadb:
+    image: mariadb:11
+    environment:
+      MARIADB_DATABASE: oaza
+      MARIADB_ROOT_PASSWORD: password
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb-admin ping -uroot -p$$MARIADB_ROOT_PASSWORD --silent"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    volumes:
+      - mariadb-data:/var/lib/mysql
+
   php-fpm:
     build:
       context: .
       dockerfile: build/dev/Dockerfile
     env_file: ./build/dev/example.env
+    depends_on:
+      mariadb:
+        condition: service_healthy
     volumes:
       - ./src:/app/src
       - ./build/dev/certs:/etc/nginx/certs
@@ -19,3 +36,6 @@ networks:
   apps:
     external: true
     driver: bridge
+
+volumes:
+  mariadb-data:
