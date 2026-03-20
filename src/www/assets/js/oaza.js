@@ -47,6 +47,144 @@ function bindCommonUi() {
     }
 }
 
+function initPublicMobileNav() {
+    const header = document.querySelector('.public-top-bar');
+    if (!header || typeof $.fn.collapse !== 'function') {
+        return;
+    }
+
+    const toggle = header.querySelector('.public-nav-toggle');
+    const nav = document.getElementById('public-mobile-nav');
+    if (!toggle || !nav) {
+        return;
+    }
+
+    const mobileQuery = window.matchMedia('(max-width: 767px)');
+    const toggleNode = $(toggle);
+    const navNode = $(nav);
+    const bodyNode = $(document.body);
+    const headerNode = $(header);
+
+    const syncHeaderHeight = () => {
+        const headerHeight = Math.round(header.getBoundingClientRect().height);
+        header.style.setProperty('--public-mobile-header-height', `${headerHeight}px`);
+    };
+
+    const syncState = (isOpen) => {
+        toggleNode.attr('aria-expanded', isOpen ? 'true' : 'false');
+        toggle.classList.toggle('is-open', isOpen);
+        bodyNode.toggleClass('nav-open', isOpen);
+        headerNode.toggleClass('nav-open', isOpen);
+    };
+
+    const instantClose = () => {
+        navNode.addClass('is-closing');
+        navNode.removeClass('in collapsing').addClass('collapse').css('height', '');
+        navNode.find('.dropdown.open').removeClass('open');
+        syncState(false);
+
+        window.setTimeout(() => {
+            navNode.removeClass('is-closing');
+        }, 260);
+    };
+
+    const closeMenu = (options = {}) => {
+        if (options.instant && mobileQuery.matches) {
+            instantClose();
+            return;
+        }
+
+        if (navNode.hasClass('in') || navNode.hasClass('collapsing')) {
+            navNode.collapse('hide');
+            return;
+        }
+
+        syncState(false);
+    };
+
+    navNode.on('show.bs.collapse', () => {
+        syncHeaderHeight();
+        syncState(true);
+    });
+
+    navNode.on('shown.bs.collapse', () => {
+        syncState(true);
+    });
+
+    navNode.on('hide.bs.collapse', () => {
+        syncState(false);
+    });
+
+    navNode.on('hidden.bs.collapse', () => {
+        syncState(false);
+        navNode.find('.dropdown.open').removeClass('open');
+    });
+
+    toggleNode.on('click.publicNav', (event) => {
+        if (!mobileQuery.matches) {
+            return;
+        }
+
+        if (navNode.hasClass('in') || navNode.hasClass('collapsing')) {
+            event.preventDefault();
+            event.stopPropagation();
+            closeMenu({ instant: true });
+        }
+    });
+
+    navNode.on('click', '.dropdown > .dropdown-toggle', function (event) {
+        if (!mobileQuery.matches) {
+            return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        const currentDropdown = $(this).parent('.dropdown');
+        const shouldOpen = !currentDropdown.hasClass('open');
+
+        navNode.find('.dropdown.open').not(currentDropdown).removeClass('open');
+        currentDropdown.toggleClass('open', shouldOpen);
+    });
+
+    navNode.on('click', 'a', function () {
+        if (!mobileQuery.matches || $(this).hasClass('dropdown-toggle')) {
+            return;
+        }
+
+        closeMenu({ instant: true });
+    });
+
+    $(document).on('keydown.publicNav', (event) => {
+        if (event.key === 'Escape' && navNode.hasClass('in')) {
+            closeMenu({ instant: true });
+        }
+    });
+
+    const handleViewportChange = () => {
+        if (mobileQuery.matches) {
+            syncHeaderHeight();
+            return;
+        }
+
+        navNode.removeClass('is-closing');
+        navNode.find('.dropdown.open').removeClass('open');
+        closeMenu({ instant: true });
+        navNode.removeAttr('style');
+    };
+
+    if (typeof mobileQuery.addEventListener === 'function') {
+        mobileQuery.addEventListener('change', handleViewportChange);
+    } else if (typeof mobileQuery.addListener === 'function') {
+        mobileQuery.addListener(handleViewportChange);
+    }
+
+    $(window).on('resize.publicNav', syncHeaderHeight);
+
+    syncHeaderHeight();
+    syncState(navNode.hasClass('in'));
+}
+
 function initPublicReservationCalendar(calendarElement) {
     const events = readJsonPayload('reservation-calendar-events');
 
@@ -144,6 +282,7 @@ function initUserCalendar(calendarElement) {
 
 $(function () {
     bindCommonUi();
+    initPublicMobileNav();
 
     const calendarElement = document.getElementById('calendar');
     if (!calendarElement || typeof $.fn.fullCalendar !== 'function') {

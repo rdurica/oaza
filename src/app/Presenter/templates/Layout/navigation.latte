@@ -1,7 +1,15 @@
-<header id="top-bar" class="navbar-fixed-top animated-header">
+<header id="top-bar" class="navbar-fixed-top animated-header public-top-bar">
     <div class="container">
         <div class="navbar-header public-nav-shell">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <button
+                type="button"
+                class="navbar-toggle public-nav-toggle"
+                data-toggle="collapse"
+                data-target="#public-mobile-nav"
+                aria-controls="public-mobile-nav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -16,7 +24,7 @@
         </div>
         {translator messages}
             <!-- main menu -->
-            <nav class="collapse navbar-collapse navbar-right" role="navigation">
+            <nav id="public-mobile-nav" class="collapse navbar-collapse navbar-right" role="navigation">
                 <div class="main-menu">
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
