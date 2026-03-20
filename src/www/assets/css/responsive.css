@@ -135,8 +135,14 @@ px      68    160    252    */
   .homepage-section-heading .title {
     font-size: 34px;
   }
+  .homepage-news-card {
+    padding: 24px 20px;
+  }
+  .homepage-news-title {
+    font-size: 22px;
+  }
   .homepage-cta-inner {
-    padding: 0 10px;
+    padding: 0;
   }
   figure .buttons {
     left: 16%;

@@ -39,15 +39,6 @@
     </section>
 
     <div class="homepage-content-shell">
-        {* Last news *}
-        <section id="feature" class="homepage-news" n:if="$lastNews">
-            <div class="container">
-                <div class="section-heading homepage-reveal">
-                    {$lastNews->text|noescape}
-                </div>
-            </div>
-        </section>
-
         {* Medical effects*}
         <section id="feature" class="works homepage-features">
             <div class="container">
@@ -142,6 +133,22 @@
                                 <h4 class="media-heading">Bezbarierový přístup</h4>
                                 <p>Díky bezbarierovému přístupu si pobyt užijí i lidé s hendicapem</p>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {* Last news *}
+        <section id="feature" class="homepage-news" n:if="$lastNews">
+            <div class="container">
+                <div class="section-heading homepage-reveal">
+                    <div class="homepage-news-card">
+                        <div class="homepage-news-header">
+                            <p class="homepage-news-kicker">{$lastNews->creation|date:'j. n. Y'}</p>
+                        </div>
+                        <div class="homepage-news-body">
+                            {$lastNews->text|noescape}
                         </div>
                     </div>
                 </div>
