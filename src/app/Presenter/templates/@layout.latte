@@ -36,14 +36,16 @@
     {include './Layout/modals.latte'}
     {include "./Layout/navigation.latte"}
     {include content}
-<footer id="footer">
+    <footer id="footer">
         <div class="container">
-            <div class="col-md-8 col-md-offset-2 text-center">
+            <div class="col-md-8 col-md-offset-2 text-center footer-content">
+                <p class="footer-kicker">Klidná tečka za každou návštěvou</p>
+                <div class="footer-divider"></div>
                 <p class="copyright">Copyright <span id="year">2017</span> &copy; Robert Ďurica</p>
             </div>
         </div>
-</footer> <!-- /#footer -->
-{block scripts}
+    </footer> <!-- /#footer -->
+    {block scripts}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
             integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -71,17 +73,8 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{$basePath}/assets/js/oaza.js"></script>
-
-
-    <script>
-        document.getElementById("year").innerHTML = 2017 + " - " + new Date().getFullYear().toString();
-        Fancybox.bind('[data-fancybox="gallery"]', {
-            hideScrollbar: false,
-        });
-
-    </script>
-{/block}
-{snippet flashMessages}
+    {/block}
+    {snippet flashMessages}
         <script n:inner-foreach="$flashes as $flash">
             notifyMessage({$flash->message}, {$flash->type});
         </script>

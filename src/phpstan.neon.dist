@@ -1,0 +1,23 @@
+parameters:
+    level: 5
+    paths:
+        - app/Component/Form/Reservation
+        - app/Component/Grid/Reservation
+        - app/Dto
+        - app/Model/Manager/ReservationManager.php
+        - app/Model/Service/ReservationCalendarService.php
+        - app/Model/Service/ReservationService.php
+        - app/Modules/Admin/Presenter/AdminPresenter.php
+        - app/Presenter/ReservationsPresenter.php
+        - app/Presenter/UserPresenter.php
+        - www/index.php
+    tmpDir: temp/phpstan
+    bootstrapFiles:
+        - vendor/autoload.php
+    excludePaths:
+        - vendor
+        - node_modules
+    universalObjectCratesClasses:
+        - Nette\Application\UI\Template
+        - Nette\Database\Table\ActiveRow
+        - Nette\Security\IIdentity

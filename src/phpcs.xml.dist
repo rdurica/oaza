@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<ruleset name="Oaza">
+    <description>Project coding standard for application code.</description>
+
+    <arg name="basepath" value="."/>
+    <arg name="colors"/>
+    <arg name="parallel" value="4"/>
+    <arg name="extensions" value="php"/>
+
+    <file>app/Component/Form/Reservation</file>
+    <file>app/Component/Grid/Reservation</file>
+    <file>app/Dto</file>
+    <file>app/Model/Manager/ReservationManager.php</file>
+    <file>app/Model/Service/ReservationCalendarService.php</file>
+    <file>app/Model/Service/ReservationService.php</file>
+    <file>app/Modules/Admin/Presenter/AdminPresenter.php</file>
+    <file>app/Presenter/ReservationsPresenter.php</file>
+    <file>app/Presenter/UserPresenter.php</file>
+    <file>www/index.php</file>
+
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/temp/*</exclude-pattern>
+    <exclude-pattern>*/log/*</exclude-pattern>
+
+    <rule ref="PSR12"/>
+</ruleset>

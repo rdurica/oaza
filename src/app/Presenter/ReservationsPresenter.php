@@ -1,10 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Presenter;
 
 use App\Component\Form\Reservation\Reservation;
 use App\Component\Form\Reservation\ReservationFormFactory;
-use App\Model\Service\CalendarServiceOld;
+use App\Model\Service\ReservationCalendarService;
+use Nette\Utils\Json;
 
 /**
  * ReservationsPresenter.
@@ -17,11 +20,13 @@ class ReservationsPresenter extends Presenter
     /**
      * Constructor.
      *
-     * @param CalendarServiceOld     $calendarService
+     * @param ReservationCalendarService $calendarService
      * @param ReservationFormFactory $reservationFormFactory
      */
-    public function __construct(private readonly CalendarServiceOld $calendarService, private readonly ReservationFormFactory $reservationFormFactory)
-    {
+    public function __construct(
+        private readonly ReservationCalendarService $calendarService,
+        private readonly ReservationFormFactory $reservationFormFactory,
+    ) {
         parent::__construct();
     }
 
@@ -32,7 +37,9 @@ class ReservationsPresenter extends Presenter
      */
     public function renderCreate(): void
     {
-        $this->getTemplate()->data = $this->calendarService->getData();
+        $this->getTemplate()->calendarEvents = Json::encode(
+            $this->calendarService->getPublicCalendarEvents(),
+        );
     }
 
     /**

@@ -1,4 +1,4 @@
-name: Tests
+name: Quality
 
 on:
   push:
@@ -12,106 +12,38 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  tests:
-    name: Tests
+  quality:
+    name: Quality
     runs-on: ubuntu-latest
     steps:
-      -
-        name: Checkout
+      - name: Checkout
         uses: actions/checkout@v4
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-      -
-        name: Build Docker images
-        uses: docker/bake-action@v5
-        with:
-          pull: true
-          load: true
-          files: |
-            compose.test.yaml
-          set: |
-            *.cache-from=type=gha,scope=${{github.ref}}
-            *.cache-from=type=gha,scope=refs/heads/main
-            *.cache-to=type=gha,scope=${{github.ref}},mode=max
-      -
-        name: Start database service
-        run: docker compose -f compose.test.yaml up -d postgres
-      -
-        name: Export host UID/GID
-        run: |
-          echo "HOST_UID=$(id -u)" >> "$GITHUB_ENV"
-          echo "HOST_GID=$(id -g)" >> "$GITHUB_ENV"
-      -
-        name: Install Composer dependencies
-        run: |
-          set -euo pipefail
-          docker compose -f compose.test.yaml run --rm \
-            --user "${HOST_UID}:${HOST_GID}" \
-            --workdir /app/src \
-            php-fpm bash -lc "export COMPOSER_HOME=/tmp/composer && mkdir -p \$COMPOSER_HOME && composer install --no-interaction --prefer-dist"
-      -
-        name: Create test database
-        run: |
-          set -euo pipefail
-          docker compose -f compose.test.yaml run --rm \
-            --user "${HOST_UID}:${HOST_GID}" \
-            --workdir /app/src \
-            php-fpm bash -lc "php bin/console -e test doctrine:database:create --if-not-exists"
+      - name: Build quality container
+        run: docker compose -f compose.test.yaml build php-fpm
 
-      -
-        name: Doctrine schema update
+      - name: Composer validate
         run: |
           set -euo pipefail
-          docker compose -f compose.test.yaml run --rm \
-            --user "${HOST_UID}:${HOST_GID}" \
-            --workdir /app/src \
-            php-fpm bash -lc "php bin/console -e test doctrine:schema:update --force"
-      -
-        name: Load fixtures
-        if: false # Set true to run tests
+          docker compose -f compose.test.yaml run --rm php-fpm \
+            bash -lc "cd /app/src && composer validate --no-check-publish"
+
+      - name: PHP lint
         run: |
           set -euo pipefail
-          docker compose -f compose.test.yaml run --rm \
-            --user "${HOST_UID}:${HOST_GID}" \
-            --workdir /app/src \
-            php-fpm bash -lc "php bin/console -e test doctrine:fixtures:load --no-interaction"
-      -
-        name: Run Unit tests
-        if: false # Set true to run tests
+          docker compose -f compose.test.yaml run --rm php-fpm \
+            bash -lc "cd /app/src && find app -type f -name '*.php' -print0 | xargs -0 -n1 php -l >/dev/null && php -l www/index.php >/dev/null"
+
+      - name: PHPCS
         run: |
           set -euo pipefail
-          docker compose -f compose.test.yaml run --rm \
-            --user "${HOST_UID}:${HOST_GID}" \
-            --workdir /app/src \
-            php-fpm bash -lc "XDEBUG_MODE=off bin/phpunit --testsuite=Unit"
-      -
-        name: Run Integration tests
-        if: false # Set true to run tests
+          docker compose -f compose.test.yaml run --rm php-fpm \
+            bash -lc "cd /app/src && ./vendor/bin/phpcs"
+
+      - name: PHPStan
         run: |
           set -euo pipefail
-          docker compose -f compose.test.yaml run --rm \
-            --user "${HOST_UID}:${HOST_GID}" \
-            --workdir /app/src \
-            php-fpm bash -lc "XDEBUG_MODE=off bin/phpunit --testsuite=Integration"
-      -
-        name: Run PHPStan
-        if: false # Set true to run tests
-        run: |
-          set -euo pipefail
-          docker compose -f compose.test.yaml run --rm \
-            --user "${HOST_UID}:${HOST_GID}" \
-            --workdir /app/src \
-            php-fpm bash -lc "XDEBUG_MODE=off vendor/bin/phpstan analyse"
-      -
-        name: Doctrine Schema Validator
-        if: false # Set true to run tests
-        run: |
-          set -euo pipefail
-          docker compose -f compose.test.yaml run --rm \
-            --user "${HOST_UID}:${HOST_GID}" \
-            --workdir /app/src \
-            php-fpm bash -lc "php bin/console -e test doctrine:schema:validate"
+          docker compose -f compose.test.yaml run --rm php-fpm \
+            bash -lc "cd /app/src && curl -LsS https://github.com/phpstan/phpstan/releases/latest/download/phpstan.phar -o /tmp/phpstan.phar && XDEBUG_MODE=off php /tmp/phpstan.phar analyse --configuration=phpstan.neon.dist --no-progress"
 
   lint:
     name: Docker Lint

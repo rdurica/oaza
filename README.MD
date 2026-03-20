@@ -1,5 +1,5 @@
 # ![](https://oazahb.cz/images/logo.png) Oaza
-[![PHP](https://img.shields.io/badge/PHP-8.2-blue.svg)](http://php.net)
+[![PHP](https://img.shields.io/badge/PHP-8.5-blue.svg)](http://php.net)
 [![Docker](https://img.shields.io/badge/Docker-powered-blue.svg)](https://www.docker.com/)
 [![composer](https://img.shields.io/badge/composer-latest-green.svg)](https://getcomposer.org/)
 [![Docker Image CI](https://github.com/rdurica/oaza/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/rdurica/oaza/actions/workflows/docker-image.yml)
@@ -54,6 +54,15 @@ Requirements on the host machine:
 
 - Docker with `docker compose`
 - OpenSSL
+
+## Local QA
+
+Run the code-quality checks through Docker:
+
+- `make phpcs`
+- `make phpstan`
+- `make rector-dry`
+- `make qa`
 
 
 ## License

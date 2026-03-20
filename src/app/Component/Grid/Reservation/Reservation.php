@@ -1,11 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Component\Grid\Reservation;
 
 use App\Component\Component;
 use App\Exception\NotAllowedOperationException;
 use App\Model\Manager\ReservationManager;
-use App\Model\Service\ReservationServiceOld;
+use App\Model\Service\ReservationService;
 use App\Util\FlashType;
 use Contributte\Datagrid\Column\Action\Confirmation\StringConfirmation;
 use Contributte\Datagrid\Datagrid;
@@ -25,16 +27,15 @@ class Reservation extends Component
     /**
      * Constructor.
      *
-     * @param ReservationManager    $reservationManager
-     * @param ReservationServiceOld $reservationService
-     * @param Translator            $translator
+     * @param ReservationManager $reservationManager
+     * @param ReservationService $reservationService
+     * @param Translator         $translator
      */
     public function __construct(
         public readonly ReservationManager $reservationManager,
-        public readonly ReservationServiceOld $reservationService,
+        public readonly ReservationService $reservationService,
         public readonly Translator $translator,
-    )
-    {
+    ) {
     }
 
     /**
@@ -75,24 +76,20 @@ class Reservation extends Component
      */
     public function handleCancelReservation(int $id): void
     {
-        try
-        {
-            $this->reservationService->delete($id, true);
-            $this->getPresenter()->flashMessage($this->translator->trans('flash.reservationDeleted'), FlashType::SUCCESS);
-        }
-        catch (SmtpException)
-        {
+        try {
+            $this->reservationService->cancelByAdmin($id);
+            $this->getPresenter()->flashMessage(
+                $this->translator->trans('flash.reservationDeleted'),
+                FlashType::SUCCESS,
+            );
+        } catch (SmtpException) {
             $this->getPresenter()->flashMessage(
                 'Nastal problém při odesílání potvrzovacího e-mailu.',
                 FlashType::WARNING
             );
-        }
-        catch (NotAllowedOperationException)
-        {
+        } catch (NotAllowedOperationException) {
             $this->presenter->flashMessage($this->translator->trans('flash.operationNotAllowed'), FlashType::ERROR);
-        }
-        catch (Exception)
-        {
+        } catch (Exception) {
             $this->presenter->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
         }
 

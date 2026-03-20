@@ -1,17 +1,20 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Presenter;
 
 use App\Component\Form\Auth\ChangePassword\ChangePassword;
 use App\Component\Form\Auth\ChangePassword\ChangePasswordFormFactory;
 use App\Exception\NotAllowedOperationException;
-use App\Model\Service\CalendarServiceOld;
-use App\Model\Service\ReservationServiceOld;
+use App\Model\Service\ReservationCalendarService;
+use App\Model\Service\ReservationService;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use Exception;
 use Nette\Application\AbortException;
 use Nette\Mail\SmtpException;
+use Nette\Utils\Json;
 
 /**
  * UserPresenter.
@@ -24,18 +27,17 @@ class UserPresenter extends SecurePresenter
     /**
      * Constructor.
      *
-     * @param CalendarServiceOld        $calendarService
-     * @param ReservationServiceOld     $reservationService
+     * @param ReservationCalendarService $calendarService
+     * @param ReservationService         $reservationService
      * @param ChangePasswordFormFactory $changePasswordFormFactory
      * @param Translator                $translator
      */
     public function __construct(
-        private readonly CalendarServiceOld $calendarService,
-        private readonly ReservationServiceOld $reservationService,
+        private readonly ReservationCalendarService $calendarService,
+        private readonly ReservationService $reservationService,
         private readonly ChangePasswordFormFactory $changePasswordFormFactory,
         public Translator $translator,
-    )
-    {
+    ) {
         parent::__construct();
     }
 
@@ -46,37 +48,36 @@ class UserPresenter extends SecurePresenter
      */
     public function renderCalendar(): void
     {
-        $this->getTemplate()->data = $this->calendarService->getUserData();
+        $userId = $this->getUser()->getId();
+        if ($userId === null) {
+            $this->getTemplate()->calendarEvents = Json::encode([]);
+            return;
+        }
+
+        $this->getTemplate()->calendarEvents = Json::encode(
+            $this->calendarService->getUserCalendarEvents($userId),
+        );
     }
 
     /**
      * Cancel reservation.
      *
-     * @param $reservationId
-     *
      * @return void
      * @throws AbortException
      */
-    public function handleCancelReservation($reservationId): void
+    public function handleCancelReservation(int $reservationId): void
     {
-        try
-        {
-            $this->reservationService->delete((int)$reservationId);
+        try {
+            $this->reservationService->cancelByUser($reservationId);
             $this->presenter->flashMessage($this->translator->trans('flash.reservationDeleted'), FlashType::INFO);
-        }
-        catch (SmtpException)
-        {
+        } catch (SmtpException) {
             $this->getPresenter()->flashMessage(
                 'Nastal problém při odesílání potvrzovacího e-mailu.',
                 FlashType::WARNING
             );
-        }
-        catch (NotAllowedOperationException)
-        {
+        } catch (NotAllowedOperationException) {
             $this->presenter->flashMessage($this->translator->trans('flash.operationNotAllowed'), FlashType::ERROR);
-        }
-        catch (Exception)
-        {
+        } catch (Exception) {
             $this->presenter->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
         }
 

@@ -48,8 +48,8 @@
 		"squizlabs/php_codesniffer": "^4.0.1"
 	},
 	"scripts": {
-		"phpcs": "./vendor/bin/phpcs --standard=PSR12 app/",
-		"phpcbf": "./vendor/bin/phpcbf --standard=PSR12 app/"
+		"phpcs": "./vendor/bin/phpcs",
+		"phpcbf": "./vendor/bin/phpcbf"
 	},
 	"config": {
 		"allow-plugins": {

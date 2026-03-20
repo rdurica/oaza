@@ -43,7 +43,9 @@
 </div>
 <footer id="footer">
         <div class="container">
-            <div class="col-md-8 col-md-offset-2 text-center">
+            <div class="col-md-8 col-md-offset-2 text-center footer-content">
+                <p class="footer-kicker">Klidná tečka za každou návštěvou</p>
+                <div class="footer-divider"></div>
                 <p class="copyright">Copyright <span id="year">2017</span> &copy; Robert Ďurica</p>
             </div>
         </div>
@@ -75,13 +77,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{$basePath}/assets/js/oaza.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.1.4/js/bootstrap-datetimepicker.min.js"></script>
-    <script>
-        document.getElementById("year").innerHTML = 2017 + " - " + new Date().getFullYear().toString();
-        Fancybox.bind('[data-fancybox="gallery"]', {
-            hideScrollbar: false,
-        });
-
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/@contributte/datagrid@7.1.0/dist/datagrid-full.js"></script>
 
 {/block}
