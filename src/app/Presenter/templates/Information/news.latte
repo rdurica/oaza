@@ -1,15 +1,17 @@
 {block content}
 {include "../Layout/page_header.latte", title:"messages.navbar.news"}
-<div class="container">
-    {foreach $news as $new}
-        <div class="wow animate__animated animate__fadeInUp row">
-            <div class="col-md-12">
-                <h3 class="text-info"><i class="fa fa-rss-square"></i> {$new->name}
-                    <sup><small><span class="badge badge-secondary">{$new->creation|date:'j. n. Y'}</span></small></sup>
-                </h3>
-                <p>{$new->text|noescape}</p>
-            </div>
-        </div>
-        <hr>
-    {/foreach}
-</div>
+<section class="info-page info-page-news">
+    <div class="container">
+        <section class="info-news-list" aria-label="Novinky">
+            {foreach $news as $new}
+                <article class="info-news-item wow animate__animated animate__fadeInUp">
+                    <header class="info-news-header">
+                        <h3 class="info-news-title"><i class="fa fa-rss-square"></i> {$new->name}</h3>
+                        <p class="info-news-date">{$new->creation|date:'j. n. Y'}</p>
+                    </header>
+                    {$new->text|noescape}
+                </article>
+            {/foreach}
+        </section>
+    </div>
+</section>

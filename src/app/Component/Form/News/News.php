@@ -53,8 +53,7 @@ class News extends Component
         $form->addTextArea('text', 'Text')
             ->setHtmlAttribute('id', 'textarea');
         $form->addSubmit('confirm', $this->translator->trans('button.save'))
-            ->setHtmlAttribute('style', 'float: right;')
-            ->setHtmlAttribute('class', 'btn btn-info');
+            ->setHtmlAttribute('class', 'btn btn-info admin-form-submit');
         $form->onSuccess[] = [$this, 'onSuccess'];
 
         if ($this->id)

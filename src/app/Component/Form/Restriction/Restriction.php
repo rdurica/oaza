@@ -58,8 +58,7 @@ final class Restriction extends Component
             ->setHtmlAttribute('class', 'form-control')
             ->setDefaultValue(0);
         $form->addSubmit('save', 'Uložit')
-            ->setHtmlAttribute('style', 'float: right;')
-            ->setHtmlAttribute('class', 'btn btn-info');
+            ->setHtmlAttribute('class', 'btn btn-info admin-form-submit');
 
         $form->onSuccess[] = [$this, 'onSuccess'];
 

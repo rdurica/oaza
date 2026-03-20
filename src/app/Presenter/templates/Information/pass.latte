@@ -1,27 +1,26 @@
 {block content}
 {include "../Layout/page_header.latte", title:"messages.navbar.pass"}
-<section id="gallery" class="gallery">
+<section id="gallery" class="gallery info-page info-page-pass">
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <p>Zde u nás v Solné jeskyni přijímáme všechny typy Sodexo Pass poukázek na platby vstupného a
-                    permanentek. Tyto poukázky můžete použít pro nákup jakékoliv permanentky, vstupenky nebo jiné
-                    služby, které nabízíme. Stačí pouze přinést své poukázky s sebou a předat je naší obsluze při
-                    nákupu. </p>
-            </div>
+        <div class="info-pass-intro">
+            <p class="info-lead">Zde u nás v Solné jeskyni přijímáme všechny typy Sodexo Pass poukázek na platby vstupného a
+                permanentek. Tyto poukázky můžete použít pro nákup jakékoliv permanentky, vstupenky nebo jiné
+                služby, které nabízíme. Stačí pouze přinést své poukázky s sebou a předat je naší obsluze při
+                nákupu.</p>
         </div>
-        <div class="row" style="margin-top: 40px;">
+        <div class="row info-pass-grid">
             {foreach $sodexo as $sodexoPass}
                 {varType App\Model\Entity\SodexoPass $sodexoPass}
-                <div class="col-sm-5 col-md-3">
-                    <figure>
-                        <div class="element element-sodexo">
-                            <span class="symbol">{$sodexoPass->getName()}</span>
+                <div class="col-sm-6 col-md-4 col-lg-3">
+                    <article class="info-pass-card">
+                        <header class="info-pass-card-head">
+                            <span class="info-pass-card-eyebrow">Sodexo Pass</span>
+                            <h3 class="info-pass-card-title">{$sodexoPass->getName()}</h3>
+                        </header>
+                        <div class="info-pass-card-logo">
+                            <img src="{$sodexoPass->getFullPath()}" alt="{$sodexoPass->getName()}" loading="lazy">
                         </div>
-                        <figcaption>
-                            <img src="{$sodexoPass->getFullPath()}" alt="{$sodexoPass->getName()}">
-                        </figcaption>
-                    </figure>
+                    </article>
                 </div>
             {/foreach}
         </div>

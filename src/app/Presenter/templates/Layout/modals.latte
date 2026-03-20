@@ -95,12 +95,12 @@
                 <div class="modal-body">
                     <h5 style="font-size: medium">
                         {control loginForm}<br>
-                        <a href="" type="submit" style="border-radius: 0%;" data-toggle="modal"
+                        <a href="#" data-toggle="modal"
                            data-target="#registration"
-                           id="register" onclick="modalClose()">Registrace</a>
-                        <a href="" type="submit" style="border-radius: 0%;" data-toggle="modal"
+                           class="modal-switch-link" onclick="modalClose()">Registrace</a>
+                        <a href="#" data-toggle="modal"
                            data-target="#ressetPassword"
-                           id="register" onclick="modalClose()" class="pull-right">Resetovat heslo</a>
+                           class="modal-switch-link pull-right" onclick="modalClose()">Resetovat heslo</a>
                     </h5>
                 </div>
             </div>
@@ -151,23 +151,3 @@
         </div>
     </div>
 {/translator}
-<style>
-    .modal {
-        text-align: center;
-    }
-
-    @media screen and (min-width: 768px) {
-        .modal:before {
-            display: inline-block;
-            vertical-align: middle;
-            content: " ";
-            height: 100%;
-        }
-    }
-
-    .modal-dialog {
-        display: inline-block;
-        text-align: left;
-        vertical-align: middle;
-    }
-</style>
