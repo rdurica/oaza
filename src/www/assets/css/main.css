@@ -950,6 +950,21 @@ figure figcaption p {
     max-width: 740px;
   }
 }
+@media (max-width: 767px) {
+  .homepage-feature-grid {
+    grid-template-columns: 1fr;
+    max-width: none;
+    gap: 18px;
+  }
+  .homepage-feature-card {
+    padding: 24px 20px;
+  }
+  .homepage-feature-card .media-left {
+    display: block;
+    padding-right: 0;
+    padding-bottom: 14px;
+  }
+}
 #contact-section {
   /*padding: 90px 0;*/
 }
