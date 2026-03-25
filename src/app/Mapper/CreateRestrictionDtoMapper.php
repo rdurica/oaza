@@ -14,6 +14,9 @@ use Nette\Utils\DateTime;
  */
 final class CreateRestrictionDtoMapper
 {
+    private const string PRIMARY_DATE_FORMAT = 'd.m.Y';
+    private const string FALLBACK_DATE_FORMAT = 'Y-m-d';
+
     /**
      * Create dto from form data.
      *
@@ -26,11 +29,42 @@ final class CreateRestrictionDtoMapper
     {
         $dto = new CreateRestrictionDto();
 
-        $dto->from = new DateTime($data['from']);
-        $dto->to = new DateTime($data['to']);
+        $dto->from = self::parseDate($data['from'], 'from');
+        $dto->to = self::parseDate($data['to'], 'to');
         $dto->showNewsOnHomepage = (bool)$data['showNewsOnHomepage'];
         $dto->message = (string)$data['message'];
 
         return $dto;
+    }
+
+    /**
+     * @throws DateMalformedStringException
+     */
+    private static function parseDate(string $value, string $field): DateTime
+    {
+        $value = trim($value);
+        if ($value === '') {
+            throw new DateMalformedStringException(sprintf('Date value for "%s" cannot be empty.', $field));
+        }
+
+        $date = DateTime::createFromFormat('!' . self::PRIMARY_DATE_FORMAT, $value);
+        if ($date !== false && $date->format(self::PRIMARY_DATE_FORMAT) === $value) {
+            return DateTime::from($date);
+        }
+
+        $isoDate = DateTime::createFromFormat('!' . self::FALLBACK_DATE_FORMAT, $value);
+        if ($isoDate !== false && $isoDate->format(self::FALLBACK_DATE_FORMAT) === $value) {
+            return DateTime::from($isoDate);
+        }
+
+        throw new DateMalformedStringException(
+            sprintf(
+                'Invalid date format for "%s": "%s". Supported formats: %s, %s.',
+                $field,
+                $value,
+                self::PRIMARY_DATE_FORMAT,
+                self::FALLBACK_DATE_FORMAT,
+            )
+        );
     }
 }

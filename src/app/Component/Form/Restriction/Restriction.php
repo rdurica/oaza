@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\Component\Form\Restriction;
 
 use App\Component\Component;
-use App\Dto\CreateRestrictionDto;
 use App\Facade\RestrictionFacade;
 use App\Mapper\CreateRestrictionDtoMapper;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
+use DateMalformedStringException;
 use Exception;
 use JetBrains\PhpStorm\NoReturn;
-use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
+use Nette\Utils\DateTime;
 
 /**
  * Restriction form.
@@ -23,6 +23,8 @@ use Nette\Application\UI\Form;
  */
 final class Restriction extends Component
 {
+    private const string DATE_FORMAT = 'd.m.Y';
+
     /**
      * Constructor.
      *
@@ -60,9 +62,31 @@ final class Restriction extends Component
         $form->addSubmit('save', 'Uložit')
             ->setHtmlAttribute('class', 'btn btn-info admin-form-submit');
 
+        $form->onValidate[] = [$this, 'onValidate'];
         $form->onSuccess[] = [$this, 'onSuccess'];
 
         return $form;
+    }
+
+    /**
+     * @param array{from?: string, to?: string} $data
+     */
+    public function onValidate(Form $form, array $data): void
+    {
+        $from = $this->parseDate($data['from'] ?? null);
+        $to = $this->parseDate($data['to'] ?? null);
+
+        if ($from === null) {
+            $form['from']->addError('Datum musí být ve formátu DD.MM.RRRR.');
+        }
+
+        if ($to === null) {
+            $form['to']->addError('Datum musí být ve formátu DD.MM.RRRR.');
+        }
+
+        if ($from !== null && $to !== null && $to < $from) {
+            $form->addError('Datum "Do" nesmí být dříve než datum "Od".');
+        }
     }
 
     /**
@@ -72,18 +96,21 @@ final class Restriction extends Component
      * @param array $data
      *
      * @return void
-     * @throws \DateMalformedStringException
      */
     #[NoReturn]
     public function onSuccess(Form $form, array $data): void
     {
-        $createRestrictionDto = CreateRestrictionDtoMapper::fromFormData($data);
-
         try
         {
+            $createRestrictionDto = CreateRestrictionDtoMapper::fromFormData($data);
             $this->restrictionFacade->create($createRestrictionDto);
 
             $this->presenter->flashMessage('Omezení provozu přidáno', FlashType::SUCCESS);
+        }
+        catch (DateMalformedStringException)
+        {
+            $this->getPresenter()->flashMessage('Neplatný formát data. Použijte DD.MM.RRRR.', FlashType::ERROR);
+            $this->presenter->redirect('this');
         }
         catch (Exception)
         {
@@ -91,5 +118,24 @@ final class Restriction extends Component
         }
 
         $this->presenter->redirect('Restrictions:');
+    }
+
+    private function parseDate(?string $value): ?DateTime
+    {
+        if ($value === null) {
+            return null;
+        }
+
+        $value = trim($value);
+        if ($value === '') {
+            return null;
+        }
+
+        $date = DateTime::createFromFormat('!' . self::DATE_FORMAT, $value);
+        if ($date === false || $date->format(self::DATE_FORMAT) !== $value) {
+            return null;
+        }
+
+        return DateTime::from($date);
     }
 }

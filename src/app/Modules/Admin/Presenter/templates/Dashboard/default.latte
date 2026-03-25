@@ -1,3 +1,294 @@
-{block content}
+{block pageTitle}Dashboard{/block}
 
+{block content}
+<div class="admin-page-header">
+    <h1>Dashboard</h1>
+    <p>Přehled rezervací a statistik solné jeskyně</p>
+</div>
+
+{* ===== STAT CARDS ===== *}
+<div class="row">
+    <div class="col-xs-12 col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-icon teal"><i class="fa-solid fa-users"></i></div>
+            <div class="stat-body">
+                <div class="stat-value">{$stats['totalUsers']}</div>
+                <div class="stat-label">Registrovaní uživatelé</div>
+                <div class="stat-sub"><i class="fa-solid fa-circle-check"></i> {$stats['enabledUsers']} aktivních</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-icon blue"><i class="fa-solid fa-calendar-day"></i></div>
+            <div class="stat-body">
+                <div class="stat-value">{$stats['todaySeats']}</div>
+                <div class="stat-label">Dnešní návštěvníci</div>
+                <div class="stat-sub"><i class="fa-solid fa-clock"></i> dnes</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-icon purple"><i class="fa-solid fa-calendar-check"></i></div>
+            <div class="stat-body">
+                <div class="stat-value">{$stats['thisMonthCount']}</div>
+                <div class="stat-label">Rezervace tento měsíc</div>
+                <div class="stat-sub"><i class="fa-solid fa-chart-line"></i> aktuální měsíc</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-lg-3">
+        <div class="stat-card">
+            <div class="stat-icon green"><i class="fa-solid fa-hourglass-half"></i></div>
+            <div class="stat-body">
+                <div class="stat-value">{$stats['activeReservations']}</div>
+                <div class="stat-label">Nadcházející rezervace</div>
+                <div class="stat-sub"><i class="fa-solid fa-arrow-trend-up"></i> celkem {$stats['totalReservations']} historicky</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{* ===== CHARTS ROW ===== *}
+<div class="row">
+    <div class="col-md-8">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h3 class="admin-card-title"><i class="fa-solid fa-chart-bar" style="color:#0092ad;margin-right:8px;"></i>Rezervace za posledních 6 měsíců</h3>
+            </div>
+            <div class="admin-card-body">
+                <div style="position:relative;height:300px;">
+                    <canvas id="reservationsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h3 class="admin-card-title"><i class="fa-solid fa-chart-pie" style="color:#0092ad;margin-right:8px;"></i>Přehled uživatelů</h3>
+            </div>
+            <div class="admin-card-body">
+                <div style="position:relative;height:300px;">
+                    <canvas id="usersChart"></canvas>
+                </div>
+                <div style="display:flex;justify-content:center;gap:20px;margin-top:16px;font-size:13px;color:#8a9bb0;">
+                    <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#0092ad;margin-right:6px;"></span>Aktivní</span>
+                    <span><span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:#e0e6ed;margin-right:6px;"></span>Neaktivní</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{* ===== UPCOMING RESERVATIONS ===== *}
+<div class="row">
+    <div class="col-md-12">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h3 class="admin-card-title"><i class="fa-solid fa-list-check" style="color:#0092ad;margin-right:8px;"></i>Nadcházející rezervace</h3>
+                <a n:href="Reservations:" style="font-size:13px;color:#0092ad;">Zobrazit vše <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+            <div class="admin-card-body" style="padding:0;">
+                {if count($upcomingReservations) > 0}
+                <table class="upcoming-table">
+                    <thead>
+                        <tr>
+                            <th>Datum &amp; čas</th>
+                            <th>Jméno</th>
+                            <th>Email</th>
+                            <th style="text-align:center;">Míst</th>
+                            <th style="text-align:center;">Děti</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {foreach $upcomingReservations as $res}
+                        <tr>
+                            <td>
+                                <span class="date-pill">
+                                    <i class="fa-regular fa-clock" style="color:#0092ad;"></i>
+                                    {$res->date|date:'j. n. Y H:i'}
+                                </span>
+                            </td>
+                            <td><strong>{$res->name}</strong></td>
+                            <td style="color:#8a9bb0;">{$res->email}</td>
+                            <td style="text-align:center;">
+                                <span class="badge-seats">{$res->count}</span>
+                            </td>
+                            <td style="text-align:center;">
+                                {if $res->has_children}
+                                    <span class="badge-children yes"><i class="fa-solid fa-child"></i> Ano</span>
+                                {else}
+                                    <span class="badge-children no">Ne</span>
+                                {/if}
+                            </td>
+                        </tr>
+                        {/foreach}
+                    </tbody>
+                </table>
+                {else}
+                <div style="padding:40px;text-align:center;color:#aab7b8;">
+                    <i class="fa-regular fa-calendar" style="font-size:40px;margin-bottom:12px;display:block;"></i>
+                    Žádné nadcházející rezervace
+                </div>
+                {/if}
+            </div>
+        </div>
+    </div>
+</div>
+
+{* ===== SEATS CHART ===== *}
+<div class="row">
+    <div class="col-md-12">
+        <div class="admin-card">
+            <div class="admin-card-header">
+                <h3 class="admin-card-title"><i class="fa-solid fa-chart-column" style="color:#0092ad;margin-right:8px;"></i>Počet návštěvníků (míst) po měsících</h3>
+            </div>
+            <div class="admin-card-body">
+                <canvas id="seatsChart" style="max-height:280px;"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block scripts}
+{include parent}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+(function () {
+    var monthly = {$monthlyData|noescape};
+    var labels  = monthly.map(function(m){ return m.label; });
+    var counts  = monthly.map(function(m){ return m.count; });
+    var seats   = monthly.map(function(m){ return m.seats; });
+
+    Chart.defaults.font.family = "'DM Sans', sans-serif";
+    Chart.defaults.font.size = 12;
+    Chart.defaults.color = '#8b96aa';
+
+    // Reservations bar chart
+    new Chart(document.getElementById('reservationsChart'), {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Rezervace',
+                data: counts,
+                backgroundColor: 'rgba(0,151,178,0.14)',
+                borderColor: '#0097b2',
+                borderWidth: 2,
+                borderRadius: 7,
+                borderSkipped: false,
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#111318',
+                    titleColor: '#fff',
+                    bodyColor: 'rgba(255,255,255,0.72)',
+                    padding: 10,
+                    cornerRadius: 7,
+                    callbacks: {
+                        label: function(ctx) { return ' ' + ctx.raw + ' rezervací'; }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { precision: 0 },
+                    grid: { color: '#f0ede9' }
+                },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+
+    // Users donut chart
+    var totalUsers   = {$stats['totalUsers']};
+    var enabledUsers = {$stats['enabledUsers']};
+    var disabledUsers = totalUsers - enabledUsers;
+    new Chart(document.getElementById('usersChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Aktivní', 'Neaktivní'],
+            datasets: [{
+                data: [enabledUsers, disabledUsers > 0 ? disabledUsers : 0],
+                backgroundColor: ['#0097b2', '#e8e4de'],
+                borderWidth: 0,
+                hoverOffset: 6
+            }]
+        },
+        options: {
+            cutout: '74%',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#111318',
+                    titleColor: '#fff',
+                    bodyColor: 'rgba(255,255,255,0.72)',
+                    padding: 10,
+                    cornerRadius: 7,
+                    callbacks: {
+                        label: function(ctx) { return ' ' + ctx.raw + ' uživatelů'; }
+                    }
+                }
+            }
+        }
+    });
+
+    // Seats line chart
+    new Chart(document.getElementById('seatsChart'), {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Návštěvníci (místa)',
+                data: seats,
+                borderColor: '#1f9e62',
+                backgroundColor: 'rgba(31,158,98,0.07)',
+                borderWidth: 2.5,
+                pointBackgroundColor: '#1f9e62',
+                pointBorderColor: '#fff',
+                pointBorderWidth: 2,
+                pointRadius: 4,
+                pointHoverRadius: 6,
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#111318',
+                    titleColor: '#fff',
+                    bodyColor: 'rgba(255,255,255,0.72)',
+                    padding: 10,
+                    cornerRadius: 7,
+                    callbacks: {
+                        label: function(ctx) { return ' ' + ctx.raw + ' návštěvníků'; }
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { precision: 0 },
+                    grid: { color: '#f0ede9' }
+                },
+                x: { grid: { display: false } }
+            }
+        }
+    });
+})();
+</script>
 {/block}

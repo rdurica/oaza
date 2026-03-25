@@ -61,6 +61,21 @@ final class UserManager extends Manager
     }
 
 
+    public function countTotal(): int
+    {
+        return (int) $this->getEntityTable()
+            ->where('role != ?', 'admin')
+            ->count('*');
+    }
+
+    public function countEnabled(): int
+    {
+        return (int) $this->getEntityTable()
+            ->where('role != ?', 'admin')
+            ->where('enabled = 1')
+            ->count('*');
+    }
+
     /**
      * Change user status to enabled/disabled
      *

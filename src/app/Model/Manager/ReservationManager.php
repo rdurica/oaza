@@ -120,6 +120,115 @@ final class ReservationManager extends Manager
         $this->getEntityTable()->insert($values);
     }
 
+    /** @var array<int, string> */
+    private static array $czechMonths = [
+        1 => 'Leden', 2 => 'Únor', 3 => 'Březen', 4 => 'Duben',
+        5 => 'Květen', 6 => 'Červen', 7 => 'Červenec', 8 => 'Srpen',
+        9 => 'Září', 10 => 'Říjen', 11 => 'Listopad', 12 => 'Prosinec',
+    ];
+
+    public function countActive(): int
+    {
+        return (int) $this->getEntityTable()
+            ->where('date >= ?', new DateTime())
+            ->where('telephone != ? OR telephone IS NULL', self::RESTRICTION_NAME)
+            ->count('*');
+    }
+
+    public function sumTodaySeats(): int
+    {
+        $today = (new DateTime())->setTime(0, 0, 0);
+        $tomorrow = (clone $today)->modify('+1 day');
+        $count = $this->getEntityTable()
+            ->where('date >= ?', $today)
+            ->where('date < ?', $tomorrow)
+            ->where('telephone != ? OR telephone IS NULL', self::RESTRICTION_NAME)
+            ->sum('count');
+
+        return (int) ($count ?? 0);
+    }
+
+    public function countThisMonth(): int
+    {
+        $start = new DateTime('first day of this month midnight');
+        $end = new DateTime('first day of next month midnight');
+
+        return (int) $this->getEntityTable()
+            ->where('date >= ?', $start)
+            ->where('date < ?', $end)
+            ->where('telephone != ? OR telephone IS NULL', self::RESTRICTION_NAME)
+            ->count('*');
+    }
+
+    public function countTotal(): int
+    {
+        return (int) $this->getEntityTable()
+            ->where('telephone != ? OR telephone IS NULL', self::RESTRICTION_NAME)
+            ->count('*');
+    }
+
+    /**
+     * Get monthly reservation counts for the last N months.
+     *
+     * @return array<int, array{month: string, label: string, count: int, seats: int}>
+     */
+    public function getMonthlyStats(int $months = 6): array
+    {
+        $from = new DateTime('first day of this month midnight');
+        $from->modify('-' . ($months - 1) . ' months');
+
+        $rows = $this->database->query(
+            "SELECT DATE_FORMAT(date, '%Y-%m') as month, COUNT(*) as count, SUM(`count`) as seats
+             FROM reservation
+             WHERE date >= ? AND (telephone != ? OR telephone IS NULL)
+             GROUP BY DATE_FORMAT(date, '%Y-%m')
+             ORDER BY month ASC",
+            $from,
+            self::RESTRICTION_NAME,
+        )->fetchPairs('month');
+
+        $stats = [];
+        for ($i = $months - 1; $i >= 0; $i--) {
+            $date = new DateTime('first day of this month midnight');
+            $date->modify("-$i months");
+            $key = $date->format('Y-m');
+            $monthNum = (int) $date->format('n');
+            $stats[] = [
+                'month' => $key,
+                'label' => self::$czechMonths[$monthNum] . ' ' . $date->format('Y'),
+                'count' => isset($rows[$key]) ? (int) $rows[$key]->count : 0,
+                'seats' => isset($rows[$key]) ? (int) $rows[$key]->seats : 0,
+            ];
+        }
+
+        return $stats;
+    }
+
+    /**
+     * Find next upcoming reservations ordered by date.
+     *
+     * @return array<int, mixed>
+     */
+    public function findUpcoming(int $limit = 8): array
+    {
+        return $this->database->query(
+            "SELECT res.id,
+                IF(res.user_id, u.name, res.name) as name,
+                IF(res.user_id, u.email, res.email) as email,
+                res.`count`,
+                res.date as date,
+                res.has_children
+             FROM reservation as res
+             LEFT OUTER JOIN user u ON u.id = res.user_id
+             WHERE res.date >= ? AND (res.telephone != ? OR res.telephone IS NULL)
+             ORDER BY res.date ASC
+             LIMIT ?",
+            new DateTime(),
+            self::RESTRICTION_NAME,
+            $limit,
+        )->fetchAll();
+    }
+
     public function findById(int $reservationId): ?ActiveRow
     {
         return $this->getEntityTable()

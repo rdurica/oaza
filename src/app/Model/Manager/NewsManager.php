@@ -22,6 +22,11 @@ final class NewsManager extends Manager
         return $this->database->table('news');
     }
 
+    public function countTotal(): int
+    {
+        return (int) $this->getEntityTable()->count('*');
+    }
+
     /**
      * Find last news which will be displayed on homepage.
      *

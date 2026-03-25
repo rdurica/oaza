@@ -1,20 +1,55 @@
+{block pageTitle}Nové omezení{/block}
+
 {block content}
-    <div class="row">
-        <div class="col col-md-8 col-md-offset-2">
+<div class="admin-page-header">
+    <h1>Nové omezení provozu</h1>
+    <p>Zablokuje vybrané dny a odešle notifikace dotčeným uživatelům</p>
+</div>
+<div class="admin-form-wrapper">
+    <div class="admin-card">
+        <div class="admin-card-body">
             {control form}
         </div>
     </div>
+</div>
 {/block}
 
 {block scripts}
     {include parent}
     <script>
-        $(function () {
-            $('.form-control').datetimepicker({
-                format: 'DD.MM.YYYY',
-                daysOfWeekDisabled: [0, 6],
-                minDate : moment().add(1,'days')
-            });
-        });
+        (function () {
+            function initRestrictionDatePickers() {
+                if (typeof flatpickr !== 'function') {
+                    return;
+                }
+
+                var inputs = document.querySelectorAll('input.dateRange');
+                if (!inputs.length) {
+                    return;
+                }
+
+                var tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                tomorrow.setHours(0, 0, 0, 0);
+
+                var fpConfig = {
+                    locale: 'cs',
+                    dateFormat: 'd.m.Y',
+                    minDate: tomorrow,
+                    disable: [function (date) { return date.getDay() === 0 || date.getDay() === 6; }]
+                };
+
+                Array.prototype.forEach.call(inputs, function (input) {
+                    flatpickr(input, fpConfig);
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initRestrictionDatePickers);
+                return;
+            }
+
+            initRestrictionDatePickers();
+        })();
     </script>
 {/block}
