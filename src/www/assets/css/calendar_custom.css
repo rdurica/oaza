@@ -1,16 +1,16 @@
 /* Oaza FullCalendar v3 overrides */
 
 :root {
-  --calendar-free-bg: #1e9d62;
-  --calendar-free-border: #147a4a;
-  --calendar-partial-bg: #089fca;
-  --calendar-partial-border: #067ea1;
-  --calendar-full-bg: #c95360;
-  --calendar-full-border: #a7424d;
-  --calendar-muted-bg: #748f9a;
-  --calendar-muted-border: #5f7984;
-  --calendar-header-bg: #f3fafc;
-  --calendar-border: #d9e8ee;
+  --calendar-free-bg: #16a34a;
+  --calendar-free-border: #15803d;
+  --calendar-partial-bg: #0284c7;
+  --calendar-partial-border: #0369a1;
+  --calendar-full-bg: #dc2626;
+  --calendar-full-border: #b91c1c;
+  --calendar-muted-bg: #64748b;
+  --calendar-muted-border: #475569;
+  --calendar-header-bg: #e8f4f8;
+  --calendar-border: #c8dde6;
   --calendar-text: #2d3f4a;
 }
 
@@ -116,12 +116,12 @@
 }
 
 .oaza-calendar .fc-agenda-slots tr:nth-child(2n) td {
-  background: #fcfeff;
+  background: #f5fbfd;
 }
 
 .oaza-calendar .fc-state-highlight,
 .oaza-calendar .fc td.fc-today {
-  background: #edf9fc;
+  background: #daf0f5;
 }
 
 .oaza-calendar .fc-day-number {
