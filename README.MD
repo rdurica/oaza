@@ -1,72 +1,80 @@
 # ![](https://oazahb.cz/images/logo.png) Oaza
-[![PHP](https://img.shields.io/badge/PHP-8.5-blue.svg)](http://php.net)
+
+[![PHP](https://img.shields.io/badge/PHP-8.5-blue.svg)](https://php.net)
 [![Docker](https://img.shields.io/badge/Docker-powered-blue.svg)](https://www.docker.com/)
-[![composer](https://img.shields.io/badge/composer-latest-green.svg)](https://getcomposer.org/)
+[![Composer](https://img.shields.io/badge/Composer-latest-green.svg)](https://getcomposer.org/)
 
-This is a webpage for a Salt Cave https://oazahb.cz, which provides a unique and relaxing experience for visitors. The
-webpage was originally created in 2017 as my first PHP commercial project. Since then, I have gained more experience and
-knowledge in web development, and I am now refactoring the webpage to improve its code quality and functionality.
+Oaza is a website for a salt cave in Hradec Kralove, Czech Republic: https://oazahb.cz.
 
-### Screenshots
-<img width="1490" height="957" alt="Image" src="https://github.com/user-attachments/assets/ec887f84-6487-4619-ba13-a545dceb188a" />
+The project started in 2017 as a commercial PHP website and is now being refactored to improve code quality, maintainability, and long-term development workflow.
 
-<img width="720" height="1464" alt="Image" src="https://github.com/user-attachments/assets/1d245095-0e91-478b-9196-49a259beea05" />
+## Overview
 
+The website provides practical information about salt therapy and Oaza services, including:
 
-## Description
+- service details and pricing
+- photo gallery
+- contact options
+- online booking flow
 
-The Salt Cave webpage provides visitors with information about salt therapy, a holistic therapy that uses natural salt
-to improve respiratory and skin conditions, enhance immunity, and promote relaxation. The webpage includes information
-about the benefits of salt therapy, the types of salt therapies offered at the Salt Cave, and the prices for each
-service.
-
-The webpage also includes a photo gallery, a contact form, and a booking system that allows visitors to schedule an
-appointment at the Salt Cave.
-
-> **Warning**
->
-> Due to security reasons, I have created a fresh repository and no previous commits
-have been included. This ensures that any potential security vulnerabilities or sensitive information from the original
-repository are not carried over into the new version.
->
+The goal is to keep the content clear for visitors while maintaining a modern and maintainable codebase for development.
 
 ## Features
 
-- Information about the Salt Cave and its services
-- Photo gallery
+- Information pages about salt cave services
+- Gallery content for visitors
 - Contact form
-- Booking system
-- Responsive design for different devices
-- Easy to use interface
+- Booking workflow
+- Responsive frontend for desktop and mobile devices
 
-## Local development
+## Screenshots
 
-Run `make init` after cloning the repository.
+<a href="https://github.com/user-attachments/assets/ec887f84-6487-4619-ba13-a545dceb188a">
+  <img src="https://github.com/user-attachments/assets/ec887f84-6487-4619-ba13-a545dceb188a" alt="Oaza desktop homepage" width="100%" />
+</a>
 
-The command:
+<a href="https://github.com/user-attachments/assets/1d245095-0e91-478b-9196-49a259beea05">
+  <img src="https://github.com/user-attachments/assets/1d245095-0e91-478b-9196-49a259beea05" alt="Oaza mobile view" width="320" />
+</a>
+
+Click any screenshot to open the full-size image.
+
+## Local Development
+
+Run the initial setup after cloning the repository:
+
+```bash
+make init
+```
+
+This command:
 
 - creates a local self-signed TLS certificate in `build/dev/certs`
-- installs PHP dependencies into `src/vendor` if they are missing
+- installs PHP dependencies into `src/vendor` if missing
 - starts a local MariaDB service and imports `src/migrations/001_initial.sql` on first bootstrap
 - creates the shared Docker network `apps` if it does not exist yet
 - builds the development image and starts the local stack
 
-Requirements on the host machine:
+Host requirements:
 
 - Docker with `docker compose`
 - OpenSSL
 
 ## Local QA
 
-Run the code-quality checks through Docker:
+Run quality checks through Docker:
 
-- `make phpcs`
-- `make phpstan`
-- `make rector-dry`
-- `make qa`
+```bash
+make phpcs
+make phpstan
+make rector-dry
+make qa
+```
 
+## Security Note
+
+For security reasons, this repository was recreated without historical commits. This avoids carrying over potentially sensitive data or vulnerabilities from the original project history.
 
 ## License
 
-The Salt Cave webpage is licensed under the MIT License. You are free to use, modify, and distribute this software for
-commercial or non-commercial purposes.
+This project is licensed under the MIT License. You may use, modify, and distribute it for commercial and non-commercial purposes.
