@@ -65,8 +65,13 @@ class UserPresenter extends SecurePresenter
      * @return void
      * @throws AbortException
      */
-    public function handleCancelReservation(int $reservationId): void
+    public function handleCancelReservation(?int $reservationId = null): void
     {
+        if ($reservationId === null || $reservationId <= 0) {
+            $this->getPresenter()->redirect('this');
+            return;
+        }
+
         try {
             $this->reservationService->cancelByUser($reservationId);
             $this->presenter->flashMessage($this->translator->trans('flash.reservationDeleted'), FlashType::INFO);

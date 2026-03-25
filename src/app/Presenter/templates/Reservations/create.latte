@@ -1,18 +1,26 @@
 {block content}
     {include "../Layout/page_header.latte", title:"messages.navbar.reservations"}
-    <div class="container">
-        <div id="calendar" data-calendar-kind="public"></div>
-        <script id="reservation-calendar-events" type="application/json">{$calendarEvents|noescape}</script>
+    <section class="calendar-page">
+        <div class="container">
+            <div class="calendar-shell">
+                <div id="calendar" class="oaza-calendar" data-calendar-kind="public"></div>
+                <script id="reservation-calendar-events" type="application/json">{$calendarEvents|noescape}</script>
+            </div>
 
-        <div style="margin-top: 35px;">
-            <span class="badge" style="background-color: green;">Zelený slot</span>
-            termín pro návštěvu solné jeskyně volný a můžete si ho rezervovat
-            <br>
-            <span class="badge" style="background-color: #0092ad;">Modrý slot</span>
-            někdo už si daný termín zarezervoval, ale ještě jsou k dispozici volná místa <br>
-            <span class="badge" style="background-color: red;">Červený slot</span>
-            daný termín je již zcela obsazen
+            <div class="calendar-legend" aria-label="Význam barev slotů">
+                <p class="calendar-legend-item">
+                    <span class="badge slot-badge slot-badge--free">Zelený slot</span>
+                    termín pro návštěvu solné jeskyně volný a můžete si ho rezervovat
+                </p>
+                <p class="calendar-legend-item">
+                    <span class="badge slot-badge slot-badge--partial">Modrý slot</span>
+                    někdo už si daný termín zarezervoval, ale ještě jsou k dispozici volná místa
+                </p>
+                <p class="calendar-legend-item">
+                    <span class="badge slot-badge slot-badge--full">Červený slot</span>
+                    daný termín je již zcela obsazen
+                </p>
+            </div>
         </div>
-    </div>
-
+    </section>
 {/block}

@@ -1,5 +1,11 @@
 {block content}
     {include "../Layout/page_header.latte", title:"messages.navbar.myCalendar"}
-    <div id="calendar" data-calendar-kind="user" data-cancel-url="{link cancelReservation!}" style="padding: 50px;"></div>
-    <script id="user-calendar-events" type="application/json">{$calendarEvents|noescape}</script>
+    <section class="calendar-page">
+        <div class="container">
+            <div class="calendar-shell">
+                <div id="calendar" class="oaza-calendar" data-calendar-kind="user" data-cancel-url="{link cancelReservation!}"></div>
+                <script id="user-calendar-events" type="application/json">{$calendarEvents|noescape}</script>
+            </div>
+        </div>
+    </section>
 {/block}

@@ -34,6 +34,48 @@ function readJsonPayload(elementId) {
     }
 }
 
+function normalizeCalendarColor(color) {
+    if (typeof color !== 'string') {
+        return '';
+    }
+
+    return color.trim().toLowerCase();
+}
+
+function resolveCalendarEventClass(calendarEvent) {
+    const color = normalizeCalendarColor(calendarEvent.color || calendarEvent.backgroundColor);
+
+    if (color === 'green') {
+        return 'oaza-calendar-event--free';
+    }
+
+    if (color === '#0092ad') {
+        return 'oaza-calendar-event--partial';
+    }
+
+    if (color === 'red') {
+        return 'oaza-calendar-event--full';
+    }
+
+    if (color === 'grey' || color === 'gray') {
+        return 'oaza-calendar-event--muted';
+    }
+
+    return 'oaza-calendar-event--default';
+}
+
+function isFullyBookedEvent(calendarEvent) {
+    return normalizeCalendarColor(calendarEvent.color) === 'red';
+}
+
+function styleCalendarEvent(calendarEvent, element) {
+    if (!element || typeof element.addClass !== 'function') {
+        return;
+    }
+
+    element.addClass(`oaza-calendar-event ${resolveCalendarEventClass(calendarEvent)}`);
+}
+
 function bindCommonUi() {
     const yearNode = document.getElementById('year');
     if (yearNode) {
@@ -207,8 +249,11 @@ function initPublicReservationCalendar(calendarElement) {
             right: 'prev,next today'
         },
         events,
+        eventRender: (calendarEvent, element) => {
+            styleCalendarEvent(calendarEvent, element);
+        },
         eventClick: (calendarEvent) => {
-            if (calendarEvent.color === 'red') {
+            if (isFullyBookedEvent(calendarEvent)) {
                 notifyMessage('Oaza uz je plně obsazena. Vyberte prosím jinou hodinu', 'error');
                 return;
             }
@@ -260,6 +305,9 @@ function initUserCalendar(calendarElement) {
         },
         editable: false,
         events,
+        eventRender: (calendarEvent, element) => {
+            styleCalendarEvent(calendarEvent, element);
+        },
         eventClick: (calendarEvent) => {
             const reservationDate = new Date(calendarEvent.start);
             const canCancel = reservationDate >= new Date();
