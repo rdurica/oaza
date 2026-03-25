@@ -1,4 +1,4 @@
-/* Oaza FullCalendar v3 overrides */
+/* Oaza FullCalendar v6 overrides */
 
 :root {
   --calendar-free-bg: #16a34a;
@@ -38,7 +38,7 @@
   margin-bottom: 18px;
 }
 
-.oaza-calendar .fc-toolbar h2 {
+.oaza-calendar .fc-toolbar-title {
   font-family: "Roboto Condensed", sans-serif;
   font-size: 30px;
   font-weight: 700;
@@ -47,24 +47,29 @@
   text-transform: uppercase;
 }
 
-.oaza-calendar .fc button {
+.oaza-calendar .fc button,
+.oaza-calendar .fc .fc-button-primary {
   height: 40px;
   padding: 0 14px;
   border-radius: 10px;
-  border: 1px solid var(--ui-border, #d4e3ea);
-  background: var(--ui-surface, #ffffff);
-  color: var(--ui-text, #2d3f4a);
+  border: 1px solid var(--ui-border, #d4e3ea) !important;
+  background: var(--ui-surface, #ffffff) !important;
+  background-image: none !important;
+  color: var(--ui-text, #2d3f4a) !important;
   font-weight: 600;
-  box-shadow: none;
+  box-shadow: none !important;
   text-shadow: none;
-  transition: background-color var(--ui-transition, 180ms ease), border-color var(--ui-transition, 180ms ease), box-shadow var(--ui-transition, 180ms ease), transform var(--ui-transition, 180ms ease);
+  transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
 
 .oaza-calendar .fc button:hover,
-.oaza-calendar .fc button:focus {
-  background: var(--ui-surface-alt, #f6fafc);
-  border-color: #bfd3dc;
-  box-shadow: var(--ui-shadow-focus, 0 0 0 4px rgba(2, 189, 213, 0.2));
+.oaza-calendar .fc button:focus,
+.oaza-calendar .fc .fc-button-primary:hover,
+.oaza-calendar .fc .fc-button-primary:focus {
+  background: var(--ui-surface-alt, #f6fafc) !important;
+  background-image: none !important;
+  border-color: #bfd3dc !important;
+  box-shadow: 0 0 0 4px rgba(2, 189, 213, 0.2) !important;
   outline: none;
   transform: translateY(-1px);
 }
@@ -73,19 +78,19 @@
   transform: translateY(0);
 }
 
-.oaza-calendar .fc button.fc-state-active,
-.oaza-calendar .fc button.fc-state-down {
-  color: #ffffff;
-  border-color: #00acc2;
-  background-image: linear-gradient(135deg, #1ccce0 0%, #02bdd5 56%, #00aac1 100%);
+.oaza-calendar .fc .fc-button-active,
+.oaza-calendar .fc .fc-button-primary:not(:disabled):active {
+  color: #ffffff !important;
+  border-color: #00acc2 !important;
+  background-image: linear-gradient(135deg, #1ccce0 0%, #02bdd5 56%, #00aac1 100%) !important;
 }
 
-.oaza-calendar .fc button.fc-state-disabled {
+.oaza-calendar .fc .fc-button:disabled {
   opacity: 0.65;
   filter: alpha(opacity=65);
 }
 
-.oaza-calendar .fc-widget-header {
+.oaza-calendar .fc-col-header-cell {
   background: var(--calendar-header-bg);
   border-color: var(--calendar-border);
   color: #57717d;
@@ -96,35 +101,33 @@
   text-shadow: none;
 }
 
-.oaza-calendar .fc-widget-content,
-.oaza-calendar .fc-widget-header,
+.oaza-calendar .fc-scrollgrid-sync-inner,
+.oaza-calendar .fc-col-header-cell,
 .oaza-calendar .fc td,
 .oaza-calendar .fc th {
   border-color: var(--calendar-border);
 }
 
-.oaza-calendar .fc-agenda .fc-agenda-axis,
-.oaza-calendar .fc-time-grid .fc-slats .fc-axis {
+.oaza-calendar .fc-timegrid-slot-label {
   color: #5f7883;
   font-size: 12px;
   font-weight: 600;
 }
 
-.oaza-calendar .fc-agenda-slots td {
+.oaza-calendar .fc-timegrid-slot {
   background: #ffffff;
   cursor: pointer;
 }
 
-.oaza-calendar .fc-agenda-slots tr:nth-child(2n) td {
+.oaza-calendar .fc-timegrid-slot-minor {
   background: #f5fbfd;
 }
 
-.oaza-calendar .fc-state-highlight,
-.oaza-calendar .fc td.fc-today {
+.oaza-calendar .fc .fc-day-today {
   background: #daf0f5;
 }
 
-.oaza-calendar .fc-day-number {
+.oaza-calendar .fc-daygrid-day-number {
   color: #4d6874;
   font-weight: 600;
   padding: 6px 8px 0;
@@ -139,17 +142,17 @@
   cursor: pointer !important;
 }
 
-.oaza-calendar .fc-event .fc-content {
+.oaza-calendar .fc-event-main {
   color: inherit;
 }
 
-.oaza-calendar .fc-time-grid-event,
-.oaza-calendar .fc-day-grid-event {
+.oaza-calendar .fc-timegrid-event,
+.oaza-calendar .fc-daygrid-event {
   cursor: pointer !important;
 }
 
-.oaza-calendar .fc-event .fc-time,
-.oaza-calendar .fc-event .fc-title {
+.oaza-calendar .fc-event-time,
+.oaza-calendar .fc-event-title {
   margin-top: 0;
   padding: 0 4px;
   line-height: 1.35;
@@ -226,6 +229,37 @@
   background-color: var(--calendar-full-bg);
 }
 
+.oaza-calendar .fc-list-event td {
+  vertical-align: middle;
+  padding-top: 8px;
+  padding-bottom: 8px;
+}
+
+.oaza-calendar .fc-list-event-title a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.oaza-calendar .fc-list-event-time {
+  color: rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+}
+
+.oaza-calendar .fc-list-event { cursor: pointer; }
+
+.oaza-calendar .fc-list-event:hover .fc-list-event-time,
+.oaza-calendar .fc-list-event:hover .fc-list-event-title {
+  background: var(--ui-surface-alt, #f6fafc);
+  color: var(--calendar-text, #2d3f4a) !important;
+}
+
+.oaza-calendar .fc-list-event:hover .fc-list-event-title a {
+  color: var(--calendar-text, #2d3f4a);
+}
+
+.oaza-calendar .fc-list-event-dot { border-radius: 50%; }
+.oaza-calendar .fc-list-day-cushion { background: var(--calendar-header-bg); color: var(--calendar-text); font-weight: 700; }
+
 .fr-box.fr-basic.fr-top .fr-wrapper {
   min-height: 20vh;
 }
@@ -236,7 +270,7 @@
     padding: 18px;
   }
 
-  .oaza-calendar .fc-toolbar h2 {
+  .oaza-calendar .fc-toolbar-title {
     font-size: 24px;
   }
 }
@@ -255,18 +289,14 @@
     margin-bottom: 14px;
   }
 
-  .oaza-calendar .fc-toolbar h2 {
+  .oaza-calendar .fc-toolbar-title {
     font-size: 20px;
     margin: 0 0 10px;
     text-align: left;
   }
 
-  .oaza-calendar .fc-toolbar .fc-right {
-    float: left;
-    clear: both;
-  }
-
-  .oaza-calendar .fc button {
+  .oaza-calendar .fc button,
+  .oaza-calendar .fc .fc-button-primary {
     height: 36px;
     padding: 0 11px;
     font-size: 13px;

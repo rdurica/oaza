@@ -2,16 +2,17 @@
 [![PHP](https://img.shields.io/badge/PHP-8.5-blue.svg)](http://php.net)
 [![Docker](https://img.shields.io/badge/Docker-powered-blue.svg)](https://www.docker.com/)
 [![composer](https://img.shields.io/badge/composer-latest-green.svg)](https://getcomposer.org/)
-[![Docker Image CI](https://github.com/rdurica/oaza/actions/workflows/docker-image.yml/badge.svg?branch=main)](https://github.com/rdurica/oaza/actions/workflows/docker-image.yml)
 
 This is a webpage for a Salt Cave https://oazahb.cz, which provides a unique and relaxing experience for visitors. The
 webpage was originally created in 2017 as my first PHP commercial project. Since then, I have gained more experience and
 knowledge in web development, and I am now refactoring the webpage to improve its code quality and functionality.
 
 ### Screenshots
-![Screenshot 2023-04-30 at 21 27 42](https://user-images.githubusercontent.com/16089770/235372612-e5aef170-a6ad-4066-9486-6fb36d984677.png)
+<img width="1490" height="957" alt="Image" src="https://github.com/user-attachments/assets/ec887f84-6487-4619-ba13-a545dceb188a" />
 
-![Screenshot 2023-04-30 at 21 27 56](https://user-images.githubusercontent.com/16089770/235372611-06ba3b0a-01af-4490-acd3-79cd04182ba7.png)
+<img width="720" height="1464" alt="Image" src="https://github.com/user-attachments/assets/1d245095-0e91-478b-9196-49a259beea05" />
+
+
 ## Description
 
 The Salt Cave webpage provides visitors with information about salt therapy, a holistic therapy that uses natural salt

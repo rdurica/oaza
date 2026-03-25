@@ -42,38 +42,26 @@ function normalizeCalendarColor(color) {
     return color.trim().toLowerCase();
 }
 
-function resolveCalendarEventClass(calendarEvent) {
-    const color = normalizeCalendarColor(calendarEvent.color || calendarEvent.backgroundColor);
+function isMobileViewport() {
+    return window.innerWidth < 768;
+}
 
-    if (color === 'green') {
-        return 'oaza-calendar-event--free';
-    }
-
-    if (color === '#0092ad') {
-        return 'oaza-calendar-event--partial';
-    }
-
-    if (color === 'red') {
-        return 'oaza-calendar-event--full';
-    }
-
-    if (color === 'grey' || color === 'gray') {
-        return 'oaza-calendar-event--muted';
-    }
-
+function resolveCalendarEventClass(event) {
+    const color = normalizeCalendarColor(event.backgroundColor || event.extendedProps.color || '');
+    if (color === 'green') return 'oaza-calendar-event--free';
+    if (color === '#0092ad') return 'oaza-calendar-event--partial';
+    if (color === 'red') return 'oaza-calendar-event--full';
+    if (color === 'grey' || color === 'gray') return 'oaza-calendar-event--muted';
     return 'oaza-calendar-event--default';
 }
 
-function isFullyBookedEvent(calendarEvent) {
-    return normalizeCalendarColor(calendarEvent.color) === 'red';
+function isFullyBookedEvent(event) {
+    return normalizeCalendarColor(event.backgroundColor) === 'red';
 }
 
-function styleCalendarEvent(calendarEvent, element) {
-    if (!element || typeof element.addClass !== 'function') {
-        return;
-    }
-
-    element.addClass(`oaza-calendar-event ${resolveCalendarEventClass(calendarEvent)}`);
+function styleCalendarEvent(event, el) {
+    if (!el) return;
+    el.classList.add('oaza-calendar-event', resolveCalendarEventClass(event));
 }
 
 function bindCommonUi() {
@@ -229,44 +217,42 @@ function initPublicMobileNav() {
 
 function initPublicReservationCalendar(calendarElement) {
     const events = readJsonPayload('reservation-calendar-events');
+    const isMobile = isMobileViewport();
 
-    $(calendarElement).fullCalendar({
+    const calendar = new FullCalendar.Calendar(calendarElement, {
         locale: 'cs',
-        minTime: '08:00:00',
-        maxTime: '18:00:00',
-        height: 510,
-        columnFormat: 'D.M',
-        slotMinutes: 30,
-        defaultView: 'agendaWeek',
-        slotLabelFormat: 'H:mm',
-        titleFormat: 'D.MMMM YYYY',
+        initialView: isMobile ? 'listWeek' : 'timeGridWeek',
+        slotMinTime: '08:00:00',
+        slotMaxTime: '18:00:00',
+        height: isMobile ? 'auto' : 510,
+        dayHeaderFormat: { day: 'numeric', month: 'numeric' },
+        slotDuration: '00:30:00',
+        slotLabelFormat: { hour: 'numeric', minute: '2-digit', hour12: false },
         weekends: false,
         editable: false,
         allDaySlot: false,
-        header: {
-            left: '',
-            center: 'title',
-            right: 'prev,next today'
-        },
+        headerToolbar: { left: '', center: 'title', right: 'prev,next today' },
+        buttonText: { today: 'Dnes' },
         events,
-        eventRender: (calendarEvent, element) => {
-            styleCalendarEvent(calendarEvent, element);
-        },
-        eventClick: (calendarEvent) => {
-            if (isFullyBookedEvent(calendarEvent)) {
+        eventDidMount: ({ event, el }) => styleCalendarEvent(event, el),
+        eventClick: ({ event }) => {
+            if (isFullyBookedEvent(event)) {
                 notifyMessage('Oaza uz je plně obsazena. Vyberte prosím jinou hodinu', 'error');
                 return;
             }
-
             $('#createRezervationModal').modal('toggle');
-            $('#dateTimeCreation').text(moment(calendarEvent.start).format('DD.M.YYYY H:00'));
-            $('input[name=date]').val(moment(calendarEvent.start).format('YYYY-MM-DD HH:00:00'));
+            $('#dateTimeCreation').text(moment(event.start).format('DD.M.YYYY H:00'));
+            $('input[name=date]').val(moment(event.start).format('YYYY-MM-DD HH:00:00'));
         },
-        buttonText: {
-            today: 'Dnes'
-        },
-        weekMode: 'variable'
+        windowResize: ({ view }) => {
+            const target = isMobileViewport() ? 'listWeek' : 'timeGridWeek';
+            if (view.type !== target) {
+                calendar.changeView(target);
+                calendar.setOption('height', isMobileViewport() ? 'auto' : 510);
+            }
+        }
     });
+    calendar.render();
 }
 
 function initUserCalendar(calendarElement) {
@@ -275,57 +261,45 @@ function initUserCalendar(calendarElement) {
     const cancelButton = $('#cancelReservationButton');
 
     const cancelReservation = (reservationId) => {
-        if (!cancelUrl || reservationId <= 0) {
-            return;
-        }
-
-        $.nette.ajax({
-            url: cancelUrl,
-            type: 'GET',
-            data: {
-                reservationId
-            }
-        });
+        if (!cancelUrl || reservationId <= 0) return;
+        $.nette.ajax({ url: cancelUrl, type: 'GET', data: { reservationId } });
     };
 
     cancelButton.off('click').on('click', () => {
-        const reservationId = Number(cancelButton.data('reservationId') || 0);
-        cancelReservation(reservationId);
+        cancelReservation(Number(cancelButton.data('reservationId') || 0));
     });
 
-    $(calendarElement).fullCalendar({
+    const isMobile = isMobileViewport();
+
+    const calendar = new FullCalendar.Calendar(calendarElement, {
         locale: 'cs',
-        defaultView: 'month',
-        contentHeight: 500,
-        timeFormat: 'H:mm',
-        header: {
-            left: '',
-            center: 'title',
-            right: 'prev,next today'
-        },
+        initialView: isMobile ? 'listMonth' : 'dayGridMonth',
+        height: isMobile ? 'auto' : 500,
+        eventTimeFormat: { hour: 'numeric', minute: '2-digit', hour12: false },
+        headerToolbar: { left: '', center: 'title', right: 'prev,next today' },
+        buttonText: { today: 'Dnes' },
         editable: false,
         events,
-        eventRender: (calendarEvent, element) => {
-            styleCalendarEvent(calendarEvent, element);
-        },
-        eventClick: (calendarEvent) => {
-            const reservationDate = new Date(calendarEvent.start);
-            const canCancel = reservationDate >= new Date();
-
+        eventDidMount: ({ event, el }) => styleCalendarEvent(event, el),
+        eventClick: ({ event }) => {
+            const canCancel = event.start >= new Date();
             $('#showReservationUserCalendar').modal('toggle');
-            $('#totalCount').text(calendarEvent.totalCount ?? '');
-            $('#date').text(calendarEvent.date ?? '');
-            $('#hasChildren').text(calendarEvent.hasChildren ?? '');
-            $('#comment').text(calendarEvent.comment ?? '');
-
-            cancelButton.data('reservationId', canCancel ? calendarEvent.id : 0);
+            $('#totalCount').text(event.extendedProps.totalCount ?? '');
+            $('#date').text(event.extendedProps.date ?? '');
+            $('#hasChildren').text(event.extendedProps.hasChildren ?? '');
+            $('#comment').text(event.extendedProps.comment ?? '');
+            cancelButton.data('reservationId', canCancel ? event.id : 0);
             cancelButton.prop('disabled', !canCancel);
         },
-        buttonText: {
-            today: 'Dnes'
-        },
-        weekMode: 'variable'
+        windowResize: ({ view }) => {
+            const target = isMobileViewport() ? 'listMonth' : 'dayGridMonth';
+            if (view.type !== target) {
+                calendar.changeView(target);
+                calendar.setOption('height', isMobileViewport() ? 'auto' : 500);
+            }
+        }
     });
+    calendar.render();
 }
 
 $(function () {
@@ -333,7 +307,7 @@ $(function () {
     initPublicMobileNav();
 
     const calendarElement = document.getElementById('calendar');
-    if (!calendarElement || typeof $.fn.fullCalendar !== 'function') {
+    if (!calendarElement || typeof FullCalendar === 'undefined') {
         return;
     }
 
