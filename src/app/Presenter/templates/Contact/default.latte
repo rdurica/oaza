@@ -1,30 +1,40 @@
 {block content}
 {include "../Layout/page_header.latte", title:"messages.navbar.contact"}
-<div class="container">
-    <div class="row address-details">
-        <div class="col-md-8  wow fadeInLeft">
-            {control contactUsForm}
-        </div>
-        <div class="col-md-4">
-            <div class="address wow fadeInRight" data-wow-duration="500ms" data-wow-delay=".3s">
-                <h3>Marie Roztočilová</h3>
-                <p>
-                    Chotěbořská 2943<br>
-                    580 01 Havlíčkův Brod<br>
-                    IČ: 75869896
-                </p>
-                <p>
-                    E-mail: <a href="#">info@oazahb.cz</a><br>
-                    Telefon: 727 813 359
-                </p>
+<section class="info-page info-page-contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7">
+                <div class="info-shell">
+                    {control contactUsForm}
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="info-shell contact-address-card">
+                    <h3 class="info-section-title">Marie Roztočilová</h3>
+                    <ul class="contact-details-list">
+                        <li>
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>Chotěbořská 2943<br>580 01 Havlíčkův Brod</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-id-card"></i>
+                            <span>IČ: 75869896</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-envelope"></i>
+                            <span><a href="mailto:info@oazahb.cz">info@oazahb.cz</a></span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-phone"></i>
+                            <span>727 813 359</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
+        <div class="contact-map-wrapper">
+            <iframe width="100%" height="450" frameborder="0" scrolling="no"
+                    src="https://maps.google.cz/maps?client=firefox-a&amp;q=Chot%C4%9Bbo%C5%99sk%C3%A1+2943,+Havl%C3%AD%C4%8Dk%C5%AFv+Brod&amp;ie=UTF8&amp;num=10&amp;hq=&amp;hnear=Chot%C4%9Bbo%C5%99sk%C3%A1+2943,+Havl%C3%AD%C4%8Dk%C5%AFv+Brod&amp;ll=49.614638,15.582701&amp;spn=0.004706,0.012392&amp;t=m&amp;z=14&amp;iwloc=A&amp;brcurrent=5,0,1&amp;output=embed"></iframe>
+        </div>
     </div>
-</div>
-
-<iframe width="100%" height="600px" frameborder="0" scrolling="no" marginheight="0" style="padding: 20px;"
-        marginwidth="0"
-        src="https://maps.google.cz/maps?client=firefox-a&amp;q=Chot%C4%9Bbo%C5%99sk%C3%A1+2943,+Havl%C3%AD%C4%8Dk%C5%AFv+Brod&amp;ie=UTF8&amp;num=10&amp;hq=&amp;hnear=Chot%C4%9Bbo%C5%99sk%C3%A1+2943,+Havl%C3%AD%C4%8Dk%C5%AFv+Brod&amp;ll=49.614638,15.582701&amp;spn=0.004706,0.012392&amp;t=m&amp;z=14&amp;iwloc=A&amp;brcurrent=5,0,1&amp;output=embed"></iframe>
-
-
-
+</section>

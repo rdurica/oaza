@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Component\Form\ContactUs;
 
@@ -33,9 +35,7 @@ class ContactUs extends Component
         private readonly Translator $translator,
         private readonly User $user,
         private readonly MailService $mailService
-    )
-    {
-    }
+    ) {}
 
     /**
      * Form.
@@ -45,15 +45,13 @@ class ContactUs extends Component
     public function createComponentForm(): Form
     {
         $form = new Form();
-        if (!$this->user->isLoggedIn())
-        {
+        if (!$this->user->isLoggedIn()) {
             $form->addText('from', $this->translator->trans('user.email'))
                 ->setHtmlAttribute('class', 'form-control')
                 ->setHtmlAttribute('placeholder', $this->translator->trans('user.email'))
                 ->setRequired()
                 ->addRule(NetteForm::EMAIL);
-        } else
-        {
+        } else {
             $form->addHidden('from', $this->translator->trans('user.email'))
                 ->setDefaultValue($this->user->identity->email);
         }
@@ -62,7 +60,7 @@ class ContactUs extends Component
             ->setHtmlAttribute('class', 'form-control')
             ->setHtmlAttribute('id', 'textarea')
             ->setHtmlAttribute('placeholder', $this->translator->trans('forms.message'))
-            ->setHtmlAttribute('style', 'height: 30vh;');
+            ->setHtmlAttribute('style', 'height: 20vh;');
         $form->addSubmit('sent', $this->translator->trans('button.send'))
             ->setHtmlAttribute('class', 'btn btn-info');
         $form->onSuccess[] = [$this, 'onSuccess'];
@@ -82,13 +80,10 @@ class ContactUs extends Component
     #[NoReturn]
     public function onSuccess(Form $form, ArrayHash $values): void
     {
-        try
-        {
+        try {
             $this->mailService->sendContactFormMessage($values->from, $values->message);
             $this->presenter->flashMessage($this->translator->trans('flash.contactUsSuccess'), FlashType::INFO);
-        }
-        catch (Exception)
-        {
+        } catch (Exception) {
             $this->presenter->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
         }
 

@@ -1,13 +1,12 @@
 {block content}
 {include "../Layout/page_header.latte", title:"messages.navbar.gallery"}
-<section id="gallery" class="gallery">
+<section class="info-page info-page-gallery">
     <div class="container">
-        <div class="row">
-            <br><br>
+        <div class="gallery-grid">
             {foreach $images as $image}
-                <div class="gallery-item">
+                <div class="gallery-card">
                     <a href="{$basePath}/assets/images/gallery/orig/{$image}" data-fancybox="gallery">
-                     <img src="{$basePath}/assets/images/gallery/shortcut/{$image}" class="gallery-item-img" />
+                        <img src="{$basePath}/assets/images/gallery/shortcut/{$image}" class="gallery-card-img" alt="" />
                     </a>
                 </div>
             {/foreach}

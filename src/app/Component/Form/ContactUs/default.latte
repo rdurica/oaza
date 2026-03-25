@@ -1,10 +1,16 @@
 {form form}
-    {label from /}
-    {if !$user->isLoggedIn()}
-    <span style="color: red;"> *</span>
-    {/if}
-
-    {input from}<br>
-    {label message /}<span style="color: red;"> *</span> {input message}<br>
-    {input sent}
+    <div class="form-group">
+        {label from /}
+        {if !$user->isLoggedIn()}
+        <span class="required-mark"> *</span>
+        {/if}
+        {input from, class: 'form-control'}
+    </div>
+    <div class="form-group">
+        {label message /}<span class="required-mark"> *</span>
+        {input message, class: 'form-control'}
+    </div>
+    <div class="form-group">
+        {input sent, class: 'btn btn-info'}
+    </div>
 {/form}

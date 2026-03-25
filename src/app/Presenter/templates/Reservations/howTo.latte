@@ -1,98 +1,98 @@
 {block content}
 {include "../Layout/page_header.latte", title:"messages.navbar.howTo"}
-<section id="about">
+<section class="info-page info-page-howto">
     <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-sm-6">
-                <div class="wow animate__animated animate__fadeInLeft block">
-                    <h3>
-                        1. krok
-                    </h3>
-                    <p>
-                        V menu na horní části stránky a klikněte na položku "Rezervace". Po kliknutí na tuto položku
-                        budete přesměrováni na stránku s možností rezervace.
-                    </p>
+        <div class="howto-step">
+            <div class="row howto-step-row">
+                <div class="col-md-6">
+                    <div class="howto-step-content">
+                        <div class="howto-step-header">
+                            <span class="howto-step-badge">1</span>
+                            <h3 class="info-section-title">Otevřete rezervace</h3>
+                        </div>
+                        <p class="info-lead">
+                            V menu na horní části stránky a klikněte na položku "Rezervace". Po kliknutí na tuto položku
+                            budete přesměrováni na stránku s možností rezervace.
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-sm-6">
-                <div class="wow animate__animated animate__fadeInRight block">
-                    <img src="{$basePath}/assets/images/how-to/01.png" alt="">
+                <div class="col-md-6">
+                    <div class="howto-step-media">
+                        <img src="{$basePath}/assets/images/how-to/01.png" alt="Krok 1">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<section id="about" class="works">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-sm-6">
-                <div class="wow animate__animated animate__fadeInLeft block">
-                    <img src="{$basePath}/assets/images/how-to/02.png" alt="">
+        <div class="howto-step howto-step--reverse">
+            <div class="row howto-step-row">
+                <div class="col-md-6 col-md-push-6">
+                    <div class="howto-step-content">
+                        <div class="howto-step-header">
+                            <span class="howto-step-badge">2</span>
+                            <h3 class="info-section-title">Vyberte datum</h3>
+                        </div>
+                        <p class="info-lead">
+                            Po kliknutí na položku rezervace se zobrazí
+                            kalendář, kde můžete pomocí šipek najít požadované datum. Pokud chcete zobrazit jiný týden,
+                            použijte tlačítka pro přechod mezi týdny. Po nalezení konkrétního dne pokračujte na další krok.
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-sm-6">
-                <div class="wow animate__animated animate__fadeInRight block">
-                    <h3>
-                        2. krok
-                    </h3>
-                    <p>
-                        Po kliknutí na položku rezervace se zobrazí
-                        kalendář, kde můžete pomocí šipek najít požadované datum. Pokud chcete zobrazit jiný týden,
-                        použijte tlačítka pro přechod mezi týdny.Po nalezení konkrétního dne pokračujte na další krok.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<section id="about">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-sm-6">
-                <div class="wow animate__animated animate__fadeInLeft block">
-                    <h3>
-                        3. krok
-                    </h3>
-                    <p>
-                        Po nalezení požadovaného datumu a času v kalendáři se pod kalendářem zobrazí sloty. Volný slot
-                        můžete vybrat kliknutím na něj. <span class="badge slot-badge slot-badge--free">Zelený slot</span>
-                        znamená, že je daný
-                        termín pro návštěvu solné jeskyně volný a můžete si ho rezervovat. <span class="badge slot-badge slot-badge--partial">Modrý slot</span>
-                        označuje, že někdo
-                        už si daný termín zarezervoval, ale ještě jsou k dispozici volná místa pro další návštěvníky.
-                        <span class="badge slot-badge slot-badge--full">Červený slot</span> znamená, že daný termín
-                        je již zcela obsazen a nelze si ho rezervovat
-                    </p>
-                </div>
-            </div>
-            <div class="col-md-6 col-sm-6">
-                <div class="wow animate__animated animate__fadeInRight block">
-                    <img src="{$basePath}/assets/images/how-to/03.png" alt="">
+                <div class="col-md-6 col-md-pull-6">
+                    <div class="howto-step-media">
+                        <img src="{$basePath}/assets/images/how-to/02.png" alt="Krok 2">
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<section id="about" class="works">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-sm-6">
-                <div class="wow animate__animated animate__fadeInLeft block">
-                    <img src="{$basePath}/assets/images/how-to/04.png" alt="">
+        <div class="howto-step">
+            <div class="row howto-step-row">
+                <div class="col-md-6">
+                    <div class="howto-step-content">
+                        <div class="howto-step-header">
+                            <span class="howto-step-badge">3</span>
+                            <h3 class="info-section-title">Zvolte termín</h3>
+                        </div>
+                        <p class="info-lead">
+                            Po nalezení požadovaného datumu a času v kalendáři se pod kalendářem zobrazí sloty. Volný slot
+                            můžete vybrat kliknutím na něj. <span class="badge slot-badge slot-badge--free">Zelený slot</span>
+                            znamená, že je daný
+                            termín pro návštěvu solné jeskyně volný a můžete si ho rezervovat. <span class="badge slot-badge slot-badge--partial">Modrý slot</span>
+                            označuje, že někdo
+                            už si daný termín zarezervoval, ale ještě jsou k dispozici volná místa pro další návštěvníky.
+                            <span class="badge slot-badge slot-badge--full">Červený slot</span> znamená, že daný termín
+                            je již zcela obsazen a nelze si ho rezervovat.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="howto-step-media">
+                        <img src="{$basePath}/assets/images/how-to/03.png" alt="Krok 3">
+                    </div>
                 </div>
             </div>
-            <div class="col-md-6 col-sm-6">
-                <div class="wow animate__animated animate__fadeInRight block">
-                    <h3>
-                        4. krok
-                    </h3>
-                    <p>
-                        Poté, co jste vybrali datum a čas rezervace, vyplňte formulář s vašimi kontaktními údaji. Pokud
-                        jste již registrovaným uživatelem,
-                        není potřeba tyto údaje znovu vyplňovat pouze vybrat počet osob (včetně dětí). Po vyplnění
-                        formuláře klikněte na tlačítko "Rezervovat"
-                        a váš termín bude potvrzen. Po potvrzení rezervace obdržíte e-mail s detaily rezervace.
-                    </p>
+        </div>
+        <div class="howto-step howto-step--reverse">
+            <div class="row howto-step-row">
+                <div class="col-md-6 col-md-push-6">
+                    <div class="howto-step-content">
+                        <div class="howto-step-header">
+                            <span class="howto-step-badge">4</span>
+                            <h3 class="info-section-title">Vyplňte formulář</h3>
+                        </div>
+                        <p class="info-lead">
+                            Poté, co jste vybrali datum a čas rezervace, vyplňte formulář s vašimi kontaktními údaji. Pokud
+                            jste již registrovaným uživatelem,
+                            není potřeba tyto údaje znovu vyplňovat pouze vybrat počet osob (včetně dětí). Po vyplnění
+                            formuláře klikněte na tlačítko "Rezervovat"
+                            a váš termín bude potvrzen. Po potvrzení rezervace obdržíte e-mail s detaily rezervace.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-md-pull-6">
+                    <div class="howto-step-media">
+                        <img src="{$basePath}/assets/images/how-to/04.png" alt="Krok 4">
+                    </div>
                 </div>
             </div>
         </div>
