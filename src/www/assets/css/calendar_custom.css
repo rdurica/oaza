@@ -151,11 +151,33 @@
   cursor: pointer !important;
 }
 
+.oaza-calendar .fc-timegrid-event .fc-event-main {
+  padding: 0 6px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+}
+
+.oaza-calendar .fc-timegrid-event .fc-event-main-frame {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  width: 100%;
+}
+
+.oaza-calendar .fc-timegrid-event .fc-event-title-container {
+  flex: 0 0 auto;
+}
+
 .oaza-calendar .fc-event-time,
 .oaza-calendar .fc-event-title {
-  margin-top: 0;
-  padding: 0 4px;
-  line-height: 1.35;
+  padding: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .oaza-calendar-children-icon {
