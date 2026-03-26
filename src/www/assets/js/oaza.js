@@ -235,7 +235,16 @@ function initPublicReservationCalendar(calendarElement) {
         headerToolbar: { left: '', center: 'title', right: 'prev,next today' },
         buttonText: { today: 'Dnes' },
         events,
-        eventDidMount: ({ event, el }) => styleCalendarEvent(event, el),
+        eventDidMount: ({ event, el }) => {
+            styleCalendarEvent(event, el);
+            if (event.extendedProps.hasChildren === 'Ano') {
+                const icon = document.createElement('span');
+                icon.className = 'oaza-calendar-children-icon';
+                icon.innerHTML = ' <i class="fa-solid fa-child-reaching" title="Přítomnost dětí"></i>';
+                const titleEl = el.querySelector('.fc-event-title');
+                if (titleEl) titleEl.appendChild(icon);
+            }
+        },
         eventClick: ({ event }) => {
             if (isFullyBookedEvent(event)) {
                 notifyMessage('Oaza uz je plně obsazena. Vyberte prosím jinou hodinu', 'error');

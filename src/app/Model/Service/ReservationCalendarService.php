@@ -49,8 +49,7 @@ final class ReservationCalendarService
             $eventTime = $this->formatEventTime($slotDate, $isRestriction);
             $title = $isRestriction
                 ? 'Omezeni provozu'
-                : $this->createAvailabilityMessage($availableCapacity)
-                . $this->getHasChildrenText((int) $row->hasChildren > 0);
+                : $this->createAvailabilityMessage($availableCapacity);
 
             $calendarEvents[] = new CalendarEventData(
                 title: $title,

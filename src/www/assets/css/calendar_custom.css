@@ -158,6 +158,12 @@
   line-height: 1.35;
 }
 
+.oaza-calendar-children-icon {
+  margin-left: 4px;
+  opacity: 0.9;
+  font-size: 0.85em;
+}
+
 .oaza-calendar .fc-event:hover {
   box-shadow: 0 10px 18px rgba(111, 136, 148, 0.2);
 }
@@ -227,6 +233,11 @@
 
 .slot-badge--full {
   background-color: var(--calendar-full-bg);
+}
+
+.slot-badge--children {
+  background-color: #f59e0b;
+  color: #fff;
 }
 
 .oaza-calendar .fc-list-event td {
