@@ -2,18 +2,13 @@
 
 {block content}
 <div class="admin-page-header">
-    <h1>Omezení provozu</h1>
-    <p>Blokování termínů a správa uzavírek</p>
-</div>
-<div class="admin-card">
-    <div class="admin-card-header">
-        <h2 class="admin-card-title">Seznam omezení</h2>
-        <a n:href="Restrictions:Create" class="btn-admin-create" style="margin-bottom:0;">
-            <i class="fa-regular fa-calendar-xmark"></i> Vytvořit omezení
-        </a>
+    <div>
+        <h1>Omezení provozu</h1>
+        <p>Blokování termínů a správa uzavírek</p>
     </div>
-    <div class="admin-card-body" style="padding:0;">
-        {control grid}
-    </div>
+    <a n:href="Restrictions:Create" class="btn-admin-create">
+        <i class="fa-regular fa-calendar-xmark"></i> Vytvořit omezení
+    </a>
 </div>
+{control grid}
 {/block}

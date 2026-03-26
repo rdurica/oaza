@@ -70,7 +70,7 @@ forms:
     header: "Název"
     showNews: "Zobrazit novinku"
     showNewsHomepage: "Zobrazit novinku na hlavní strance"
-    qty: "Množství"
+    qty: "Počet osob"
     childs: "Děti"
     comment: "Komentář"
 

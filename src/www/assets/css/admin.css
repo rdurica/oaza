@@ -294,7 +294,13 @@ body.admin-body {
 .admin-content { padding: 28px; flex: 1; }
 
 /* ── Page header ────────────────────────────────────────── */
-.admin-page-header { margin-bottom: 24px; }
+.admin-page-header {
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
 .admin-page-header h1 {
   font-family: var(--ff-display);
   font-size: 23px;

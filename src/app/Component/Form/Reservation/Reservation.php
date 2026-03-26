@@ -76,14 +76,10 @@ class Reservation extends Component
                 )
                 ->setMaxLength(9);
         }
-        $form->addSelect('count', $this->translator->trans('forms.qty'))
-            ->setHtmlAttribute('class', 'form-control')
-            ->setItems([1, 2, 3, 4, 5], false)
+        $form->addRadioList('count', $this->translator->trans('forms.qty'))
+            ->setItems([1 => '1', 2 => '2', 3 => '3', 4 => '4', 5 => '5'])
             ->setRequired();
-        $form->addSelect('has_children', $this->translator->trans('forms.childs'))
-            ->setHtmlAttribute('class', 'form-control')
-            ->setItems(['Ne', 'Ano'])
-            ->setRequired();
+        $form->addCheckbox('has_children', $this->translator->trans('forms.childs'));
         $form->addTextArea('comment', $this->translator->trans('forms.comment'))
             ->setHtmlAttribute('rows', 5)
             ->setHtmlAttribute('class', 'form-control')

@@ -2,18 +2,13 @@
 
 {block content}
 <div class="admin-page-header">
-    <h1>Novinky</h1>
-    <p>Správa novinek zobrazovaných na webu</p>
-</div>
-<div class="admin-card">
-    <div class="admin-card-header">
-        <h2 class="admin-card-title">Seznam novinek</h2>
-        <a n:href="News:Create" class="btn-admin-create" style="margin-bottom:0;">
-            <i class="fa-solid fa-plus"></i> Vytvořit novinku
-        </a>
+    <div>
+        <h1>Novinky</h1>
+        <p>Správa novinek zobrazovaných na webu</p>
     </div>
-    <div class="admin-card-body" style="padding:0;">
-        {control grid}
-    </div>
+    <a n:href="News:Create" class="btn-admin-create">
+        <i class="fa-solid fa-plus"></i> Vytvořit novinku
+    </a>
 </div>
+{control grid}
 {/block}

@@ -3030,3 +3030,107 @@ fieldset[disabled] .form-control {
     border-radius: var(--ui-radius-sm);
   }
 }
+
+/* ============================================================
+   Reservation form — pill radio buttons & toggle switch
+   ============================================================ */
+
+.radio-pill-group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.radio-pill {
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.radio-pill input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.radio-pill span {
+  display: inline-block;
+  padding: 6px 18px;
+  border: 2px solid #ddd;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #555;
+  transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.radio-pill:has(input:checked) span {
+  border-color: #02bdd5;
+  background: #02bdd5;
+  color: #fff;
+}
+
+.radio-pill:hover span {
+  border-color: #02bdd5;
+  color: #02bdd5;
+}
+
+.toggle-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: #ccc;
+  border-radius: 26px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 3px;
+  bottom: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: #02bdd5;
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(22px);
+}
+
+.toggle-label {
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+}
