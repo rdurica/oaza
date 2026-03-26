@@ -57,6 +57,7 @@ final class ReservationCalendarService
                 end: $eventTime['end'],
                 color: $this->resolvePublicEventColor($isRestriction, $availableCapacity),
                 hasChildren: $this->getHasChildrenText((int) $row->hasChildren > 0),
+                availableCapacity: $isRestriction ? 0 : $availableCapacity,
             );
         }
 
@@ -127,6 +128,7 @@ final class ReservationCalendarService
                     start: $eventTime['start'],
                     end: $eventTime['end'],
                     color: 'green',
+                    availableCapacity: self::MAX_SLOT_CAPACITY,
                 );
             }
         }

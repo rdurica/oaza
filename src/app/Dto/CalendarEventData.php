@@ -20,6 +20,7 @@ final class CalendarEventData
         public readonly ?int $totalCount = null,
         public readonly ?string $date = null,
         public readonly ?string $comment = null,
+        public readonly ?int $availableCapacity = null,
     ) {
     }
 
@@ -39,6 +40,7 @@ final class CalendarEventData
             'totalCount' => $this->totalCount,
             'date' => $this->date,
             'comment' => $this->comment,
+            'availableCapacity' => $this->availableCapacity,
         ];
     }
 }

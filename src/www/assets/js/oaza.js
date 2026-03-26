@@ -250,6 +250,14 @@ function initPublicReservationCalendar(calendarElement) {
                 notifyMessage('Oaza uz je plně obsazena. Vyberte prosím jinou hodinu', 'error');
                 return;
             }
+            const available = event.extendedProps.availableCapacity ?? 5;
+            $('#createRezervationModal .radio-pill').each(function () {
+                const val = parseInt($(this).find('input[type=radio]').val(), 10);
+                $(this).toggle(val <= available);
+                if (val > available) {
+                    $(this).find('input[type=radio]').prop('checked', false);
+                }
+            });
             $('#createRezervationModal').modal('toggle');
             $('#dateTimeCreation').text(moment(event.start).format('DD.M.YYYY H:00'));
             $('input[name=date]').val(moment(event.start).format('YYYY-MM-DD HH:00:00'));
