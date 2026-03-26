@@ -271,6 +271,17 @@ function initPublicReservationCalendar(calendarElement) {
         }
     });
     calendar.render();
+
+    const STORAGE_KEY = 'oaza_public_cal_date';
+    const savedDate = sessionStorage.getItem(STORAGE_KEY);
+    if (savedDate) {
+        calendar.gotoDate(new Date(savedDate));
+        sessionStorage.removeItem(STORAGE_KEY);
+    }
+
+    $('#createRezervationModal form').on('submit', function () {
+        sessionStorage.setItem(STORAGE_KEY, calendar.getDate().toISOString());
+    });
 }
 
 function initUserCalendar(calendarElement) {
