@@ -88,17 +88,6 @@
                 <i class="fa-solid fa-bars"></i>
             </button>
         </div>
-        <div class="topbar-right">
-            <div class="topbar-user" id="topbarUser">
-                <div class="topbar-avatar">{$user->identity->name|firstUpper|substr:0,1}</div>
-                <i class="fa-solid fa-chevron-down" style="font-size:11px;color:#8a9bb0;"></i>
-                <div class="topbar-dropdown" id="topbarDropdown">
-                    <a n:href=":Homepage:"><i class="fa-solid fa-globe"></i> Zpět na web</a>
-                    <div class="divider"></div>
-                    <a n:href="out!"><i class="fa-solid fa-right-from-bracket"></i> {_button.logout}</a>
-                </div>
-            </div>
-        </div>
     </div>
 
     {* Page content *}
@@ -143,19 +132,6 @@
     }
 
     document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Topbar user dropdown
-    var topbarUser = document.getElementById('topbarUser');
-    var topbarDropdown = document.getElementById('topbarDropdown');
-    if (topbarUser && topbarDropdown) {
-        topbarUser.addEventListener('click', function (e) {
-            e.stopPropagation();
-            topbarDropdown.classList.toggle('open');
-        });
-        document.addEventListener('click', function () {
-            topbarDropdown.classList.remove('open');
-        });
-    }
 
     // Sidebar toggle (mobile)
     var sidebarToggle = document.getElementById('sidebarToggle');
