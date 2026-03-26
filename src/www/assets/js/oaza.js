@@ -241,7 +241,7 @@ function initPublicReservationCalendar(calendarElement) {
                 const icon = document.createElement('span');
                 icon.className = 'oaza-calendar-children-icon';
                 icon.innerHTML = ' <i class="fa-solid fa-child-reaching" title="Přítomnost dětí"></i>';
-                const titleEl = el.querySelector('.fc-event-title');
+                const titleEl = el.querySelector('.fc-event-title') || el.querySelector('.fc-list-event-title a');
                 if (titleEl) titleEl.appendChild(icon);
             }
         },
