@@ -873,3 +873,26 @@ body.admin-body {
   backdrop-filter: blur(2px);
 }
 .sidebar-overlay.open { display: block; }
+
+/* ── Toast overrides ────────────────────────────────── */
+.swal2-popup.oaza-toast {
+  border-radius: var(--r-lg) !important;
+  box-shadow: var(--sh-lg) !important;
+  font-family: var(--ff-body);
+  padding: 18px 24px !important;
+  min-width: 300px;
+  max-width: 440px;
+}
+.swal2-popup.oaza-toast .swal2-title {
+  font-size: 17px !important;
+  font-weight: 500 !important;
+  color: var(--ink) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.swal2-popup.oaza-toast .swal2-icon {
+  margin: 0 12px 0 0 !important;
+}
+.swal2-popup.oaza-toast .swal2-success-ring {
+  display: none !important;
+}

@@ -1,9 +1,10 @@
 function notifyMessage(text, type) {
     const toast = Swal.mixin({
+        toast: true,
         position: 'top-end',
         showConfirmButton: false,
         timer: 3000,
-        timerProgressBar: true,
+        customClass: { popup: 'oaza-toast' },
         didOpen: (element) => {
             element.addEventListener('mouseenter', Swal.stopTimer);
             element.addEventListener('mouseleave', Swal.resumeTimer);
@@ -303,6 +304,15 @@ function initUserCalendar(calendarElement) {
 }
 
 $(function () {
+    if (typeof $.nette !== 'undefined') {
+        $.nette.ext('oaza-errors', {
+            error: function (xhr) {
+                var msg = (xhr && xhr.status) ? 'Chyba ' + xhr.status + ': Požadavek selhal.' : 'Nastala chyba. Zkuste to prosím znovu.';
+                notifyMessage(msg, 'error');
+            }
+        });
+    }
+
     bindCommonUi();
     initPublicMobileNav();
 

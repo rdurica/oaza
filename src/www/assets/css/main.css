@@ -3134,3 +3134,24 @@ fieldset[disabled] .form-control {
   color: #555;
   cursor: pointer;
 }
+
+/* ── Toast overrides ─────────────────────────────────── */
+.swal2-popup.oaza-toast {
+  border-radius: 14px !important;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.14), 0 4px 16px rgba(0,0,0,0.07) !important;
+  padding: 18px 24px !important;
+  min-width: 300px;
+  max-width: 440px;
+}
+.swal2-popup.oaza-toast .swal2-title {
+  font-size: 17px !important;
+  font-weight: 500 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.swal2-popup.oaza-toast .swal2-icon {
+  margin: 0 12px 0 0 !important;
+}
+.swal2-popup.oaza-toast .swal2-success-ring {
+  display: none !important;
+}

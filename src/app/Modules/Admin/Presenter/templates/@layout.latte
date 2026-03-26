@@ -119,10 +119,11 @@
 <script>
     function notifyMessage(text, type) {
         var toast = Swal.mixin({
+            toast: true,
             position: 'top-end',
             showConfirmButton: false,
             timer: 3500,
-            timerProgressBar: true,
+            customClass: { popup: 'oaza-toast' },
             didOpen: function(el) {
                 el.addEventListener('mouseenter', Swal.stopTimer);
                 el.addEventListener('mouseleave', Swal.resumeTimer);
