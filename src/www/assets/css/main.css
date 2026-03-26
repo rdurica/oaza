@@ -3155,3 +3155,74 @@ fieldset[disabled] .form-control {
 .swal2-popup.oaza-toast .swal2-success-ring {
   display: none !important;
 }
+
+/* --- Custom checkbox (terms of use) --- */
+.terms-check-wrap {
+  margin-bottom: 16px;
+}
+
+.custom-checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 14px;
+  color: #555;
+  font-weight: 400;
+}
+
+.custom-checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.custom-checkbox-box {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  margin-top: 1px;
+  transition: border-color 0.15s, background 0.15s;
+  position: relative;
+}
+
+.custom-checkbox-box::after {
+  content: '';
+  position: absolute;
+  display: none;
+  left: 5px;
+  top: 1px;
+  width: 6px;
+  height: 11px;
+  border: 2px solid #fff;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+.custom-checkbox:has(input:checked) .custom-checkbox-box {
+  background: #02bdd5;
+  border-color: #02bdd5;
+}
+
+.custom-checkbox:has(input:checked) .custom-checkbox-box::after {
+  display: block;
+}
+
+.custom-checkbox:hover .custom-checkbox-box {
+  border-color: #02bdd5;
+}
+
+.custom-checkbox-label a {
+  color: #02bdd5;
+  text-decoration: underline;
+}
+
+.custom-checkbox-label a:hover {
+  color: #019ab5;
+}
