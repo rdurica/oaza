@@ -61,6 +61,9 @@ class Registration extends Component
             ->setRequired();
         $form->addText('telephone', $this->translator->trans('user.telephone'))
             ->setHtmlAttribute('placeholder', $this->translator->trans('user.telephone'))
+            ->setHtmlAttribute('type', 'tel')
+            ->setHtmlAttribute('inputmode', 'numeric')
+            ->setHtmlAttribute('oninput', "this.value = this.value.replace(/[^0-9]/g, '')")
             ->setRequired()
             ->addRule($form::Pattern, $this->translator->trans('flash.telephoneFormat'), $this->getConfig('telephoneRegex'))
             ->setMaxLength(9);
