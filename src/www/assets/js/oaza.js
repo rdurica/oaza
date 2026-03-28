@@ -47,6 +47,17 @@ function isMobileViewport() {
     return window.innerWidth < 768;
 }
 
+function getNextWeekMondayDate() {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+
+    const day = date.getDay();
+    const daysUntilNextMonday = ((8 - day) % 7) || 7;
+    date.setDate(date.getDate() + daysUntilNextMonday);
+
+    return date;
+}
+
 function resolveCalendarEventClass(event) {
     const color = normalizeCalendarColor(event.backgroundColor || event.extendedProps.color || '');
     if (color === 'green') return 'oaza-calendar-event--free';
@@ -235,10 +246,12 @@ function initPublicMobileNav() {
 function initPublicReservationCalendar(calendarElement) {
     const events = readJsonPayload('reservation-calendar-events');
     const isMobile = isMobileViewport();
+    const initialDate = getNextWeekMondayDate();
 
     const calendar = new FullCalendar.Calendar(calendarElement, {
         locale: 'cs',
         initialView: isMobile ? 'listWeek' : 'timeGridWeek',
+        initialDate,
         slotMinTime: '08:00:00',
         slotMaxTime: '18:00:00',
         height: isMobile ? 'auto' : 510,
