@@ -51,7 +51,7 @@ class User extends Component
         $grid->addColumnDateTime('registered', 'Datum registrace')
             ->setFormat('j. n. Y');
         $grid->addColumnText('enabled', 'Status')
-            ->setRenderer(fn($item): string => ($item->enabled === 1) ? 'Povolen' : 'Zakazan');
+            ->setRenderer(fn($item): string => ($item->enabled === 1) ? 'Povolen' : 'Zakázán');
         $grid->addAction('send', 'status', 'status!')
             ->setClass('btn btn-info btn-xs')
             ->setIcon('eye');

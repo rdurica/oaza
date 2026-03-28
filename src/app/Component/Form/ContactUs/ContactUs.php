@@ -6,6 +6,7 @@ namespace App\Component\Form\ContactUs;
 
 use App\Component\Component;
 use App\Model\Service\Mail\MailService;
+use App\Model\Service\Security\TurnstileVerifier;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use Exception;
@@ -15,6 +16,7 @@ use Nette\Application\UI\Form;
 use Nette\Forms\Form as NetteForm;
 use Nette\Security\User;
 use Nette\Utils\ArrayHash;
+use ReflectionException;
 
 /**
  * ContactUs form.
@@ -34,8 +36,21 @@ class ContactUs extends Component
     public function __construct(
         private readonly Translator $translator,
         private readonly User $user,
-        private readonly MailService $mailService
+        private readonly MailService $mailService,
+        private readonly TurnstileVerifier $turnstileVerifier,
     ) {}
+
+    /**
+     * Render component.
+     *
+     * @return void
+     * @throws ReflectionException
+     */
+    public function render(): void
+    {
+        $this->template->turnstileSiteKey = $this->turnstileVerifier->getSiteKey();
+        parent::render();
+    }
 
     /**
      * Form.
@@ -80,6 +95,11 @@ class ContactUs extends Component
     #[NoReturn]
     public function onSuccess(Form $form, ArrayHash $values): void
     {
+        if (!$this->validateTurnstile()) {
+            $this->presenter->flashMessage($this->translator->trans('flash.turnstileFailed'), FlashType::ERROR);
+            $this->presenter->redirect('this');
+        }
+
         try {
             $this->mailService->sendContactFormMessage($values->from, $values->message);
             $this->presenter->flashMessage($this->translator->trans('flash.contactUsSuccess'), FlashType::INFO);
@@ -88,5 +108,18 @@ class ContactUs extends Component
         }
 
         $this->presenter->redirect('this');
+    }
+
+    /**
+     * Validates Turnstile token from submitted form.
+     *
+     * @return bool
+     */
+    private function validateTurnstile(): bool
+    {
+        $httpRequest = $this->getPresenter()->getHttpRequest();
+        $token = (string) $httpRequest->getPost('cf-turnstile-response');
+
+        return $this->turnstileVerifier->verify($token, $httpRequest->getRemoteAddress());
     }
 }

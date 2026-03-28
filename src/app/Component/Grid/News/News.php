@@ -45,7 +45,7 @@ class News extends Component
         $grid->setDataSource($this->newsManager->getEntityTable()->order('id DESC'));
         $grid->addColumnText('text', 'Text')
             ->setRenderer(renderer: fn($item): Html => Html::el()->setHtml($item->text));
-        $grid->addColumnText('show_homepage', 'Na hlavni strance')
+        $grid->addColumnText('show_homepage', 'Na hlavní stránce')
             ->setRenderer(fn($item): string => News::convertToYesNo($item->show_homepage));
         $grid->addColumnText('show', 'Zobrazit')
             ->setRenderer(fn($item): string => News::convertToYesNo($item->show));

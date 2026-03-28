@@ -48,7 +48,7 @@ final class ReservationCalendarService
             $isRestriction = $row->name === ReservationManager::RESTRICTION_NAME;
             $eventTime = $this->formatEventTime($slotDate, $isRestriction);
             $title = $isRestriction
-                ? 'Omezeni provozu'
+                ? 'Omezení provozu'
                 : $this->createAvailabilityMessage($availableCapacity);
 
             $calendarEvents[] = new CalendarEventData(
@@ -166,10 +166,10 @@ final class ReservationCalendarService
         }
 
         if ($availableCapacity === 1) {
-            return '1 Volné místo';
+            return '1 volné místo';
         }
 
-        return $availableCapacity . ' Volné místa';
+        return $availableCapacity . ' volná místa';
     }
 
     private function getHasChildrenText(bool $hasChildren, string $default = ''): string

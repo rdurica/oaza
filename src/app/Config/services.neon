@@ -6,6 +6,7 @@ services:
   - App\Model\Service\Authentication\PasswordService
   - App\Model\Service\ReservationCalendarService
   - App\Model\Service\Mail\MailService(%env.EMAIL_HOST%, %env.EMAIL_ADMIN%, %env.EMAIL_ADMIN_PASSWORD%, %env.EMAIL_PORT%, %env.EMAIL_ENCRYPTION%, %env.EMAIL_FROM%, %env.EMAIL_CONTACT%)
+  - App\Model\Service\Security\TurnstileVerifier(%env.TURNSTILE_SITEKEY%, %env.TURNSTILE_SECRET_KEY%)
   - App\Model\Service\ReservationService
 
   # Manager

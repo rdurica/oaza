@@ -122,7 +122,7 @@ class Reservation extends Component
         } catch (ReservationInPastException) {
             $this->getPresenter()->flashMessage('Termín rezervace musí být v budoucnu', FlashType::ERROR);
         } catch (CapacityExceededException) {
-            $this->getPresenter()->flashMessage('Překročena maximalni kapacita jeskyne', FlashType::ERROR);
+            $this->getPresenter()->flashMessage('Překročena maximální kapacita jeskyně', FlashType::ERROR);
         } catch (Exception $e) {
             Debugger::log($e, Debugger::CRITICAL);
             $this->getPresenter()->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
