@@ -96,6 +96,21 @@ function initPublicMobileNav() {
     const bodyNode = $(document.body);
     const headerNode = $(header);
 
+    // Re-initialization safety: remove previously bound public-nav handlers.
+    toggleNode.off('.publicNav');
+    navNode.off('.publicNav');
+    $(document).off('.publicNav');
+    $(window).off('.publicNav');
+
+    const previousViewportListener = nav.__publicNavViewportListener;
+    if (typeof previousViewportListener === 'function') {
+        if (typeof mobileQuery.removeEventListener === 'function') {
+            mobileQuery.removeEventListener('change', previousViewportListener);
+        } else if (typeof mobileQuery.removeListener === 'function') {
+            mobileQuery.removeListener(previousViewportListener);
+        }
+    }
+
     const syncHeaderHeight = () => {
         const headerHeight = Math.round(header.getBoundingClientRect().height);
         header.style.setProperty('--public-mobile-header-height', `${headerHeight}px`);
@@ -133,20 +148,20 @@ function initPublicMobileNav() {
         syncState(false);
     };
 
-    navNode.on('show.bs.collapse', () => {
+    navNode.on('show.bs.collapse.publicNav', () => {
         syncHeaderHeight();
         syncState(true);
     });
 
-    navNode.on('shown.bs.collapse', () => {
+    navNode.on('shown.bs.collapse.publicNav', () => {
         syncState(true);
     });
 
-    navNode.on('hide.bs.collapse', () => {
+    navNode.on('hide.bs.collapse.publicNav', () => {
         syncState(false);
     });
 
-    navNode.on('hidden.bs.collapse', () => {
+    navNode.on('hidden.bs.collapse.publicNav', () => {
         syncState(false);
         navNode.find('.dropdown.open').removeClass('open');
     });
@@ -163,7 +178,7 @@ function initPublicMobileNav() {
         }
     });
 
-    navNode.on('click', '.dropdown > .dropdown-toggle', function (event) {
+    navNode.on('click.publicNav', '.dropdown > .dropdown-toggle', function (event) {
         if (!mobileQuery.matches) {
             return;
         }
@@ -178,7 +193,7 @@ function initPublicMobileNav() {
         currentDropdown.toggleClass('open', shouldOpen);
     });
 
-    navNode.on('click', 'a', function () {
+    navNode.on('click.publicNav', 'a', function () {
         if (!mobileQuery.matches || $(this).hasClass('dropdown-toggle')) {
             return;
         }
@@ -203,6 +218,7 @@ function initPublicMobileNav() {
         closeMenu({ instant: true });
         navNode.removeAttr('style');
     };
+    nav.__publicNavViewportListener = handleViewportChange;
 
     if (typeof mobileQuery.addEventListener === 'function') {
         mobileQuery.addEventListener('change', handleViewportChange);
@@ -332,13 +348,14 @@ function initUserCalendar(calendarElement) {
 }
 
 $(function () {
-    if (typeof $.nette !== 'undefined') {
+    if (typeof $.nette !== 'undefined' && window.__oazaErrorsExtRegistered !== true) {
         $.nette.ext('oaza-errors', {
             error: function (xhr) {
                 var msg = (xhr && xhr.status) ? 'Chyba ' + xhr.status + ': Požadavek selhal.' : 'Nastala chyba. Zkuste to prosím znovu.';
                 notifyMessage(msg, 'error');
             }
         });
+        window.__oazaErrorsExtRegistered = true;
     }
 
     bindCommonUi();
