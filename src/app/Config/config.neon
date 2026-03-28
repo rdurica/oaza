@@ -24,7 +24,7 @@ translation:
 sentry:
 	enable: %enableSentry%
 	client:
-		dsn: %env.SENTRY_DNS%
+		dsn: %sentryDsn%
 		prefixes: [%appDir%]
 	integrations: true
 	logger:

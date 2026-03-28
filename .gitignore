@@ -16,6 +16,7 @@ build/dev/certs
 src/temp
 src/log
 upload
+src/app/Config/secrets.neon
 
 # K8s
 manifest.yaml
