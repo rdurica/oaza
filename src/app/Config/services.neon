@@ -11,6 +11,8 @@ services:
 
   # Manager
   - App\Model\Manager\NewsManager
+  - App\Model\Manager\PasswordResetRequestLogManager
+  - App\Model\Manager\PasswordResetTokenManager
   - App\Model\Manager\ReservationManager
   - App\Model\Manager\RestrictionManager
   - App\Model\Manager\UserManager
@@ -20,6 +22,7 @@ services:
   - App\Component\Form\Auth\Login\LoginFormFactory
   - App\Component\Form\Auth\Register\RegistrationFormFactory
   - App\Component\Form\Auth\ResetPassword\ResetPasswordFormFactory
+  - App\Component\Form\Auth\ResetPasswordFromLink\ResetPasswordFromLinkFormFactory
   - App\Component\Form\ContactUs\ContactUsFormFactory
   - App\Component\Form\Reservation\ReservationFormFactory
   - App\Component\Form\News\NewsFormFactory

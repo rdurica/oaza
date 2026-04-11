@@ -35,7 +35,7 @@ abstract class Presenter extends NettePresenter
     public Translator $translator;
 
     /**
-     * Checks if the user logged-in and password needs to be changed.
+     * Checks if the user logged-in.
      *
      * @return void
      * @throws AbortException
@@ -43,13 +43,6 @@ abstract class Presenter extends NettePresenter
     public function startup(): void
     {
         parent::startup();
-        if (
-            $this->getUser()->identity?->data['needNewPassword'] === true &&
-            $this->getPresenter()->view !== 'changePassword'
-        )
-        {
-            $this->redirect(':User:ChangePassword');
-        }
     }
 
     /**

@@ -14,6 +14,14 @@ use Nette\Application\AbortException;
 abstract class SecurePresenter extends Presenter
 {
     /**
+     * Determines whether current action requires logged user.
+     */
+    protected function requiresLogin(): bool
+    {
+        return true;
+    }
+
+    /**
      * Checks if user is logged-in.
      *
      * @return void
@@ -22,7 +30,7 @@ abstract class SecurePresenter extends Presenter
     public function startup(): void
     {
         parent::startup();
-        if (!$this->getUser()->isLoggedIn())
+        if ($this->requiresLogin() && !$this->getUser()->isLoggedIn())
         {
             $this->flashMessage('Musíte být přihlášen', FlashType::ERROR);
             $this->redirect(':Homepage:');

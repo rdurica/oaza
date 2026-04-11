@@ -78,11 +78,7 @@ class Login extends Component
             $this->user->setExpiration('14 days', false);
             $this->user->login($identity);
 
-            match ($identity->needNewPassword)
-            {
-                true  => $this->changePasswordRedirect(),
-                false => $this->loggedInRedirect(),
-            };
+            $this->loggedInRedirect();
         }
         catch (AuthenticationException)
         {
@@ -94,16 +90,6 @@ class Login extends Component
         }
 
         $this->getPresenter()->redirect('this');
-    }
-
-    /**
-     * @throws AbortException
-     */
-    #[NoReturn]
-    private function changePasswordRedirect(): void
-    {
-        $this->getPresenter()->flashMessage($this->translator->trans('flash.newPasswordRequired'), FlashType::SUCCESS);
-        $this->getPresenter()->redirect(':User:changePassword');
     }
 
     /**

@@ -6,6 +6,7 @@ namespace App\Model\Service\Mail;
 
 use App\Dto\CanceledReservationDto;
 use Latte\Engine;
+use Nette\Application\LinkGenerator;
 use Nette\Mail\Message;
 use Nette\Mail\SmtpMailer;
 use SensitiveParameter;
@@ -44,6 +45,7 @@ class MailService
      * @param string $encryption
      * @param string $emailFrom
      * @param string $emailContact
+     * @param LinkGenerator $linkGenerator
      */
     public function __construct(
         public readonly string $host,
@@ -53,6 +55,7 @@ class MailService
         public readonly string $encryption,
         public readonly string $emailFrom,
         public readonly string $emailContact,
+        private readonly LinkGenerator $linkGenerator,
     )
     {
         $this->latte = new Engine();
@@ -171,22 +174,24 @@ class MailService
     }
 
     /**
-     * Sends new temporary password.
+     * Sends password reset link.
      *
      * @param string $email
-     * @param string $newPassword
+     * @param string $token
      *
      * @return void
      */
-    public function sendTemporaryPassword(string $email, string $newPassword): void
+    public function sendPasswordResetLink(string $email, string $token): void
     {
+        $resetLink = $this->linkGenerator->link('//User:resetPassword', ['token' => $token]);
+
         $mail = new Message();
         $mail->setFrom($this->emailFrom)
             ->addTo($email)
             ->setSubject(self::PASSWORD_RESET)
             ->setHtmlBody(
-                $this->latte->renderToString(__DIR__ . '/templates/temporaryPassword.latte', [
-                    'password' => $newPassword,
+                $this->latte->renderToString(__DIR__ . '/templates/passwordResetLink.latte', [
+                    'resetLink' => $resetLink,
                 ])
             );
 

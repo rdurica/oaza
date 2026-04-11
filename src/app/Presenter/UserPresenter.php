@@ -6,13 +6,15 @@ namespace App\Presenter;
 
 use App\Component\Form\Auth\ChangePassword\ChangePassword;
 use App\Component\Form\Auth\ChangePassword\ChangePasswordFormFactory;
+use App\Component\Form\Auth\ResetPasswordFromLink\ResetPasswordFromLink;
+use App\Component\Form\Auth\ResetPasswordFromLink\ResetPasswordFromLinkFormFactory;
 use App\Exception\NotAllowedOperationException;
+use App\Model\Manager\PasswordResetTokenManager;
 use App\Model\Service\ReservationCalendarService;
 use App\Model\Service\ReservationService;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use Exception;
-use Nette\Application\AbortException;
 use Nette\Mail\SmtpException;
 use Nette\Utils\Json;
 
@@ -27,18 +29,27 @@ class UserPresenter extends SecurePresenter
     /**
      * Constructor.
      *
-     * @param ReservationCalendarService $calendarService
-     * @param ReservationService         $reservationService
-     * @param ChangePasswordFormFactory $changePasswordFormFactory
-     * @param Translator                $translator
+     * @param ReservationCalendarService       $calendarService
+     * @param ReservationService               $reservationService
+     * @param ChangePasswordFormFactory        $changePasswordFormFactory
+     * @param ResetPasswordFromLinkFormFactory $resetPasswordFromLinkFormFactory
+     * @param PasswordResetTokenManager        $passwordResetTokenManager
+     * @param Translator                       $translator
      */
     public function __construct(
         private readonly ReservationCalendarService $calendarService,
         private readonly ReservationService $reservationService,
         private readonly ChangePasswordFormFactory $changePasswordFormFactory,
+        private readonly ResetPasswordFromLinkFormFactory $resetPasswordFromLinkFormFactory,
+        private readonly PasswordResetTokenManager $passwordResetTokenManager,
         public Translator $translator,
     ) {
         parent::__construct();
+    }
+
+    protected function requiresLogin(): bool
+    {
+        return $this->action !== 'resetPassword';
     }
 
     /**
@@ -90,6 +101,31 @@ class UserPresenter extends SecurePresenter
     }
 
     /**
+     * Handle password reset from email link.
+     *
+     * @param string|null $token
+     * @return void
+     * @throws AbortException
+     */
+    public function actionResetPassword(?string $token = null): void
+    {
+        if ($token === null) {
+            $this->flashMessage($this->translator->trans('flash.resetLinkInvalid'), FlashType::ERROR);
+            $this->redirect(':Homepage:Default');
+        }
+
+        $tokenEntity = $this->passwordResetTokenManager->findValidToken($token);
+
+        if (!$tokenEntity) {
+            $this->flashMessage($this->translator->trans('flash.resetLinkExpired'), FlashType::ERROR);
+            $this->redirect(':Homepage:Default');
+        }
+
+        $this->template->userId = $tokenEntity->user_id;
+        $this->template->tokenId = $tokenEntity->id;
+    }
+
+    /**
      * Create change password form.
      *
      * @return ChangePassword
@@ -97,5 +133,18 @@ class UserPresenter extends SecurePresenter
     public function createComponentChangePasswordForm(): ChangePassword
     {
         return $this->changePasswordFormFactory->create();
+    }
+
+    /**
+     * Create reset password from link form.
+     *
+     * @return ResetPasswordFromLink
+     */
+    public function createComponentResetPasswordFromLinkForm(): ResetPasswordFromLink
+    {
+        return $this->resetPasswordFromLinkFormFactory->create(
+            $this->template->userId,
+            $this->template->tokenId,
+        );
     }
 }

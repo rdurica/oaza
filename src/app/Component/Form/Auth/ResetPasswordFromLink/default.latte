@@ -1,0 +1,98 @@
+{form form}
+<div class="form-group">
+    {label password /}<span style="color: red;"> *</span>
+    <div class="input-group">
+        {input password, class:"form-control"}
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" id="oaza-toggle-pw" tabindex="-1" title="Zobrazit/skrýt heslo">
+                <i class="fa-regular fa-eye"></i>
+            </button>
+        </span>
+    </div>
+    <div id="oaza-strength-wrap" style="margin-top:8px; display:none;">
+        <div style="height:5px; border-radius:3px; background:var(--ui-border); overflow:hidden;">
+            <div id="oaza-strength-bar" style="height:100%; width:0; transition:width .25s ease, background .25s ease;"></div>
+        </div>
+        <p id="oaza-strength-label" style="margin:4px 0 0; font-size:12px;"></p>
+    </div>
+</div>
+<div class="form-group">
+    {label passwordVerify /}<span style="color: red;"> *</span>
+    <div class="input-group">
+        {input passwordVerify, class:"form-control"}
+        <span class="input-group-btn">
+            <button type="button" class="btn btn-default" id="oaza-toggle-pw2" tabindex="-1" title="Zobrazit/skrýt heslo">
+                <i class="fa-regular fa-eye"></i>
+            </button>
+        </span>
+    </div>
+    <p id="oaza-match-feedback" style="margin:6px 0 0; font-size:13px; display:none;"></p>
+</div>
+{input save, class:"btn btn-info btn-block"}
+
+<script>
+(function () {
+    function toggleInput(btn) {
+        var input = btn.closest('.input-group').querySelector('input');
+        var icon  = btn.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+    }
+
+    document.getElementById('oaza-toggle-pw').addEventListener('click', function () { toggleInput(this); });
+    document.getElementById('oaza-toggle-pw2').addEventListener('click', function () { toggleInput(this); });
+
+    var pwInput    = document.querySelector('[name="password"]');
+    var pw2Input   = document.querySelector('[name="passwordVerify"]');
+    var strengthWrap  = document.getElementById('oaza-strength-wrap');
+    var strengthBar   = document.getElementById('oaza-strength-bar');
+    var strengthLabel = document.getElementById('oaza-strength-label');
+    var matchFeedback = document.getElementById('oaza-match-feedback');
+
+    var levels = [
+        { label: 'Velmi slabé',  color: '#d9534f', width: '20%' },
+        { label: 'Slabé',        color: '#f0ad4e', width: '40%' },
+        { label: 'Střední',      color: '#f0ad4e', width: '60%' },
+        { label: 'Silné',        color: '#5cb85c', width: '80%' },
+        { label: 'Velmi silné',  color: '#02bdd5', width: '100%' },
+    ];
+
+    pwInput.addEventListener('input', function () {
+        var val = this.value;
+        if (!val) { strengthWrap.style.display = 'none'; updateMatch(); return; }
+        strengthWrap.style.display = 'block';
+        var score = 0;
+        if (val.length >= 8)            score++;
+        if (val.length >= 12)           score++;
+        if (/[A-Z]/.test(val))          score++;
+        if (/[0-9]/.test(val))          score++;
+        if (/[^A-Za-z0-9]/.test(val))  score++;
+        var lvl = levels[Math.max(0, score - 1)];
+        strengthBar.style.width      = lvl.width;
+        strengthBar.style.background = lvl.color;
+        strengthLabel.textContent    = lvl.label;
+        strengthLabel.style.color    = lvl.color;
+        updateMatch();
+    });
+
+    pw2Input.addEventListener('input', updateMatch);
+
+    function updateMatch() {
+        if (!pw2Input.value) { matchFeedback.style.display = 'none'; return; }
+        matchFeedback.style.display = 'block';
+        if (pwInput.value === pw2Input.value) {
+            matchFeedback.innerHTML    = '<i class="fa-solid fa-check"></i> Hesla se shodují';
+            matchFeedback.style.color  = '#5cb85c';
+        } else {
+            matchFeedback.innerHTML    = '<i class="fa-solid fa-xmark"></i> Hesla se neshodují';
+            matchFeedback.style.color  = '#d9534f';
+        }
+    }
+}());
+</script>
+{/form}

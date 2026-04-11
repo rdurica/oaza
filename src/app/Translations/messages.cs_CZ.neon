@@ -4,7 +4,6 @@ flash:
     blockedUserException: "Uživatel zablokován. Prosím kontaktujte správce"
     emailAlreadyUsedException: "Zvolený email již existuje"
     passwordsDoNotMatch: "Zadaná hesla se neshodují"
-    newPasswordRequired: "Vyžadována změna hesla. Prosím nastavte nové heslo"
     registrationSuccessful: "Registrace proběhla úspěšně. Nyní se můžete přihlásit"
     loggedIn: "Přihlášení proběhlo úspěšně"
     loggedOut: "Odhlášení proběhlo úspěšně"
@@ -14,7 +13,8 @@ flash:
     contactUsSuccess: "Děkujeme za dotaz, budeme vás kontaktovat co nejdříve"
     equalPassword: "Hesla se musí shodovat"
     passwordChanged: "Heslo bylo úspěšně změněno. Nyní se můžete přihlásit"
-    newPasswordSent: "Na zadaný e-mail jsme odeslali odkaz pro resetování hesla. Zkontrolujte svou e-mailovou schránku"
+    newPasswordSent: "Pokud je e-mail registrován, odeslali jsme na něj odkaz pro resetování hesla. Zkontrolujte svou e-mailovou schránku."
+    passwordResetRateLimited: "Byl překročen limit požadavků na reset hesla. Pokud je e-mail registrován, zkuste to prosím znovu za 1 hodinu."
     passwordChangeFailed: "Nepodařilo se změnit heslo. Zkuste to prosím znovu."
     telephoneFormat: "Nesprávný formát telefonního čísla"
     minPasswordLength: "Minimální délka hesla je %s znaků"
@@ -26,6 +26,8 @@ flash:
     restrictionDeleted: "Omezení provozu smazáno"
     newsDoesNotExists: "Požadována novinka neexistuje. Prosím zkontrolujte správnost odkazu"
     turnstileFailed: "Ověření proti spamu se nezdařilo. Zkuste to prosím znovu."
+    resetLinkInvalid: "Neplatný odkaz pro resetování hesla"
+    resetLinkExpired: "Odkaz pro resetování hesla vypršel nebo byl již použit. Požádejte o nový."
 
 user:
     email: "E-mail"

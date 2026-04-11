@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Component\Form\Auth\ResetPassword;
 
 use App\Component\Component;
+use App\Model\Service\Authentication\PasswordResetRequestResult;
 use App\Model\Service\Authentication\PasswordService;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
@@ -30,8 +33,7 @@ class ResetPassword extends Component
     public function __construct(
         private readonly Translator $translator,
         private readonly PasswordService $passwordService,
-    )
-    {
+    ) {
     }
 
     /**
@@ -64,14 +66,22 @@ class ResetPassword extends Component
     #[NoReturn]
     public function onSuccess(Form $form, ArrayHash $values): void
     {
-        try
-        {
-            $this->passwordService->resetPassword($values->email);
-            $this->getPresenter()->flashMessage($this->translator->trans('flash.newPasswordSent'), FlashType::INFO);
-        }
-        catch (Exception)
-        {
-            $this->getPresenter()->flashMessage($this->translator->trans('flash.passwordChangeFailed'), FlashType::ERROR);
+        try {
+            $result = $this->passwordService->resetPassword((string) $values->email);
+
+            if ($result === PasswordResetRequestResult::RATE_LIMITED) {
+                $this->getPresenter()->flashMessage(
+                    $this->translator->trans('flash.passwordResetRateLimited'),
+                    FlashType::WARNING
+                );
+            } else {
+                $this->getPresenter()->flashMessage($this->translator->trans('flash.newPasswordSent'), FlashType::INFO);
+            }
+        } catch (Exception) {
+            $this->getPresenter()->flashMessage(
+                $this->translator->trans('flash.passwordChangeFailed'),
+                FlashType::ERROR
+            );
         }
 
         $this->getPresenter()->redirect('this');

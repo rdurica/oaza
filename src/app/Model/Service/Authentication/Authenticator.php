@@ -6,7 +6,6 @@ namespace App\Model\Service\Authentication;
 
 use App\Exception\UserBlockedException;
 use App\Model\Manager\UserManager;
-use Nette\Database\UniqueConstraintViolationException;
 use Nette\Security\AuthenticationException;
 use Nette\Security\Authenticator as NetteAuthenticator;
 use Nette\Security\Passwords;
@@ -64,10 +63,9 @@ class Authenticator implements NetteAuthenticator
         }
 
         return new SimpleIdentity($userEntity->id, [$userEntity->role], [
-            'email'           => $userEntity->email,
-            'name'            => $userEntity->name,
-            'telephone'       => $userEntity->telephone,
-            'needNewPassword' => (bool)$userEntity->password_resset,
+            'email'     => $userEntity->email,
+            'name'      => $userEntity->name,
+            'telephone' => $userEntity->telephone,
         ]);
     }
 
@@ -100,12 +98,11 @@ class Authenticator implements NetteAuthenticator
      *
      * @param int    $id
      * @param string $password
-     * @param bool   $isTempPassword
      *
      * @return void
      */
-    public function changePassword(int $id, #[SensitiveParameter] string $password, bool $isTempPassword = false): void
+    public function changePassword(int $id, #[SensitiveParameter] string $password): void
     {
-        $this->userManager->setPassword($id, $this->passwords->hash($password), $isTempPassword);
+        $this->userManager->setPassword($id, $this->passwords->hash($password));
     }
 }

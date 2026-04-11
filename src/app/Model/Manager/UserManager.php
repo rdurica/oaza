@@ -34,30 +34,17 @@ final class UserManager extends Manager
     }
 
     /**
-     * Set new password for user. If is temporary password user must change it after log-in.
+     * Set new password for user.
      *
      * @param int    $userId
      * @param string $hash
-     * @param bool   $isTempPassword
      * @return void
      */
-    public function setPassword(int $userId, string $hash, bool $isTempPassword): void
+    public function setPassword(int $userId, string $hash): void
     {
         $this->getEntityTable()->where('id = ?', $userId)->update([
-            'password'        => $hash,
-            'password_resset' => $isTempPassword,
+            'password' => $hash,
         ]);
-    }
-
-    /**
-     * Delete user by id
-     *
-     * @param int $userId
-     * @return void
-     */
-    public function delete(int $userId): void
-    {
-        $this->getEntityTable()->where('id = ?', $userId)->delete();
     }
 
 
