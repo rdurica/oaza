@@ -59,10 +59,10 @@ class Reservation extends Component
         $grid->addColumnDateTime('date', 'Rezervace')
             ->setFormat('j.n.Y H:i');
         $grid->addColumnText('hasChildren', 'Děti');
-        $grid->addAction('cancel', 'Zrusit', 'cancelReservation!')
+        $grid->addAction('cancel', 'Zrušit', 'cancelReservation!')
             ->setIcon('trash')
             ->setClass('btn btn-danger btn-xs')
-            ->setConfirmation(new StringConfirmation('Naozaj chcete zrusit rezervaci %s??', 'date'));
+            ->setConfirmation(new StringConfirmation('Opravdu chcete zrušit rezervaci %s??', 'date'));
 
         return $grid;
     }
