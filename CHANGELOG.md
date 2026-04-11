@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.1.0] - 2026-04-11
+
+Introduces a complete password reset flow with security hardening and content clarity updates.
+
+### Added
+- Password reset flow via secure email links
+- Dedicated password reset form rendered from tokenized links
+
+### Changed
+- Updated authentication mail flow to send reset links instead of temporary passwords
+- Improved templates and localization strings for better clarity and accuracy across public pages
+
+### Security
+- Added rate limiting for password reset requests to reduce abuse risk
+
+### Database
+- Added `password_reset_token` table for token lifecycle management
+- Added `password_reset_request_log` table for reset request logging and throttling
+
 ## [1.0.0] - 2026-03-28
 
 First stable release — a complete rewrite of the original Oaza website (2017).
