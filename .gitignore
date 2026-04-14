@@ -18,7 +18,6 @@ src/log
 upload
 src/app/Config/secrets.neon
 src/app/Config/secrets.prod.neon
-src/app/Config/secrets.prod.neon
 
 # K8s
 manifest.yaml

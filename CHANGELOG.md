@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.1.3] - Unreleased
+
+### Changed
+- Removed GitHub Actions quality workflow from repository
+- Cleaned up duplicate `secrets.prod.neon` ignore entry
+
 ## [1.1.2] - 2026-04-14
 
 Maintenance release focused on CI/CD workflow cleanup.
