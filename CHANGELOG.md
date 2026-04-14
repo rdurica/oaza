@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.2] - 2026-04-14
+
+Maintenance release focused on CI/CD workflow cleanup.
+
+### Changed
+- Disabled automatic Docker image build on GitHub Release events
+- Removed duplicate workflow definitions to keep `.github/workflows` as the single source of truth
+
 ## [1.1.1] - 2026-04-14
 
 Bugfix release focused on homepage content consistency.
