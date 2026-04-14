@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1] - 2026-04-14
+
+Bugfix release focused on homepage content consistency.
+
+### Fixed
+- Removed a redundant "Relaxační hudba" feature item from the homepage features list
+
 ## [1.1.0] - 2026-04-11
 
 Introduces a complete password reset flow with security hardening and content clarity updates.
