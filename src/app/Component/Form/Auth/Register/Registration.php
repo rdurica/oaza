@@ -6,6 +6,7 @@ use App\Component\Component;
 use App\Exception\OazaException;
 use App\Model\Service\Authentication\Authenticator;
 use App\Model\Service\Mail\MailService;
+use App\Util\EmailNormalizer;
 use App\Util\FlashType;
 use App\Util\OazaConfig;
 use Contributte\Translation\Translator;
@@ -98,8 +99,9 @@ class Registration extends Component
     {
         try
         {
-            $this->authenticator->createAccount($values->email, $values->password, $values->name, (int)$values->telephone);
-            $this->mailService->sendUserRegisteredNotification($values->email);
+            $normalizedEmail = EmailNormalizer::normalize($values->email);
+            $this->authenticator->createAccount($normalizedEmail, $values->password, $values->name, (int)$values->telephone);
+            $this->mailService->sendUserRegisteredNotification($normalizedEmail);
             $this->presenter->flashMessage($this->translator->trans('flash.registrationSuccessful'), FlashType::SUCCESS);
         }
         catch (UniqueConstraintViolationException)

@@ -8,6 +8,7 @@ use App\Model\Manager\PasswordResetRequestLogManager;
 use App\Model\Manager\PasswordResetTokenManager;
 use App\Model\Manager\UserManager;
 use App\Model\Service\Mail\MailService;
+use App\Util\EmailNormalizer;
 use Exception;
 
 /**
@@ -45,7 +46,7 @@ class PasswordService
      */
     public function resetPassword(string $email): PasswordResetRequestResult
     {
-        $normalizedEmail = $this->normalizeEmail($email);
+        $normalizedEmail = EmailNormalizer::normalize($email);
         $emailHash = hash('sha256', $normalizedEmail);
 
         $this->passwordResetRequestLogManager->cleanupOldRequests();
@@ -69,16 +70,5 @@ class PasswordService
         $this->mailService->sendPasswordResetLink($account->email, $token);
 
         return PasswordResetRequestResult::ACCEPTED;
-    }
-
-    /**
-     * Normalize email for rate-limit and lookup consistency.
-     *
-     * @param string $email
-     * @return string
-     */
-    private function normalizeEmail(string $email): string
-    {
-        return mb_strtolower(trim($email), 'UTF-8');
     }
 }
