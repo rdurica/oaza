@@ -4,12 +4,9 @@ namespace App\Component\Grid\User;
 
 use App\Component\Component;
 use App\Model\Manager\UserManager;
-use App\Util\FlashType;
 use Contributte\Datagrid\Datagrid;
 use Contributte\Datagrid\Exception\DatagridException;
 use Contributte\Translation\Translator;
-use Exception;
-use Nette\Application\AbortException;
 
 /**
  * User grid.
@@ -27,7 +24,7 @@ class User extends Component
      */
     public function __construct(
         public readonly UserManager $userManager,
-        public readonly Translator $translator
+        public readonly Translator $translator,
     )
     {
     }
@@ -50,35 +47,14 @@ class User extends Component
             ->setFilterText();
         $grid->addColumnDateTime('registered', 'Datum registrace')
             ->setFormat('j. n. Y');
-        $grid->addColumnText('enabled', 'Status')
-            ->setRenderer(fn($item): string => ($item->enabled === 1) ? 'Povolen' : 'Zakázán');
-        $grid->addAction('send', 'status', 'status!')
+        $grid->addColumnText('role', 'Role')
+            ->setRenderer(fn($item): string => $item->role === 'admin'
+                ? $this->translator->trans('roleAdmin')
+                : $this->translator->trans('roleUser'));
+        $grid->addAction('edit', 'Upravit', 'Users:Edit')
             ->setClass('btn btn-info btn-xs')
-            ->setIcon('eye');
+            ->setIcon('pencil');
 
         return $grid;
-    }
-
-    /**
-     * Action change status (Enabled/Disabled)
-     *
-     * @param int $id
-     *
-     * @return void
-     * @throws AbortException
-     */
-    public function handleStatus(int $id): void
-    {
-        try
-        {
-            $this->userManager->changeStatus($id);
-            $this->getPresenter()->flashMessage($this->translator->trans('flash.userUpdated'), FlashType::INFO);
-        }
-        catch (Exception)
-        {
-            $this->getPresenter()->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
-        }
-
-        $this->getPresenter()->redirect('this');
     }
 }

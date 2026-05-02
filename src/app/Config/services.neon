@@ -27,6 +27,7 @@ services:
   - App\Component\Form\Reservation\ReservationFormFactory
   - App\Component\Form\News\NewsFormFactory
   - App\Component\Form\Restriction\RestrictionFormFactory
+  - App\Component\Form\UserEdit\UserEditFormFactory
 
   # Grid
   - App\Component\Grid\News\NewsGridFactory

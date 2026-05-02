@@ -50,17 +50,37 @@ final class UserManager extends Manager
 
     public function countTotal(): int
     {
-        return (int) $this->getEntityTable()
-            ->where('role != ?', 'admin')
-            ->count('*');
+        return (int) $this->getEntityTable()->count('*');
     }
 
     public function countEnabled(): int
     {
         return (int) $this->getEntityTable()
-            ->where('role != ?', 'admin')
             ->where('enabled = 1')
             ->count('*');
+    }
+
+    /**
+     * Find user by id.
+     *
+     * @param int $id
+     * @return \Nette\Database\Table\ActiveRow|null
+     */
+    public function getById(int $id): ?\Nette\Database\Table\ActiveRow
+    {
+        return $this->getEntityTable()->where('id = ?', $id)->fetch();
+    }
+
+    /**
+     * Update user.
+     *
+     * @param int   $id
+     * @param array $data
+     * @return void
+     */
+    public function updateUser(int $id, array $data): void
+    {
+        $this->getEntityTable()->where('id = ?', $id)->update($data);
     }
 
     /**

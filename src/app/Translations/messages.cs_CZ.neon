@@ -28,6 +28,8 @@ flash:
     turnstileFailed: "Ověření proti spamu se nezdařilo. Zkuste to prosím znovu."
     resetLinkInvalid: "Neplatný odkaz pro resetování hesla"
     resetLinkExpired: "Odkaz pro resetování hesla vypršel nebo byl již použit. Požádejte o nový."
+    cannotChangeOwnRole: "Nemůžete změnit svou vlastní roli"
+    userDoesNotExist: "Požadovaný uživatel neexistuje"
 
 user:
     email: "E-mail"
@@ -76,3 +78,8 @@ forms:
     qty: "Počet osob"
     childs: "Děti"
     comment: "Komentář"
+
+roleAdmin: "Administrátor"
+roleUser: "Uživatel"
+userStatusEnabled: "Povolen"
+userStatusDisabled: "Zakázán"
