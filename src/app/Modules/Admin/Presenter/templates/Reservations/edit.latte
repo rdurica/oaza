@@ -1,0 +1,69 @@
+{block pageTitle}Upravit rezervaci{/block}
+
+{block content}
+<div class="admin-page-header">
+    <h1>Upravit rezervaci</h1>
+</div>
+<div class="admin-form-wrapper">
+    <div class="admin-card">
+        <div class="admin-card-body">
+            {control form}
+            <hr>
+            <a n:href="cancelReservation! $id" class="btn btn-danger"
+               onclick="return confirm('Opravdu chcete zrušit tuto rezervaci?');">
+                <i class="fa fa-trash"></i> Zrušit rezervaci
+            </a>
+        </div>
+    </div>
+</div>
+
+<script n:if="$showConfirmDialog ?? false">
+    (function () {
+        function showDialog() {
+            if (typeof Swal === 'undefined') {
+                setTimeout(showDialog, 50);
+                return;
+            }
+
+            var collision = {=json_encode($collisionData)|noescape};
+            var canMerge = collision.canMerge;
+            var html = '<p>Na vybraném termínu již existují následující rezervace:</p>';
+            html += '<ul style="text-align:left;margin-bottom:15px;">';
+            collision.existingReservations.forEach(function (r) {
+                html += '<li><strong>' + r.name + '</strong> (' + (r.email ?? '—') + ') – ' + r.count + ' osob</li>';
+            });
+            html += '</ul>';
+            html += '<p><strong>Využitá kapacita:</strong> ' + collision.reservedCapacity + '/5<br>';
+            html += '<strong>Volná kapacita:</strong> ' + collision.freeCapacity + '</p>';
+
+            Swal.fire({
+                title: 'Kolize rezervace',
+                html: html,
+                icon: 'warning',
+                showConfirmButton: canMerge,
+                confirmButtonText: 'Sloučit',
+                confirmButtonColor: '#28a745',
+                showDenyButton: true,
+                denyButtonText: 'Zrušit původní a pokračovat',
+                denyButtonColor: '#f0ad4e',
+                showCancelButton: true,
+                cancelButtonText: 'Zpět',
+                cancelButtonColor: '#6c757d',
+                allowOutsideClick: false,
+            }).then(function (result) {
+                var form = document.querySelector('form');
+                var confirmInput = form.querySelector('input[name="confirmAction"]');
+                if (result.isConfirmed) {
+                    confirmInput.value = 'merge';
+                    form.submit();
+                } else if (result.isDenied) {
+                    confirmInput.value = 'overwrite';
+                    form.submit();
+                }
+            });
+        }
+
+        showDialog();
+    })();
+</script>
+{/block}

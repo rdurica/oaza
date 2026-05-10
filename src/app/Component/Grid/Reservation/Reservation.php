@@ -5,16 +5,10 @@ declare(strict_types=1);
 namespace App\Component\Grid\Reservation;
 
 use App\Component\Component;
-use App\Exception\NotAllowedOperationException;
 use App\Model\Manager\ReservationManager;
-use App\Model\Service\ReservationService;
-use App\Util\FlashType;
-use Contributte\Datagrid\Column\Action\Confirmation\StringConfirmation;
 use Contributte\Datagrid\Datagrid;
 use Contributte\Datagrid\Exception\DatagridException;
 use Contributte\Translation\Translator;
-use Exception;
-use Nette\Mail\SmtpException;
 
 /**
  * Reservation grid.
@@ -28,12 +22,10 @@ class Reservation extends Component
      * Constructor.
      *
      * @param ReservationManager $reservationManager
-     * @param ReservationService $reservationService
      * @param Translator         $translator
      */
     public function __construct(
         public readonly ReservationManager $reservationManager,
-        public readonly ReservationService $reservationService,
         public readonly Translator $translator,
     ) {
     }
@@ -59,40 +51,10 @@ class Reservation extends Component
         $grid->addColumnDateTime('date', 'Rezervace')
             ->setFormat('j.n.Y H:i');
         $grid->addColumnText('hasChildren', 'Děti');
-        $grid->addAction('cancel', 'Zrušit', 'cancelReservation!')
-            ->setIcon('trash')
-            ->setClass('btn btn-danger btn-xs')
-            ->setConfirmation(new StringConfirmation('Opravdu chcete zrušit rezervaci %s??', 'date'));
+        $grid->addAction('edit', 'Upravit', 'Reservations:Edit')
+            ->setIcon('pencil')
+            ->setClass('btn btn-info btn-xs');
 
         return $grid;
-    }
-
-    /**
-     * Action cancel reservation.
-     *
-     * @param int $id
-     *
-     * @return void
-     */
-    public function handleCancelReservation(int $id): void
-    {
-        try {
-            $this->reservationService->cancelByAdmin($id);
-            $this->getPresenter()->flashMessage(
-                $this->translator->trans('flash.reservationDeleted'),
-                FlashType::SUCCESS,
-            );
-        } catch (SmtpException) {
-            $this->getPresenter()->flashMessage(
-                'Nastal problém při odesílání potvrzovacího e-mailu.',
-                FlashType::WARNING
-            );
-        } catch (NotAllowedOperationException) {
-            $this->presenter->flashMessage($this->translator->trans('flash.operationNotAllowed'), FlashType::ERROR);
-        } catch (Exception) {
-            $this->presenter->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
-        }
-
-        $this->getPresenter()->redirect('Reservations:');
     }
 }

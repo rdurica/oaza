@@ -1,14 +1,15 @@
 {extends '@layout.latte'}
 {block content}
     <h4>Dobrý den,</h4>
-    <p>
-        Vaše rezervace byla zrušena administrátorem.
-    </p>
+    <p>Vaše rezervace byla zrušena administrátorem.</p>
+
     <div class="details">
+        <h3>Informace o rezervaci:</h3>
         <strong>Jméno a příjmení:</strong> {$fullName}<br>
         <strong>Datum:</strong> {$date|date: "j.n.Y H:i"}<br>
         <strong>Počet míst:</strong> {$count}
     </div>
+
     <p>
         Chápeme, že tato změna může být nepříjemná, a velmi se omlouváme za případné komplikace.
         Pro více informací prosím navštivte náš <a href="https://oazahb.cz">web</a> nebo nás kontaktujte přímo – rádi Vám vše objasníme.

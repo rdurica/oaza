@@ -243,6 +243,57 @@ final class ReservationManager extends Manager
             ->delete();
     }
 
+    /**
+     * Update reservation by id.
+     *
+     * @param int                   $reservationId
+     * @param array<string, mixed>  $values
+     *
+     * @return void
+     */
+    public function update(int $reservationId, array $values): void
+    {
+        $this->getEntityTable()
+            ->where('id = ?', $reservationId)
+            ->update($values);
+    }
+
+    /**
+     * Get reserved capacity by date excluding specific reservation.
+     *
+     * @param DateTime $dateTime
+     * @param int      $excludeReservationId
+     *
+     * @return int
+     */
+    public function getReservedCapacityByDateExcluding(DateTime $dateTime, int $excludeReservationId): int
+    {
+        $count = $this->getEntityTable()
+            ->where('date = ?', $dateTime)
+            ->where('id != ?', $excludeReservationId)
+            ->sum('count');
+
+        return (int) ($count ?? 0);
+    }
+
+    /**
+     * Find all user reservations on specific date excluding given reservation.
+     *
+     * @param DateTime $dateTime
+     * @param int      $excludeReservationId
+     *
+     * @return array<ActiveRow>
+     */
+    public function findReservationsByDateExcluding(DateTime $dateTime, int $excludeReservationId): array
+    {
+        return $this->getEntityTable()
+            ->where('date = ?', $dateTime)
+            ->where('id != ?', $excludeReservationId)
+            ->where('name != ? OR name IS NULL', self::RESTRICTION_NAME)
+            ->order('id DESC')
+            ->fetchAll();
+    }
+
     public function resolveNotificationEmail(ActiveRow $reservation): ?string
     {
         if ($reservation->user_id !== null && $reservation->user !== null) {
@@ -254,6 +305,27 @@ final class ReservationManager extends Manager
         }
 
         return (string) $reservation->email;
+    }
+
+    /**
+     * Delete restricted days in range. Removes blockers only.
+     *
+     * @param DateTime $start
+     * @param DateTime $end
+     *
+     * @return void
+     */
+    public function deleteRestrictedDaysForBooking(DateTime $start, DateTime $end): void
+    {
+        $dif = date_diff($start, $end);
+        $date = $start->setTime(8, 0, 0);
+
+        $i = 0;
+        while ($i <= $dif->days) {
+            $this->deleteRestrictedReservationByDate($date);
+            $date = $date->modifyClone('+1 day');
+            $i++;
+        }
     }
 
     /**

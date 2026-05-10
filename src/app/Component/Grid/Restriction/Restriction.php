@@ -51,6 +51,9 @@ class Restriction extends Component
             ->setFormat('j.n.Y', 'd. m. yyyy');
         $grid->addColumnText('message', 'Zpráva')
             ->setRenderer(renderer: fn($item): Html => Html::el()->setHtml($item->message));
+        $grid->addAction('edit', 'Upravit', 'Restrictions:Edit')
+            ->setIcon('pencil')
+            ->setClass('btn btn-info btn-xs');
         $grid->addAction('delete', 'Smazat', 'delete!')
             ->setIcon('trash')
             ->setClass('btn btn-danger btn-xs');

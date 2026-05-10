@@ -19,18 +19,6 @@ use SensitiveParameter;
  */
 class MailService
 {
-    private const string RESERVATION_NEW = 'Rezervace byla úspěšně vytvořena';
-
-    private const string RESERVATION_CANCELED = 'Rezervace byla zrušena';
-
-    private const string CONTACT_US = 'Nový dotaz z webu OÁZA';
-
-    private const string PASSWORD_RESET = 'Obnovení hesla k účtu';
-
-    private const string PASSWORD_CHANGED = 'Heslo bylo úspěšně změněno';
-
-    private const string NEW_USER = 'Registrace byla úspěšně dokončena';
-
     private Engine $latte;
 
     private SmtpMailer $mail;
@@ -75,7 +63,7 @@ class MailService
         $mail->setFrom($this->emailFrom)
             ->addTo($emailAddress)
             ->addBcc($this->emailContact)
-            ->setSubject(self::RESERVATION_CANCELED)
+            ->setSubject(MailSubject::RESERVATION_CANCELED->value)
             ->setHtmlBody($this->latte->renderToString(__DIR__ . '/templates/reservationCancellation.latte'));
 
         $this->mail->send($mail);
@@ -96,7 +84,7 @@ class MailService
             $mail = new Message();
             $mail->setFrom($this->emailFrom)
                 ->addTo($canceledReservation->email)
-                ->setSubject(self::RESERVATION_CANCELED)
+                ->setSubject(MailSubject::RESERVATION_CANCELED->value)
                 ->setHtmlBody(
                     $this->latte->renderToString(__DIR__ . '/templates/reservationCancellationByAdministrator.latte', [
                         'fullName' => $canceledReservation->name,
@@ -107,6 +95,143 @@ class MailService
 
             $this->mail->send($mail);
         }
+    }
+
+    /**
+     * Sends email about changed reservation date.
+     *
+     * @param string $email
+     * @param string $name
+     * @param string $oldDate
+     * @param string $newDate
+     * @param int    $count
+     *
+     * @return void
+     */
+    public function sendReservationDateChanged(
+        string $email,
+        string $name,
+        string $oldDate,
+        string $newDate,
+        int $count,
+    ): void {
+        $mail = new Message();
+        $mail->setFrom($this->emailFrom)
+            ->addTo($email)
+            ->addBcc($this->emailContact)
+            ->setSubject(MailSubject::RESERVATION_DATE_CHANGED->value)
+            ->setHtmlBody(
+                $this->latte->renderToString(__DIR__ . '/templates/reservationDateChanged.latte', [
+                    'name'    => $name,
+                    'oldDate' => $oldDate,
+                    'newDate' => $newDate,
+                    'count'   => $count,
+                ])
+            );
+
+        $this->mail->send($mail);
+    }
+
+    /**
+     * Sends email about changed reservation children flag.
+     *
+     * @param string $email
+     * @param string $name
+     * @param string $date
+     * @param int    $count
+     * @param string $hasChildren
+     *
+     * @return void
+     */
+    public function sendReservationChildrenChanged(
+        string $email,
+        string $name,
+        string $date,
+        int $count,
+        string $hasChildren,
+    ): void {
+        $mail = new Message();
+        $mail->setFrom($this->emailFrom)
+            ->addTo($email)
+            ->addBcc($this->emailContact)
+            ->setSubject(MailSubject::RESERVATION_CHILDREN_CHANGED->value)
+            ->setHtmlBody(
+                $this->latte->renderToString(__DIR__ . '/templates/reservationChildrenChanged.latte', [
+                    'name'        => $name,
+                    'date'        => $date,
+                    'count'       => $count,
+                    'hasChildren' => $hasChildren,
+                ])
+            );
+
+        $this->mail->send($mail);
+    }
+
+    /**
+     * Sends email about changed reservation count.
+     *
+     * @param string $email
+     * @param string $name
+     * @param string $date
+     * @param int    $oldCount
+     * @param int    $newCount
+     *
+     * @return void
+     */
+    public function sendReservationCountChanged(
+        string $email,
+        string $name,
+        string $date,
+        int $oldCount,
+        int $newCount,
+    ): void {
+        $mail = new Message();
+        $mail->setFrom($this->emailFrom)
+            ->addTo($email)
+            ->addBcc($this->emailContact)
+            ->setSubject(MailSubject::RESERVATION_COUNT_CHANGED->value)
+            ->setHtmlBody(
+                $this->latte->renderToString(__DIR__ . '/templates/reservationCountChanged.latte', [
+                    'name'     => $name,
+                    'date'     => $date,
+                    'oldCount' => $oldCount,
+                    'newCount' => $newCount,
+                ])
+            );
+
+        $this->mail->send($mail);
+    }
+
+    /**
+     * Sends email about cancelled reservation by admin.
+     *
+     * @param string $email
+     * @param string $name
+     * @param string $date
+     * @param int    $count
+     *
+     * @return void
+     */
+    public function sendReservationCancelledByAdmin(
+        string $email,
+        string $name,
+        string $date,
+        int $count,
+    ): void {
+        $mail = new Message();
+        $mail->setFrom($this->emailFrom)
+            ->addTo($email)
+            ->addBcc($this->emailContact)
+            ->setSubject(MailSubject::RESERVATION_CANCELED->value)
+            ->setHtmlBody(
+                $this->latte->renderToString(__DIR__ . '/templates/reservationCancelledByAdmin.latte', [
+                    'name'  => $name,
+                    'date'  => $date,
+                    'count' => $count,
+                ])
+            );
+
+        $this->mail->send($mail);
     }
 
     /**
@@ -122,7 +247,7 @@ class MailService
         $mail = new Message();
         $mail->setFrom($this->emailFrom)
             ->addTo($this->emailContact)
-            ->setSubject(self::CONTACT_US)
+            ->setSubject(MailSubject::CONTACT_US->value)
             ->setHtmlBody(
                 $this->latte->renderToString(__DIR__ . '/templates/contactFormMessage.latte', [
                     'from'    => $from,
@@ -158,7 +283,7 @@ class MailService
         $mail->setFrom($this->emailFrom)
             ->addTo($email)
             ->addBcc($this->emailContact)
-            ->setSubject(self::RESERVATION_NEW)
+            ->setSubject(MailSubject::RESERVATION_NEW->value)
             ->setHtmlBody(
                 $this->latte->renderToString(__DIR__ . '/templates/newReservationDetails.latte', [
                     'email'       => $email,
@@ -188,7 +313,7 @@ class MailService
         $mail = new Message();
         $mail->setFrom($this->emailFrom)
             ->addTo($email)
-            ->setSubject(self::PASSWORD_RESET)
+            ->setSubject(MailSubject::PASSWORD_RESET->value)
             ->setHtmlBody(
                 $this->latte->renderToString(__DIR__ . '/templates/passwordResetLink.latte', [
                     'resetLink' => $resetLink,
@@ -210,7 +335,7 @@ class MailService
         $mail = new Message();
         $mail->setFrom($this->emailFrom)
             ->addTo($email)
-            ->setSubject(self::PASSWORD_CHANGED)
+            ->setSubject(MailSubject::PASSWORD_CHANGED->value)
             ->setHtmlBody($this->latte->renderToString(__DIR__ . '/templates/passwordChangedNotification.latte'));
 
         $this->mail->send($mail);
@@ -228,7 +353,7 @@ class MailService
         $mail = new Message();
         $mail->setFrom($this->emailFrom)
             ->addTo($email)
-            ->setSubject(self::NEW_USER)
+            ->setSubject(MailSubject::NEW_USER->value)
             ->setHtmlBody($this->latte->renderToString(__DIR__ . '/templates/userRegisteredNotification.latte'));
 
         $this->mail->send($mail);

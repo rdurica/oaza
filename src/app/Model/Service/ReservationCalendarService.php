@@ -139,7 +139,7 @@ final class ReservationCalendarService
     /**
      * @return list<int>
      */
-    private function getSlotHours(): array
+    public static function getSlotHours(): array
     {
         return [8, 9, 10, 11, 13, 14, 15, 16, 17];
     }

@@ -72,6 +72,48 @@ final class RestrictionFacade
     }
 
     /**
+     * Update restriction.
+     *
+     * @param int                  $restrictionId
+     * @param CreateRestrictionDto $createRestrictionDto
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function update(int $restrictionId, CreateRestrictionDto $createRestrictionDto): void
+    {
+        $existing = $this->restrictionManager->findById($restrictionId);
+        if ($existing === null) {
+            throw new CreateRestrictionException();
+        }
+
+        $this->database->beginTransaction();
+
+        try {
+            $this->reservationManager->deleteRestrictedDaysForBooking($existing->from, $existing->to);
+            $this->restrictionManager->update($restrictionId, [
+                'from'    => $createRestrictionDto->from,
+                'to'      => $createRestrictionDto->to,
+                'message' => $createRestrictionDto->message,
+            ]);
+            $canceledReservationDtos = $this->reservationManager->cancelReservations(
+                $createRestrictionDto->from,
+                $createRestrictionDto->to,
+            );
+            $this->reservationManager->restrictDaysForBooking($createRestrictionDto->from, $createRestrictionDto->to);
+
+            $this->database->commit();
+        } catch (Exception $e) {
+            $this->database->rollBack();
+            Debugger::log($e, Debugger::ERROR);
+
+            throw new CreateRestrictionException();
+        }
+
+        $this->mailService->sendReservationCancellationByAdministrator($canceledReservationDtos);
+    }
+
+    /**
      * Creates new restriction.
      *
      * @param CreateRestrictionDto $createRestrictionDto

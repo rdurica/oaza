@@ -1,0 +1,38 @@
+{form form}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                {label count /}
+                {input count, class => "form-control"}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {label has_children /}
+                <div class="checkbox">
+                    {input has_children}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                {label date_day /}
+                {input date_day, class => "form-control"}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {label date_hour /}
+                {input date_hour, class => "form-control"}
+            </div>
+        </div>
+    </div>
+    {input date_minute}
+    <div class="row">
+        <div class="col-md-12">
+            {input save}
+        </div>
+    </div>
+{/form}

@@ -63,6 +63,19 @@ final class RestrictionManager extends Manager
     }
 
     /**
+     * Update restriction.
+     *
+     * @param int                   $id
+     * @param array<string, mixed>  $values
+     *
+     * @return void
+     */
+    public function update(int $id, array $values): void
+    {
+        $this->getEntityTable()->where('id = ?', $id)->update($values);
+    }
+
+    /**
      * Delete restriction.
      *
      * @param int $id

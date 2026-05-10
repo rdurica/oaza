@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc:*)",
+      "Bash(grep:*)",
+      "Bash(xargs cat:*)",
+      "Bash(docker exec:*)",
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__click",
+      "mcp__chrome-devtools__take_screenshot",
+      "WebFetch(domain:cdn.jsdelivr.net)",
+      "Bash(find /home/rdurica/Projects/oaza/src -path *Component*Form*Reservation* -name *.latte)"
+    ]
+  }
+}

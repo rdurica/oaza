@@ -1,0 +1,14 @@
+{extends '@layout.latte'}
+{block content}
+    <h4>Dobrý den,</h4>
+    <p>počet osob ve Vaší rezervaci byl změněn.</p>
+
+    <div class="details">
+        <h3>Informace o změně:</h3>
+        <strong>Termín:</strong> {$date}<br>
+        <strong>Původní počet osob:</strong> {$oldCount}<br>
+        <strong>Nový počet osob:</strong> {$newCount}
+    </div>
+
+    <p>V případě dotazů nás neváhejte kontaktovat.</p>
+{/block}
