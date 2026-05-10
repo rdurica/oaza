@@ -275,6 +275,10 @@ function initPublicReservationCalendar(calendarElement) {
             }
         },
         eventClick: ({ event }) => {
+            if (event.extendedProps.isRestriction) {
+                notifyMessage('V tento den je omezení provozu. Vyberte prosím jiný termín.', 'info');
+                return;
+            }
             if (isFullyBookedEvent(event)) {
                 notifyMessage('Oaza uz je plně obsazena. Vyberte prosím jinou hodinu', 'error');
                 return;

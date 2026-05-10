@@ -21,6 +21,7 @@ final class CalendarEventData
         public readonly ?string $date = null,
         public readonly ?string $comment = null,
         public readonly ?int $availableCapacity = null,
+        public readonly bool $isRestriction = false,
     ) {
     }
 
@@ -41,6 +42,7 @@ final class CalendarEventData
             'date' => $this->date,
             'comment' => $this->comment,
             'availableCapacity' => $this->availableCapacity,
+            'isRestriction' => $this->isRestriction,
         ];
     }
 }

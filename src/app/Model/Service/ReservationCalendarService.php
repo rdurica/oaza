@@ -58,6 +58,7 @@ final class ReservationCalendarService
                 color: $this->resolvePublicEventColor($isRestriction, $availableCapacity),
                 hasChildren: $this->getHasChildrenText((int) $row->hasChildren > 0),
                 availableCapacity: $isRestriction ? 0 : $availableCapacity,
+                isRestriction: $isRestriction,
             );
         }
 
