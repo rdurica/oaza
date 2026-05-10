@@ -5,8 +5,9 @@ services:
       dockerfile: build/dev/Dockerfile
     env_file: ./build/dev/example.env
     volumes:
-      - ./src:/app/src
+      - .:/app
       - ./build/dev/certs:/etc/nginx/certs
+      - node_modules:/app/src/node_modules
     ports:
       - 443:443
       - 80:80
@@ -23,7 +24,7 @@ services:
     restart: unless-stopped
     working_dir: /app/src
     volumes:
-      - ./src:/app/src
+      - .:/app
       - ./build/dev/certs:/etc/nginx/certs
       - node_modules:/app/src/node_modules
     networks:
