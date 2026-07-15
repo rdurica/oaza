@@ -11,9 +11,6 @@ parameters:
         - vendor/autoload.php
     scanFiles:
         - vendor/jetbrains/phpstorm-stubs/meta/attributes/NoReturn.php
-    excludePaths:
-        - vendor
-        - node_modules
     universalObjectCratesClasses:
         - Nette\Application\UI\Template
         - Nette\Database\Table\ActiveRow
