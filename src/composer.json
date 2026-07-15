@@ -44,12 +44,23 @@
 			"App\\": "app"
 		}
 	},
+	"autoload-dev": {
+		"psr-4": {
+			"Tests\\": "tests"
+		}
+	},
 	"require-dev": {
+		"jetbrains/phpstorm-stubs": "^2024.3",
+		"phpstan/phpstan": "^2.1",
+		"phpstan/phpstan-nette": "^2.0",
+		"phpunit/phpunit": "^12.0",
 		"squizlabs/php_codesniffer": "^4.0.1"
 	},
 	"scripts": {
 		"phpcs": "./vendor/bin/phpcs",
-		"phpcbf": "./vendor/bin/phpcbf"
+		"phpcbf": "./vendor/bin/phpcbf",
+		"phpstan": "phpstan analyse --configuration=phpstan.neon.dist --no-progress",
+		"test": "phpunit --configuration phpunit.xml.dist"
 	},
 	"config": {
 		"allow-plugins": {

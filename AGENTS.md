@@ -74,12 +74,13 @@ All commands run via Docker using `make`:
 
 ## Testing Guidelines
 
-Tests are located in `src/tests/` (if present). Run quality checks instead:
+Tests are located in `src/tests/`. Run quality checks:
 
 ```bash
-make qa                    # Run all checks
+make qa                    # Run all checks (phpcs + phpstan + phpunit)
 make phpcs                 # Style only
 make phpstan               # Static analysis only
+make phpunit               # Unit tests only
 ```
 
 ## Commit Message Format

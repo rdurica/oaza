@@ -15,6 +15,7 @@ use App\Model\Service\ReservationService;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use Exception;
+use Nette\Application\AbortException;
 use Nette\Mail\SmtpException;
 use Nette\Utils\Json;
 
@@ -80,7 +81,6 @@ class UserPresenter extends SecurePresenter
     {
         if ($reservationId === null || $reservationId <= 0) {
             $this->getPresenter()->redirect('this');
-            return;
         }
 
         try {

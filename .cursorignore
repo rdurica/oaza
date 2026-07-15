@@ -1,0 +1,14 @@
+# Composer dependencies (do not index third-party code)
+src/vendor/
+
+# Frontend / tooling caches
+**/node_modules/
+
+# Nette runtime
+src/temp/
+src/log/
+
+# Local secrets and certs
+src/app/Config/secrets.neon
+src/app/Config/secrets.prod.neon
+build/dev/certs/

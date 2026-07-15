@@ -13,6 +13,7 @@ use DateMalformedStringException;
 use Exception;
 use JetBrains\PhpStorm\NoReturn;
 use Nette\Application\UI\Form;
+use Nette\Forms\Controls\BaseControl;
 use Nette\Utils\DateTime;
 
 /**
@@ -77,11 +78,11 @@ final class Restriction extends Component
         $to = $this->parseDate($data['to'] ?? null);
 
         if ($from === null) {
-            $form['from']->addError('Datum musí být ve formátu DD.MM.RRRR.');
+            $this->addFieldError($form, 'from', 'Datum musí být ve formátu DD.MM.RRRR.');
         }
 
         if ($to === null) {
-            $form['to']->addError('Datum musí být ve formátu DD.MM.RRRR.');
+            $this->addFieldError($form, 'to', 'Datum musí být ve formátu DD.MM.RRRR.');
         }
 
         if ($from !== null && $to !== null && $to < $from) {
@@ -118,6 +119,14 @@ final class Restriction extends Component
         }
 
         $this->presenter->redirect('Restrictions:');
+    }
+
+    private function addFieldError(Form $form, string $name, string $message): void
+    {
+        $control = $form[$name];
+        if ($control instanceof BaseControl) {
+            $control->addError($message);
+        }
     }
 
     private function parseDate(?string $value): ?DateTime

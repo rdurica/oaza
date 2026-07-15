@@ -67,6 +67,7 @@ Run quality checks through Docker:
 ```bash
 make phpcs
 make phpstan
+make phpunit
 make rector-dry
 make qa
 ```
