@@ -70,30 +70,19 @@ class MailService
     }
 
     /**
-     * Sends email of cancelled reservation.
+     * Sends cancellation emails for reservations removed during restriction changes.
      *
      * @param CanceledReservationDto[] $canceledReservations
-     *
-     * @return void
      */
     public function sendReservationCancellationByAdministrator(array $canceledReservations): void
     {
-        // Todo: refactor.
-        foreach ($canceledReservations as $canceledReservation)
-        {
-            $mail = new Message();
-            $mail->setFrom($this->emailFrom)
-                ->addTo($canceledReservation->email)
-                ->setSubject(MailSubject::RESERVATION_CANCELED->value)
-                ->setHtmlBody(
-                    $this->latte->renderToString(__DIR__ . '/templates/reservationCancellationByAdministrator.latte', [
-                        'fullName' => $canceledReservation->name,
-                        'date'     => $canceledReservation->date,
-                        'count'     => $canceledReservation->count,
-                    ])
-                );
-
-            $this->mail->send($mail);
+        foreach ($canceledReservations as $canceledReservation) {
+            $this->sendReservationCancelledByAdmin(
+                $canceledReservation->email,
+                $canceledReservation->name,
+                $canceledReservation->date->format('j.n.Y H:i'),
+                $canceledReservation->count,
+            );
         }
     }
 
@@ -223,15 +212,18 @@ class MailService
             ->addTo($email)
             ->addBcc($this->emailContact)
             ->setSubject(MailSubject::RESERVATION_CANCELED->value)
-            ->setHtmlBody(
-                $this->latte->renderToString(__DIR__ . '/templates/reservationCancelledByAdmin.latte', [
-                    'name'  => $name,
-                    'date'  => $date,
-                    'count' => $count,
-                ])
-            );
+            ->setHtmlBody($this->renderReservationCancelledByAdminBody($name, $date, $count));
 
         $this->mail->send($mail);
+    }
+
+    private function renderReservationCancelledByAdminBody(string $name, string $date, int $count): string
+    {
+        return $this->latte->renderToString(__DIR__ . '/templates/reservationCancelledByAdmin.latte', [
+            'name' => $name,
+            'date' => $date,
+            'count' => $count,
+        ]);
     }
 
     /**
