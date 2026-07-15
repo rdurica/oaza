@@ -11,18 +11,18 @@
             <br>
         {/if}
         <div class="form-group">
-            <label>{$form['count']->caption} <span style="color: red;">*</span></label>
+            <label>{$form['count']->getCaption()} <span style="color: red;">*</span></label>
             <div class="radio-pill-group">
                 {foreach $form['count']->items as $val => $lbl}
                     <label class="radio-pill">
-                        <input type="radio" n:name="count" value="{$val}">
+                        <input type="radio" n:name="count:$val">
                         <span>{$lbl}</span>
                     </label>
                 {/foreach}
             </div>
         </div>
         <div class="form-group">
-            <label>{$form['has_children']->caption}</label>
+            <label>{$form['has_children']->getCaption()}</label>
             <div class="toggle-wrap">
                 <label class="toggle-switch">
                     <input type="checkbox" n:name="has_children">
