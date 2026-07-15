@@ -13,6 +13,7 @@
 - `make qa` now includes PHPUnit
 
 ### Removed
+- `src/vendor` from version control (install via Composer)
 - Duplicate `reservationCancellationByAdministrator.latte` mail template
 - Cleaned up duplicate `secrets.prod.neon` ignore entry
 
