@@ -1,27 +1,28 @@
-FROM php:8.5-fpm-alpine AS base
+FROM dunglas/frankenphp:1-php8.5-alpine AS base
 
 ENV TERM=xterm-256color
 ENV TZ=Europe/Prague
-ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN apk update && apk add --no-cache \
-    supervisor \
-    nginx \
-    bash \
-    curl \
-    git \
-    patch \
-    linux-headers \
-    libpq-dev \
-    libzip-dev \
-    zlib-dev \
-    libxml2-dev \
-    icu-dev \
-    && rm -rf /var/cache/apk/*
+# System deps + PHP extensions + timezone
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
+    && apk add --no-cache \
+        bash \
+        curl \
+        git \
+        netcat-openbsd \
+        libzip-dev \
+        zlib-dev \
+        libxml2-dev \
+        icu-dev \
+        linux-headers \
+        libjpeg-turbo-dev \
+        libpng-dev \
+        libwebp-dev \
+    && install-php-extensions \
+        pdo pdo_mysql mysqli \
+        zip intl bcmath gd sockets
 
-RUN docker-php-ext-install sockets pdo pdo_mysql mysqli zip intl bcmath && \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app/src
 
@@ -31,7 +32,7 @@ ENV APP_ENV=prod
 ENV APP_DEBUG=0
 
 COPY src .
-RUN composer install --no-dev --prefer-dist --no-progress --no-scripts --no-interaction \
+RUN composer install --no-dev --prefer-dist --no-progress --no-scripts --no-interaction --no-autoloader \
     && composer dump-autoload --optimize --classmap-authoritative --no-dev --no-scripts
 
 FROM base AS runtime
@@ -39,32 +40,26 @@ FROM base AS runtime
 ENV APP_ENV=prod
 ENV APP_DEBUG=0
 
-RUN adduser -D -u 1000 -s /bin/sh robbyte
+RUN adduser -D -u 1000 -s /bin/sh robbyte \
+    && chown -R robbyte:robbyte /data /config
 
+COPY build/prod/Caddyfile /etc/caddy/Caddyfile
+COPY --chmod=755 build/prod/docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+# Enable PHP production settings
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
-COPY build/prod/php/php.ini /usr/local/etc/php/conf.d/99-app.ini
-COPY build/prod/php/php-fpm.conf /usr/local/etc/php-fpm.d/app.conf
-COPY build/prod/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY build/prod/nginx/default.conf /etc/nginx/http.d/default.conf
-COPY build/prod/supervisord/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY build/prod/supervisord/start.sh /usr/local/bin/start.sh
-
-RUN chmod +x /usr/local/bin/start.sh && \
-    addgroup robbyte nginx && \
-    mkdir -p /var/lib/nginx /etc/nginx/certs && \
-    chown -R robbyte:robbyte /app /var/log/nginx /var/lib/nginx && \
-    echo 'alias ll="ls -lah"' >> /home/robbyte/.bashrc && \
-    echo 'alias c="composer"' >> /home/robbyte/.bashrc && \
-    echo "PS1='\e[92m\u\e[0m@\e[94m\h\e[0m:\e[35m\w\e[0m# '" >> /home/robbyte/.bashrc
+COPY build/prod/opcache-jit.ini "$PHP_INI_DIR/conf.d/opcache-jit.ini"
 
 WORKDIR /app/src
 COPY --from=vendor /app/src /app/src
 
-RUN mkdir -p temp log && \
-    chown -R robbyte:robbyte /app/src
-
+RUN mkdir -p temp log \
+    && chown -R robbyte:robbyte /app/src
 USER robbyte
 
-EXPOSE 80 443
+EXPOSE 80
 
-CMD ["/usr/local/bin/start.sh"]
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD curl -f http://localhost/up || exit 1
+
+CMD ["/usr/local/bin/docker-entrypoint.sh"]

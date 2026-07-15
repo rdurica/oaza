@@ -1,10 +1,7 @@
 .idea
 .git
 .github
-build/dev/cert
 build/dev/example.env
-build/prod/manifest-template.yaml
-manifest.yaml
 src/log
 src/temp
 src/vendor
@@ -12,17 +9,20 @@ src/node_modules
 src/app/Config/secrets.neon
 src/app/Config/secrets.prod.neon
 src/app/Config/secrets.env.neon
-!src/.env.*
+src/.env
+src/.env.*
+!src/.env.example
 upload
 .gitignore
 .dockerignore
 Dockerfile
 LICENSE
 compose.yaml
+compose.test.yaml
 makefile
 README.MD
 
-# Dev only files
+# Dev / QA only
 src/.env.dev
 src/.editorconfig
 src/phpstan.dist.neon
@@ -31,6 +31,5 @@ src/phpunit.dist.xml
 src/phpunit.xml.dist
 src/rector.php
 src/phpcs.xml.dist
-
-# Tests - not needed in production
 src/tests
+*.log

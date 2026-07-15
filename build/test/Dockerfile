@@ -1,26 +1,32 @@
-FROM php:8.5-fpm-alpine
+FROM dunglas/frankenphp:1-php8.5-alpine
 
 ENV TERM=xterm-256color
 ENV TZ=Europe/Prague
-ENV COMPOSER_ALLOW_SUPERUSER=1
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
-RUN adduser -D -u 1000 -s /bin/sh robbyte
 
-RUN apk update && apk add --no-cache \
-    bash \
-    curl \
-    git \
-    linux-headers \
-    libpq-dev \
-    libzip-dev \
-    zlib-dev \
-    libxml2-dev \
-    icu-dev \
-    && rm -rf /var/cache/apk/*
+# System deps + PHP extensions + timezone
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone \
+    && apk add --no-cache \
+        bash \
+        curl \
+        git \
+        linux-headers \
+        libzip-dev \
+        zlib-dev \
+        libxml2-dev \
+        icu-dev \
+        libjpeg-turbo-dev \
+        libpng-dev \
+        libwebp-dev \
+    && install-php-extensions \
+        pdo pdo_mysql mysqli \
+        zip intl bcmath gd sockets
 
-RUN docker-php-ext-install sockets pdo pdo_mysql mysqli zip intl bcmath && \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app/src
+
+RUN adduser -D -u 1000 -s /bin/sh robbyte \
+    && chown -R robbyte:robbyte /app/src /data /config
+USER robbyte
 
 CMD ["php", "-v"]

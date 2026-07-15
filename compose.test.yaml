@@ -1,7 +1,7 @@
 name: oaza-qa
 
 services:
-  php-fpm:
+  frankenphp:
     image: oaza-php-qa
     build:
       context: .

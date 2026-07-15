@@ -4,7 +4,7 @@ This document provides essential information for AI agents and contributors work
 
 ## Project Overview
 
-Oaza is a website for a salt cave in Hradec Kralove, Czech Republic. It's a Nette Framework PHP application with Docker-based development environment.
+Oaza is a website for a salt cave in Hradec Kralove, Czech Republic. It's a Nette Framework PHP application with a FrankenPHP (Caddy) Docker-based development environment.
 
 ## Project Structure
 
@@ -24,6 +24,7 @@ src/
 │   └── Util/               # Utility classes
 ├── migrations/             # Database migrations
 ├── tests/                  # Test files
+├── www/                    # Document root (index.php, assets)
 ├── composer.json           # PHP dependencies
 ├── phpcs.xml.dist          # PHP CodeSniffer configuration
 ├── phpstan.neon.dist       # PHPStan static analysis config
@@ -36,18 +37,18 @@ All commands run via Docker using `make`:
 
 | Command | Description |
 |---------|-------------|
-| `make init` | Initialize development environment (creates certs, starts containers) |
+| `make init` | Initialize development environment (network, images, containers) |
 | `make rebuild` | Rebuild Docker images without cache |
 | `make up` | Start containers in detached mode |
 | `make down` | Stop containers |
 | `make logs` | Show live container logs |
-| `make php` | Open PHP container shell |
-| `make node` | Open Node container shell |
+| `make php` | Open FrankenPHP container shell |
+| `make trust-cert` | Trust Caddy local CA certificate |
 | `make phpcs` | Run PHP CodeSniffer (PSR-12 style checks) |
 | `make phpcbf` | Auto-fix coding style issues |
 | `make phpstan` | Run static analysis (level 5) |
 | `make rector-dry` | Run Rector in dry-run mode |
-| `make qa` | Run all quality checks (phpcs + phpstan) |
+| `make qa` | Run all quality checks (phpcs + phpstan + phpunit) |
 
 ## Coding Style
 
@@ -121,4 +122,4 @@ chore(release): 1.1.2
 
 - Never commit secrets, API keys, or credentials
 - Environment variables for sensitive configuration
-- TLS certificates generated locally via `mkcert`
+- Dev TLS via Caddy local CA (`make trust-cert`); production serves HTTP :80 behind a reverse proxy
