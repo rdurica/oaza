@@ -1,19 +1,16 @@
+includes:
+    - vendor/phpstan/phpstan-nette/extension.neon
+
 parameters:
     level: 5
     paths:
-        - app/Component/Form/Reservation
-        - app/Component/Grid/Reservation
-        - app/Dto
-        - app/Model/Manager/ReservationManager.php
-        - app/Model/Service/ReservationCalendarService.php
-        - app/Model/Service/ReservationService.php
-        - app/Modules/Admin/Presenter/AdminPresenter.php
-        - app/Presenter/ReservationsPresenter.php
-        - app/Presenter/UserPresenter.php
+        - app
         - www/index.php
     tmpDir: temp/phpstan
     bootstrapFiles:
         - vendor/autoload.php
+    scanFiles:
+        - vendor/jetbrains/phpstorm-stubs/meta/attributes/NoReturn.php
     excludePaths:
         - vendor
         - node_modules
@@ -21,3 +18,7 @@ parameters:
         - Nette\Application\UI\Template
         - Nette\Database\Table\ActiveRow
         - Nette\Security\IIdentity
+    ignoreErrors:
+        -
+            message: '#Method Contributte\\Datagrid\\Column\\ColumnDateTime::setFormat\(\) invoked with 2 parameters#'
+            path: app/Component/Grid/Restriction/Restriction.php

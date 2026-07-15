@@ -1,9 +1,10 @@
+name: oaza-qa
+
 services:
   php-fpm:
+    image: oaza-php-qa
     build:
       context: .
       dockerfile: build/test/Dockerfile
     volumes:
       - ./src:/app/src
-    ports:
-      - 443:443

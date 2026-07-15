@@ -2,8 +2,18 @@
 
 ## [1.1.3] - Unreleased
 
+### Added
+- PHPUnit test suite for reservation flow, email normalization, and DTO validation
+- PHPStan Nette extension; analysis now covers entire `app/` directory
+- GitHub Actions quality workflow restored with PHPUnit step
+
 ### Changed
-- Removed GitHub Actions quality workflow from repository
+- MailService admin cancellation emails unified to a single template and code path
+- PHPStan and PHPUnit run via Composer dev dependencies instead of downloaded PHAR
+- `make qa` now includes PHPUnit
+
+### Removed
+- Duplicate `reservationCancellationByAdministrator.latte` mail template
 - Cleaned up duplicate `secrets.prod.neon` ignore entry
 
 ## [1.1.2] - 2026-04-14
