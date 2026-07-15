@@ -12,9 +12,15 @@ Thumbs.db
 *.vscode
 build/dev/certs
 
-#Nette
-src/temp
-src/log
+# Composer
+src/vendor/
+
+# Frontend
+src/node_modules/
+
+# Nette
+src/temp/
+src/log/
 upload
 src/app/Config/secrets.neon
 src/app/Config/secrets.prod.neon
