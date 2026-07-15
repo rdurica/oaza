@@ -7,6 +7,11 @@ build/prod/manifest-template.yaml
 manifest.yaml
 src/log
 src/temp
+src/vendor
+src/node_modules
+src/app/Config/secrets.neon
+src/app/Config/secrets.prod.neon
+src/app/Config/secrets.env.neon
 !src/.env.*
 upload
 .gitignore
@@ -21,7 +26,11 @@ README.MD
 src/.env.dev
 src/.editorconfig
 src/phpstan.dist.neon
+src/phpstan.neon.dist
 src/phpunit.dist.xml
+src/phpunit.xml.dist
+src/rector.php
+src/phpcs.xml.dist
 
 # Tests - not needed in production
 src/tests
