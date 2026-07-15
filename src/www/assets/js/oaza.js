@@ -47,13 +47,18 @@ function isMobileViewport() {
     return window.innerWidth < 768;
 }
 
-function getNextWeekMondayDate() {
+function getCalendarInitialMondayDate() {
     const date = new Date();
     date.setHours(0, 0, 0, 0);
 
     const day = date.getDay();
-    const daysUntilNextMonday = ((8 - day) % 7) || 7;
-    date.setDate(date.getDate() + daysUntilNextMonday);
+    // Sat/Sun → next week's Monday; Mon–Fri → current week's Monday
+    if (day === 0 || day === 6) {
+        const daysUntilNextMonday = ((8 - day) % 7) || 7;
+        date.setDate(date.getDate() + daysUntilNextMonday);
+    } else {
+        date.setDate(date.getDate() - (day - 1));
+    }
 
     return date;
 }
@@ -246,7 +251,7 @@ function initPublicMobileNav() {
 function initPublicReservationCalendar(calendarElement) {
     const events = readJsonPayload('reservation-calendar-events');
     const isMobile = isMobileViewport();
-    const initialDate = getNextWeekMondayDate();
+    const initialDate = getCalendarInitialMondayDate();
 
     const calendar = new FullCalendar.Calendar(calendarElement, {
         locale: 'cs',
