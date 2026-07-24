@@ -12,10 +12,16 @@ namespace App\Component\Grid\Reservation;
  */
 interface ReservationGridFactory
 {
+    public const string MODE_UPCOMING = 'upcoming';
+
+    public const string MODE_HISTORY = 'history';
+
     /**
      * Create grid.
      *
+     * @param string $mode upcoming|history
+     *
      * @return Reservation
      */
-    public function create(): Reservation;
+    public function create(string $mode = self::MODE_UPCOMING): Reservation;
 }

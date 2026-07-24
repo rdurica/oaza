@@ -1,25 +1,68 @@
 {form form}
-    <div class="row">
+    <div class="restriction-mode-block">
+        <p class="admin-form-hint">Nejdřív zvolte typ omezení</p>
+        <div class="restriction-mode-label">{label mode /}</div>
+        <div class="restriction-mode-options">
+            <label class="restriction-mode-card">
+                <input type="radio" n:name="mode:fullDays">
+                <span class="restriction-mode-card-radio" aria-hidden="true"></span>
+                <span class="restriction-mode-card-body">
+                    <span class="restriction-mode-card-title">Celé dny (od–do)</span>
+                    <span class="restriction-mode-card-desc">Zablokuje všechny termíny ve zvolených dnech</span>
+                </span>
+            </label>
+            <label class="restriction-mode-card">
+                <input type="radio" n:name="mode:partDay">
+                <span class="restriction-mode-card-radio" aria-hidden="true"></span>
+                <span class="restriction-mode-card-body">
+                    <span class="restriction-mode-card-title">Část dne</span>
+                    <span class="restriction-mode-card-desc">Zablokuje jen vybrané hodiny v jednom dni</span>
+                </span>
+            </label>
+        </div>
+    </div>
+
+    <div class="row restriction-fields-full-days">
         <div class="col-md-5">
-            {label from /}
-            {input from, class => "dateRange form-control"}
+            <div class="form-group">
+                {label from /}
+                {input from, class => "dateRange form-control"}
+            </div>
         </div>
         <div class="col-md-5 col-md-push-2">
-            {label to /}
-            {input to, class => "dateRange form-control"}<br>
+            <div class="form-group">
+                {label to /}
+                {input to, class => "dateRange form-control"}
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-12">
-            {label message /}
-            {input message, rows => '5'}
+    <div class="row restriction-fields-part-day" style="display:none;">
+        <div class="col-md-4">
+            <div class="form-group">
+                {label date /}
+                {input date, class => "dateRange form-control"}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {label timeFrom /}
+                {input timeFrom, class => "form-control"}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                {label timeTo /}
+                {input timeTo, class => "form-control"}
+            </div>
         </div>
     </div>
-    <br>
-    <div class="row">
-        <div class="col-md-12">
-            {input save}
-        </div>
+
+    <div class="form-group">
+        {label message /}
+        {input message, rows => '5'}
+    </div>
+    <div class="form-group">
+        {input save}
     </div>
 {/form}
 {block scripts}

@@ -96,18 +96,18 @@ class ContactUs extends Component
     public function onSuccess(Form $form, ArrayHash $values): void
     {
         if (!$this->validateTurnstile()) {
-            $this->presenter->flashMessage($this->translator->trans('flash.turnstileFailed'), FlashType::ERROR);
-            $this->presenter->redirect('this');
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.turnstileFailed'), FlashType::ERROR);
+            $this->getPresenter()->redirect('this');
         }
 
         try {
             $this->mailService->sendContactFormMessage($values->from, $values->message);
-            $this->presenter->flashMessage($this->translator->trans('flash.contactUsSuccess'), FlashType::INFO);
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.contactUsSuccess'), FlashType::INFO);
         } catch (Exception) {
-            $this->presenter->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
         }
 
-        $this->presenter->redirect('this');
+        $this->getPresenter()->redirect('this');
     }
 
     /**

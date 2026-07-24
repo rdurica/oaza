@@ -281,7 +281,7 @@ function initPublicReservationCalendar(calendarElement) {
         },
         eventClick: ({ event }) => {
             if (event.extendedProps.isRestriction) {
-                notifyMessage('V tento den je omezení provozu. Vyberte prosím jiný termín.', 'info');
+                notifyMessage('V tento termín je omezení provozu. Vyberte prosím jiný termín.', 'info');
                 return;
             }
             if (isFullyBookedEvent(event)) {

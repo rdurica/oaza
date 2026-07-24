@@ -88,7 +88,7 @@ class ResetPasswordFromLink extends Component
         try {
             $tokenRow = $this->passwordResetTokenManager->findValidTokenById($this->tokenId);
             if (!$tokenRow || (int) $tokenRow->user_id !== $this->userId) {
-                $this->presenter->flashMessage($this->translator->trans('flash.resetLinkExpired'), FlashType::ERROR);
+                $this->getPresenter()->flashMessage($this->translator->trans('flash.resetLinkExpired'), FlashType::ERROR);
                 $this->getPresenter()->redirect(':Homepage:Default');
             }
 
@@ -101,9 +101,9 @@ class ResetPasswordFromLink extends Component
                 $this->mailService->sendPasswordChangedNotification($email);
             }
 
-            $this->presenter->flashMessage($this->translator->trans('flash.passwordChanged'), FlashType::SUCCESS);
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.passwordChanged'), FlashType::SUCCESS);
         } catch (Exception) {
-            $this->presenter->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
         }
 
         $this->getPresenter()->redirect(':Homepage:Default');

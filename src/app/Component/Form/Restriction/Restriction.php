@@ -7,6 +7,7 @@ namespace App\Component\Form\Restriction;
 use App\Component\Component;
 use App\Facade\RestrictionFacade;
 use App\Mapper\CreateRestrictionDtoMapper;
+use App\Model\Service\ReservationCalendarService;
 use App\Util\FlashType;
 use Contributte\Translation\Translator;
 use DateMalformedStringException;
@@ -47,13 +48,27 @@ final class Restriction extends Component
     public function createComponentForm(): Form
     {
         $form = new Form();
+        $hourItems = $this->getHourItems();
 
-        $form->addText('from', 'Od')
-            ->setHtmlAttribute('class', 'form-control')
+        $form->addRadioList('mode', 'Typ omezení', [
+            CreateRestrictionDtoMapper::MODE_FULL_DAYS => 'Celé dny (od–do)',
+            CreateRestrictionDtoMapper::MODE_PART_DAY => 'Část dne',
+        ])
+            ->setDefaultValue(CreateRestrictionDtoMapper::MODE_FULL_DAYS)
             ->setRequired();
-        $form->addText('to', 'Do')
-            ->setHtmlAttribute('class', 'form-control')
-            ->setRequired();
+
+        $form->addText('from', 'Datum od')
+            ->setHtmlAttribute('class', 'form-control');
+        $form->addText('to', 'Datum do')
+            ->setHtmlAttribute('class', 'form-control');
+        $form->addText('date', 'Datum')
+            ->setHtmlAttribute('class', 'form-control');
+        $form->addSelect('timeFrom', 'Hodina od', $hourItems)
+            ->setPrompt('—')
+            ->setHtmlAttribute('class', 'form-control');
+        $form->addSelect('timeTo', 'Hodina do (včetně)', $hourItems)
+            ->setPrompt('—')
+            ->setHtmlAttribute('class', 'form-control');
         $form->addTextArea('message', 'Zpráva')
             ->setHtmlAttribute('class', 'form-control')
             ->setHtmlAttribute('id', 'textarea');
@@ -70,12 +85,42 @@ final class Restriction extends Component
     }
 
     /**
-     * @param array{from?: string, to?: string} $data
+     * @param array<string, mixed> $data
      */
     public function onValidate(Form $form, array $data): void
     {
-        $from = $this->parseDate($data['from'] ?? null);
-        $to = $this->parseDate($data['to'] ?? null);
+        $mode = (string) ($data['mode'] ?? CreateRestrictionDtoMapper::MODE_FULL_DAYS);
+
+        if ($mode === CreateRestrictionDtoMapper::MODE_PART_DAY) {
+            $date = $this->parseDate(isset($data['date']) ? (string) $data['date'] : null);
+            $timeFrom = $data['timeFrom'] ?? null;
+            $timeTo = $data['timeTo'] ?? null;
+
+            if ($date === null) {
+                $this->addFieldError($form, 'date', 'Datum musí být ve formátu DD.MM.RRRR.');
+            }
+
+            if ($timeFrom === null || $timeFrom === '') {
+                $this->addFieldError($form, 'timeFrom', 'Vyberte hodinu od.');
+            }
+
+            if ($timeTo === null || $timeTo === '') {
+                $this->addFieldError($form, 'timeTo', 'Vyberte hodinu do.');
+            }
+
+            if (
+                $timeFrom !== null && $timeFrom !== ''
+                && $timeTo !== null && $timeTo !== ''
+                && (int) $timeFrom > (int) $timeTo
+            ) {
+                $form->addError('Hodina „do“ nesmí být dříve než hodina „od“.');
+            }
+
+            return;
+        }
+
+        $from = $this->parseDate(isset($data['from']) ? (string) $data['from'] : null);
+        $to = $this->parseDate(isset($data['to']) ? (string) $data['to'] : null);
 
         if ($from === null) {
             $this->addFieldError($form, 'from', 'Datum musí být ve formátu DD.MM.RRRR.');
@@ -86,7 +131,7 @@ final class Restriction extends Component
         }
 
         if ($from !== null && $to !== null && $to < $from) {
-            $form->addError('Datum "Do" nesmí být dříve než datum "Od".');
+            $form->addError('Datum „Do“ nesmí být dříve než datum „Od“.');
         }
     }
 
@@ -106,19 +151,32 @@ final class Restriction extends Component
             $createRestrictionDto = CreateRestrictionDtoMapper::fromFormData($data);
             $this->restrictionFacade->create($createRestrictionDto);
 
-            $this->presenter->flashMessage('Omezení provozu přidáno', FlashType::SUCCESS);
+            $this->getPresenter()->flashMessage('Omezení provozu přidáno', FlashType::SUCCESS);
         }
         catch (DateMalformedStringException)
         {
-            $this->getPresenter()->flashMessage('Neplatný formát data. Použijte DD.MM.RRRR.', FlashType::ERROR);
-            $this->presenter->redirect('this');
+            $this->getPresenter()->flashMessage('Neplatný formát data nebo hodin.', FlashType::ERROR);
+            $this->getPresenter()->redirect('this');
         }
         catch (Exception)
         {
             $this->getPresenter()->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
         }
 
-        $this->presenter->redirect('Restrictions:');
+        $this->getPresenter()->redirect('Restrictions:');
+    }
+
+    /**
+     * @return array<int, string>
+     */
+    private function getHourItems(): array
+    {
+        $items = [];
+        foreach (ReservationCalendarService::getSlotHours() as $hour) {
+            $items[$hour] = sprintf('%02d:00', $hour);
+        }
+
+        return $items;
     }
 
     private function addFieldError(Form $form, string $name, string $message): void

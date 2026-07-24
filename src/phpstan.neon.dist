@@ -15,7 +15,3 @@ parameters:
         - Nette\Application\UI\Template
         - Nette\Database\Table\ActiveRow
         - Nette\Security\IIdentity
-    ignoreErrors:
-        -
-            message: '#Method Contributte\\Datagrid\\Column\\ColumnDateTime::setFormat\(\) invoked with 2 parameters#'
-            path: app/Component/Grid/Restriction/Restriction.php

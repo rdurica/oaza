@@ -102,17 +102,17 @@ class Registration extends Component
             $normalizedEmail = EmailNormalizer::normalize($values->email);
             $this->authenticator->createAccount($normalizedEmail, $values->password, $values->name, (int)$values->telephone);
             $this->mailService->sendUserRegisteredNotification($normalizedEmail);
-            $this->presenter->flashMessage($this->translator->trans('flash.registrationSuccessful'), FlashType::SUCCESS);
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.registrationSuccessful'), FlashType::SUCCESS);
         }
         catch (UniqueConstraintViolationException)
         {
-            $this->presenter->flashMessage($this->translator->trans('flash.emailAlreadyUsedException'), FlashType::WARNING);
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.emailAlreadyUsedException'), FlashType::WARNING);
         }
         catch (Exception)
         {
-            $this->presenter->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
         }
 
-        $this->presenter->redirect('Homepage:');
+        $this->getPresenter()->redirect('Homepage:');
     }
 }

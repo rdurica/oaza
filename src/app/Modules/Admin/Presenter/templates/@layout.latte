@@ -36,31 +36,31 @@
     <nav class="sidebar-nav">
         <div class="sidebar-section-label">Hlavní menu</div>
         <ul>
-            <li n:class="$presenter->name == 'Admin:Dashboard' ? 'active'">
+            <li n:class="$presenter->getName() == 'Admin:Dashboard' ? 'active'">
                 <a n:href="Dashboard:">
                     <i class="fa-solid fa-gauge-high"></i>
                     Dashboard
                 </a>
             </li>
-            <li n:class="$presenter->name == 'Admin:Reservations' ? 'active'">
+            <li n:class="$presenter->getName() == 'Admin:Reservations' ? 'active'">
                 <a n:href="Reservations:">
                     <i class="fa-solid fa-calendar-check"></i>
                     Rezervace
                 </a>
             </li>
-            <li n:class="$presenter->name == 'Admin:News' ? 'active'">
+            <li n:class="$presenter->getName() == 'Admin:News' ? 'active'">
                 <a n:href="News:">
                     <i class="fa-solid fa-square-rss"></i>
                     Novinky
                 </a>
             </li>
-            <li n:class="$presenter->name == 'Admin:Restrictions' ? 'active'">
+            <li n:class="$presenter->getName() == 'Admin:Restrictions' ? 'active'">
                 <a n:href="Restrictions:">
                     <i class="fa-regular fa-calendar-xmark"></i>
                     Omezení provozu
                 </a>
             </li>
-            <li n:class="$presenter->name == 'Admin:Users' ? 'active'">
+            <li n:class="$presenter->getName() == 'Admin:Users' ? 'active'">
                 <a n:href="Users:">
                     <i class="fa-solid fa-users"></i>
                     Uživatelé

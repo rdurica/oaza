@@ -47,7 +47,15 @@ class ReservationsPresenter extends AdminPresenter
      */
     protected function createComponentGrid(string $name): Reservation
     {
-        return $this->reservationGrid->create();
+        $mode = $this->getAction() === 'history'
+            ? ReservationGridFactory::MODE_HISTORY
+            : ReservationGridFactory::MODE_UPCOMING;
+
+        return $this->reservationGrid->create($mode);
+    }
+
+    public function renderHistory(): void
+    {
     }
 
     /**

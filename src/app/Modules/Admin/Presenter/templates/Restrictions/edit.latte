@@ -12,3 +12,74 @@
     </div>
 </div>
 {/block}
+
+{block scripts}
+    {include parent}
+    <script>
+        (function () {
+            function syncRestrictionModeFields() {
+                var modeInput = document.querySelector('input[name="mode"]:checked');
+                var mode = modeInput ? modeInput.value : 'fullDays';
+                var fullDays = document.querySelectorAll('.restriction-fields-full-days');
+                var partDay = document.querySelectorAll('.restriction-fields-part-day');
+                var showFull = mode === 'fullDays';
+
+                Array.prototype.forEach.call(fullDays, function (el) {
+                    el.style.display = showFull ? '' : 'none';
+                });
+                Array.prototype.forEach.call(partDay, function (el) {
+                    el.style.display = showFull ? 'none' : '';
+                });
+
+                Array.prototype.forEach.call(document.querySelectorAll('.restriction-mode-card'), function (card) {
+                    var input = card.querySelector('input[type="radio"]');
+                    card.classList.toggle('is-selected', !!(input && input.checked));
+                });
+            }
+
+            function initRestrictionDatePickers() {
+                if (typeof flatpickr !== 'function') {
+                    return;
+                }
+
+                var inputs = document.querySelectorAll('input.dateRange');
+                if (!inputs.length) {
+                    return;
+                }
+
+                var tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                tomorrow.setHours(0, 0, 0, 0);
+
+                var fpConfig = {
+                    locale: 'cs',
+                    dateFormat: 'd.m.Y',
+                    minDate: tomorrow,
+                    disable: [function (date) { return date.getDay() === 0 || date.getDay() === 6; }]
+                };
+
+                Array.prototype.forEach.call(inputs, function (input) {
+                    if (input._flatpickr) {
+                        return;
+                    }
+                    flatpickr(input, fpConfig);
+                });
+            }
+
+            function init() {
+                syncRestrictionModeFields();
+                Array.prototype.forEach.call(document.querySelectorAll('input[name="mode"]'), function (input) {
+                    input.addEventListener('change', syncRestrictionModeFields);
+                });
+                initRestrictionDatePickers();
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+                return;
+            }
+
+            init();
+        })();
+    </script>
+{/block}

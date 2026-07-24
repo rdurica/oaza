@@ -50,7 +50,7 @@ class UserPresenter extends SecurePresenter
 
     protected function requiresLogin(): bool
     {
-        return $this->action !== 'resetPassword';
+        return $this->getAction() !== 'resetPassword';
     }
 
     /**
@@ -85,16 +85,16 @@ class UserPresenter extends SecurePresenter
 
         try {
             $this->reservationService->cancelByUser($reservationId);
-            $this->presenter->flashMessage($this->translator->trans('flash.reservationDeleted'), FlashType::INFO);
+            $this->flashMessage($this->translator->trans('flash.reservationDeleted'), FlashType::INFO);
         } catch (SmtpException) {
-            $this->getPresenter()->flashMessage(
+            $this->flashMessage(
                 'Nastal problém při odesílání potvrzovacího e-mailu.',
                 FlashType::WARNING
             );
         } catch (NotAllowedOperationException) {
-            $this->presenter->flashMessage($this->translator->trans('flash.operationNotAllowed'), FlashType::ERROR);
+            $this->flashMessage($this->translator->trans('flash.operationNotAllowed'), FlashType::ERROR);
         } catch (Exception) {
-            $this->presenter->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
+            $this->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
         }
 
         $this->getPresenter()->redirect('this');

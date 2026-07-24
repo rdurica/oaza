@@ -23,10 +23,12 @@ class Reservation extends Component
      *
      * @param ReservationManager $reservationManager
      * @param Translator         $translator
+     * @param string             $mode
      */
     public function __construct(
         public readonly ReservationManager $reservationManager,
         public readonly Translator $translator,
+        private readonly string $mode = ReservationGridFactory::MODE_UPCOMING,
     ) {
     }
 
@@ -40,7 +42,12 @@ class Reservation extends Component
     {
         $grid = new Datagrid();
 
-        $grid->setDataSource($this->reservationManager->findAllActive());
+        $isHistory = $this->mode === ReservationGridFactory::MODE_HISTORY;
+        $grid->setDataSource(
+            $isHistory
+                ? $this->reservationManager->findAllHistory()
+                : $this->reservationManager->findAllActive(),
+        );
         $grid->addColumnText('name', 'Jméno')
             ->setFilterText();
         $grid->addColumnText('email', 'E-Mail')
@@ -51,9 +58,12 @@ class Reservation extends Component
         $grid->addColumnDateTime('date', 'Rezervace')
             ->setFormat('j.n.Y H:i');
         $grid->addColumnText('hasChildren', 'Děti');
-        $grid->addAction('edit', 'Upravit', 'Reservations:Edit')
-            ->setIcon('pencil')
-            ->setClass('btn btn-info btn-xs');
+
+        if ($isHistory === false) {
+            $grid->addAction('edit', 'Upravit', 'Reservations:Edit')
+                ->setIcon('pencil')
+                ->setClass('btn btn-info btn-xs');
+        }
 
         return $grid;
     }

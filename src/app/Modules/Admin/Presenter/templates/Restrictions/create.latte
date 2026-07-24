@@ -3,7 +3,7 @@
 {block content}
 <div class="admin-page-header">
     <h1>Nové omezení provozu</h1>
-    <p>Zablokuje vybrané dny a odešle notifikace dotčeným uživatelům</p>
+    <p>Zablokuje vybrané dny nebo část dne a odešle notifikace dotčeným uživatelům</p>
 </div>
 <div class="admin-form-wrapper">
     <div class="admin-card">
@@ -18,6 +18,26 @@
     {include parent}
     <script>
         (function () {
+            function syncRestrictionModeFields() {
+                var modeInput = document.querySelector('input[name="mode"]:checked');
+                var mode = modeInput ? modeInput.value : 'fullDays';
+                var fullDays = document.querySelectorAll('.restriction-fields-full-days');
+                var partDay = document.querySelectorAll('.restriction-fields-part-day');
+                var showFull = mode === 'fullDays';
+
+                Array.prototype.forEach.call(fullDays, function (el) {
+                    el.style.display = showFull ? '' : 'none';
+                });
+                Array.prototype.forEach.call(partDay, function (el) {
+                    el.style.display = showFull ? 'none' : '';
+                });
+
+                Array.prototype.forEach.call(document.querySelectorAll('.restriction-mode-card'), function (card) {
+                    var input = card.querySelector('input[type="radio"]');
+                    card.classList.toggle('is-selected', !!(input && input.checked));
+                });
+            }
+
             function initRestrictionDatePickers() {
                 if (typeof flatpickr !== 'function') {
                     return;
@@ -44,12 +64,20 @@
                 });
             }
 
+            function init() {
+                syncRestrictionModeFields();
+                Array.prototype.forEach.call(document.querySelectorAll('input[name="mode"]'), function (input) {
+                    input.addEventListener('change', syncRestrictionModeFields);
+                });
+                initRestrictionDatePickers();
+            }
+
             if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initRestrictionDatePickers);
+                document.addEventListener('DOMContentLoaded', init);
                 return;
             }
 
-            initRestrictionDatePickers();
+            init();
         })();
     </script>
 {/block}

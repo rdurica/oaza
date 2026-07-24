@@ -84,7 +84,7 @@ abstract class Presenter extends NettePresenter
     public function handleOut(): void
     {
         $this->getUser()->logout(true);
-        $this->presenter->flashMessage($this->translator->trans('flash.loggedOut'), FlashType::INFO);
-        $this->presenter->redirect(':Homepage:Default');
+        $this->flashMessage($this->translator->trans('flash.loggedOut'), FlashType::INFO);
+        $this->redirect(':Homepage:Default');
     }
 }

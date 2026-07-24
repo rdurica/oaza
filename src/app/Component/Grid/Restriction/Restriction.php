@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Component\Grid\Restriction;
 
@@ -7,10 +9,12 @@ use App\Exception\DeleteRestrictionException;
 use App\Facade\RestrictionFacade;
 use App\Model\Manager\RestrictionManager;
 use App\Util\FlashType;
+use App\Util\RestrictionSlotResolver;
 use Contributte\Datagrid\Datagrid;
 use Contributte\Datagrid\Exception\DatagridException;
 use Contributte\Translation\Translator;
 use Nette\Application\AbortException;
+use Nette\Utils\DateTime;
 use Nette\Utils\Html;
 
 /**
@@ -45,10 +49,10 @@ class Restriction extends Component
     {
         $grid = new Datagrid();
         $grid->setDataSource($this->restrictionManager->findAllActive());
-        $grid->addColumnDateTime('from', 'Od')
-            ->setFormat('j.n.Y', 'd. m. yyyy');
-        $grid->addColumnDateTime('to', 'Do')
-            ->setFormat('j.n.Y', 'd. m. yyyy');
+        $grid->addColumnText('from', 'Od')
+            ->setRenderer(fn ($item): string => $this->formatBound($item->from, $item->to, true));
+        $grid->addColumnText('to', 'Do')
+            ->setRenderer(fn ($item): string => $this->formatBound($item->from, $item->to, false));
         $grid->addColumnText('message', 'Zpráva')
             ->setRenderer(renderer: fn($item): Html => Html::el()->setHtml($item->message));
         $grid->addAction('edit', 'Upravit', 'Restrictions:Edit')
@@ -75,5 +79,18 @@ class Restriction extends Component
         $this->restrictionFacade->delete($id);
         $this->getPresenter()->flashMessage($this->translator->trans('flash.restrictionDeleted'), FlashType::SUCCESS);
         $this->getPresenter()->redirect('Restrictions:');
+    }
+
+    private function formatBound(mixed $fromValue, mixed $toValue, bool $isFrom): string
+    {
+        $from = DateTime::from($fromValue);
+        $to = DateTime::from($toValue);
+        $value = $isFrom ? $from : $to;
+
+        if (RestrictionSlotResolver::isDateOnlyRange($from, $to)) {
+            return $value->format('j.n.Y');
+        }
+
+        return $value->format('j.n.Y H:i');
     }
 }

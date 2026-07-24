@@ -452,6 +452,129 @@ body.admin-body {
   white-space: nowrap;
 }
 
+.admin-form-hint {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ── Restriction mode cards ─────────────────────────────── */
+.restriction-mode-block {
+  margin-bottom: 22px;
+}
+.restriction-mode-label {
+  margin-bottom: 10px;
+}
+.restriction-mode-label label,
+.restriction-mode-label .control-label {
+  margin-bottom: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-2);
+  font-family: var(--ff-display);
+}
+.restriction-mode-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 767px) {
+  .restriction-mode-options {
+    grid-template-columns: 1fr;
+  }
+}
+.restriction-mode-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0;
+  padding: 14px 16px;
+  border: 1.5px solid #dddad4;
+  border-radius: 10px;
+  background: #faf9f7;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+  font-weight: 400;
+}
+.restriction-mode-card:hover {
+  border-color: #c5c0b8;
+  background: #fff;
+}
+.restriction-mode-card:has(input:checked),
+.restriction-mode-card.is-selected {
+  border-color: var(--teal);
+  background: rgba(0, 151, 178, 0.08);
+  box-shadow: 0 0 0 3px rgba(0, 151, 178, 0.12);
+}
+.restriction-mode-card input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+.restriction-mode-card-radio {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  border: 2px solid #b8b3aa;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: inset 0 0 0 0 var(--teal);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.restriction-mode-card:has(input:checked) .restriction-mode-card-radio,
+.restriction-mode-card.is-selected .restriction-mode-card-radio {
+  border-color: var(--teal);
+  box-shadow: inset 0 0 0 5px var(--teal);
+}
+.restriction-mode-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.restriction-mode-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  font-family: var(--ff-display);
+  line-height: 1.3;
+}
+.restriction-mode-card-desc {
+  font-size: 12.5px;
+  line-height: 1.4;
+  color: var(--muted);
+}
+
+/* ── Tabs ───────────────────────────────────────────────── */
+.admin-tabs {
+  display: flex;
+  gap: 6px;
+  margin: 0 0 18px;
+  border-bottom: 1px solid #e6e0d8;
+  padding-bottom: 10px;
+}
+.admin-tab {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--muted) !important;
+  text-decoration: none !important;
+  transition: all 0.15s ease;
+}
+.admin-tab:hover {
+  background: #f4f1ed;
+  color: var(--ink) !important;
+}
+.admin-tab.is-active {
+  background: rgba(0, 151, 178, 0.12);
+  color: var(--teal-d) !important;
+}
+
 /* ── Create / action buttons ────────────────────────────── */
 .btn-admin-create {
   display: inline-flex;

@@ -12,6 +12,7 @@ use App\Model\Manager\RestrictionManager;
 use App\Model\Service\Mail\MailService;
 use Exception;
 use Nette\Database\Explorer;
+use Nette\Utils\DateTime;
 use Tracy\Debugger;
 
 /**
@@ -59,7 +60,10 @@ final class RestrictionFacade
                 return;
             }
 
-            $this->reservationManager->cancelReservations($restriction->from, $restriction->to);
+            $this->reservationManager->deleteRestrictedDaysForBooking(
+                DateTime::from($restriction->from),
+                DateTime::from($restriction->to),
+            );
 
             $restriction->delete();
         }
@@ -90,7 +94,10 @@ final class RestrictionFacade
         $this->database->beginTransaction();
 
         try {
-            $this->reservationManager->deleteRestrictedDaysForBooking($existing->from, $existing->to);
+            $this->reservationManager->deleteRestrictedDaysForBooking(
+                DateTime::from($existing->from),
+                DateTime::from($existing->to),
+            );
             $this->restrictionManager->update($restrictionId, [
                 'from'    => $createRestrictionDto->from,
                 'to'      => $createRestrictionDto->to,

@@ -170,10 +170,10 @@ class ReservationEdit extends Component
             if (($dateChanged || $countIncreased) && $confirmAction === '') {
                 $collision = $this->reservationService->getCollisionData($reservationId, $date, $count);
                 if ($collision !== null) {
-                    $presenter = $this->getPresenter();
-                    $presenter->template->showConfirmDialog = true;
-                    $presenter->template->collisionData = $collision;
-                    $presenter->template->reservationId = $reservationId;
+                    $template = $this->getPresenter()->getTemplate();
+                    $template->showConfirmDialog = true;
+                    $template->collisionData = $collision;
+                    $template->reservationId = $reservationId;
                     return;
                 }
             }
@@ -194,10 +194,10 @@ class ReservationEdit extends Component
             );
             $this->getPresenter()->redirect('this');
         } catch (NotAllowedOperationException) {
-            $this->presenter->flashMessage($this->translator->trans('flash.operationNotAllowed'), FlashType::ERROR);
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.operationNotAllowed'), FlashType::ERROR);
             $this->getPresenter()->redirect('this');
         } catch (Exception) {
-            $this->presenter->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
+            $this->getPresenter()->flashMessage($this->translator->trans('flash.oops'), FlashType::ERROR);
             $this->getPresenter()->redirect('this');
         }
 

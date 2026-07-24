@@ -10,8 +10,6 @@ use Nette\Utils\DateTime;
 
 use function array_map;
 use function array_merge;
-use function array_unique;
-use function count;
 use function in_array;
 use function range;
 
@@ -23,8 +21,6 @@ final class ReservationCalendarService
     private const int MAX_SLOT_CAPACITY = 5;
 
     private const int SLOT_DURATION_MINUTES = 45;
-
-    private const int RESTRICTION_DURATION_MINUTES = 600;
 
     private const int LOOKAHEAD_DAYS = 100;
 
@@ -46,7 +42,7 @@ final class ReservationCalendarService
 
             $availableCapacity = self::MAX_SLOT_CAPACITY - (int) $row->totalCount;
             $isRestriction = $row->name === ReservationManager::RESTRICTION_NAME;
-            $eventTime = $this->formatEventTime($slotDate, $isRestriction);
+            $eventTime = $this->formatEventTime($slotDate);
             $title = $isRestriction
                 ? 'Omezení provozu'
                 : $this->createAvailabilityMessage($availableCapacity);
@@ -105,19 +101,25 @@ final class ReservationCalendarService
     private function createEmptySlots(array $usedSlots): array
     {
         $events = [];
-        $restrictedDates = $this->reservationManager->findRestrictedDates();
+        $now = new DateTime();
+        $restrictedSlots = $this->reservationManager->findRestrictedSlots();
 
         foreach (range(0, self::LOOKAHEAD_DAYS - 1) as $dayOffset) {
             $date = new DateTime('now +' . $dayOffset . 'days');
             $date->setTime(8, 0, 0);
 
-            if (in_array($date->format('Y-m-d'), $restrictedDates, true)) {
-                continue;
-            }
-
             foreach ($this->getSlotHours() as $hour) {
                 $date->setTime($hour, 0, 0);
+
+                if ($date < $now) {
+                    continue;
+                }
+
                 $slotKey = $date->format('Y-m-d H:i:s');
+
+                if (in_array($slotKey, $restrictedSlots, true)) {
+                    continue;
+                }
 
                 if (in_array($slotKey, $usedSlots, true)) {
                     continue;
@@ -148,15 +150,11 @@ final class ReservationCalendarService
     /**
      * @return array{start: string, end: string}
      */
-    private function formatEventTime(DateTime $date, bool $isRestriction = false): array
+    private function formatEventTime(DateTime $date): array
     {
-        $duration = $isRestriction
-            ? self::RESTRICTION_DURATION_MINUTES
-            : self::SLOT_DURATION_MINUTES;
-
         return [
             'start' => $date->format('Y-m-d\TH:i:s'),
-            'end' => $date->modifyClone('+' . $duration . ' minutes')->format('Y-m-d\TH:i:s'),
+            'end' => $date->modifyClone('+' . self::SLOT_DURATION_MINUTES . ' minutes')->format('Y-m-d\TH:i:s'),
         ];
     }
 
