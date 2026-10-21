@@ -1,4 +1,4 @@
-FROM dunglas/frankenphp:1-php8.5.12-alpine AS base
+FROM dunglas/frankenphp:1-php8.5-alpine AS base
 
 ENV TERM=xterm-256color
 ENV TZ=Europe/Prague
